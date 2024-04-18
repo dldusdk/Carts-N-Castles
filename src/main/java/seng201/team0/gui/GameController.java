@@ -10,7 +10,7 @@ import seng201.team0.services.CounterService;
  * Controller for the main.fxml window
  * @author seng201 teaching team
  */
-public class SetupController {
+public class GameController {
 
     @FXML
     private Label defaultLabel;

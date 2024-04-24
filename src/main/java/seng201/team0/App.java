@@ -1,5 +1,6 @@
 package seng201.team0;
 
+import seng201.team0.gui.GameWindow;
 import seng201.team0.gui.MainWindow;
 
 /**
@@ -15,6 +16,6 @@ public class App {
      * @param args program arguments from command line
      */
     public static void main(String[] args) {
-        MainWindow.launchWrapper(args);
+        GameWindow.launchWrapper(args);
     }
 }

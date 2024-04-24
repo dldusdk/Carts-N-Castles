@@ -24,7 +24,7 @@ public class GameWindow extends Application {
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/game.fxml"));
         Parent root = baseLoader.load();
 
-        MainController baseController = baseLoader.getController();
+        GameController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
         primaryStage.setTitle("SENG201 Example App");

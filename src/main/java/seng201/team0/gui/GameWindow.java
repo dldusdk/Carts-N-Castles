@@ -33,6 +33,7 @@ public class GameWindow extends Application {
         primaryStage.show();
     }
 
+
     /**
      * Launches the FXML application, this must be called from another class (in this cass App.java) otherwise JavaFX
      * errors out and does not run

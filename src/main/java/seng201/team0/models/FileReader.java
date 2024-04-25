@@ -40,7 +40,10 @@ public class FileReader {
     }
 
     public static void main(String[] args) {
-        //Uncomment to run test and demo of FileReader
+        boolean run = false;
+        //Uncomment to run test and  demo of FileReader
+        //run = true;
+        if (run){
         FileReader file = new FileReader("src/main/resources/levelCSV/Level1/Level1Concept_Track.csv");
         ArrayList<Integer> list = file.getList();
         int count = 0;
@@ -48,7 +51,7 @@ public class FileReader {
             System.out.print(num + ",");
             count++;
             if (count % 20 == 0) {
-                System.out.print("\n");
+                System.out.print("\n");}
             }
         }
     }

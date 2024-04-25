@@ -30,6 +30,8 @@ public class GameWindow extends Application {
         primaryStage.setTitle("SENG201 Example App");
         Scene scene = new Scene(root, 1280, 1024);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.sizeToScene();
         primaryStage.show();
     }
 

@@ -26,12 +26,16 @@ public class GameWindow extends Application {
 
         GameController baseController = baseLoader.getController();
         baseController.init(primaryStage);
+        int height = 1280;
+        int width = 1024;
 
         primaryStage.setTitle("SENG201 Example App");
-        Scene scene = new Scene(root, 1280, 1024);
+        Scene scene = new Scene(root, height, width);
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
         primaryStage.sizeToScene();
+        primaryStage.setResizable(false);
+        primaryStage.setHeight(height);
+        primaryStage.setWidth(width);
         primaryStage.show();
     }
 

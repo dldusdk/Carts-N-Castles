@@ -1,27 +1,46 @@
 package seng201.team0.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import seng201.team0.services.CounterService;
+import java.awt.event.ActionEvent;
 
 /**
- * Controller for the main.fxml window
- * @author Michelle
+ * Controller for the MainScreen
+ * @author Michelle Lee
  */
 
 public class MainController {
 
     @FXML
-    private Label defaultLabel;
+    private Button quitButton;
+    @FXML
+    private AnchorPane mainscreenPane;
+
+    Stage stage;
 
     @FXML
-    private Button defaultButton;
+    public void quit(javafx.event.ActionEvent actionEvent)  {
 
-    private CounterService counterService;
+        // Have a pop-up appear if the user clicks 'Quit' Button
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Quit");
+        alert.setHeaderText("You are about to quit our game ˙◠˙ ");
+        alert.setContentText("Are you sure you want to quit?");
+
+        // if they want to quit, close program
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            stage = (Stage) mainscreenPane.getScene().getWindow();
+            System.out.println("You Successfully quit the game!");
+            stage.close();
+        }
+    }
 
     public void init(Stage primaryStage) {
     }
+
 }
-//test comment

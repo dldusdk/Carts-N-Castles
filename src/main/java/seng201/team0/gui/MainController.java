@@ -8,8 +8,9 @@ import seng201.team0.services.CounterService;
 
 /**
  * Controller for the main.fxml window
- * @author seng201 teaching team
+ * @author Michelle
  */
+
 public class MainController {
 
     @FXML
@@ -20,28 +21,7 @@ public class MainController {
 
     private CounterService counterService;
 
-    /**
-     * Initialize the window
-     *
-     * @param stage Top level container for this window
-     */
-    public void init(Stage stage) {
-        counterService = new CounterService();
-    }
-
-    /**
-     * Method to call when our counter button is clicked
-     *
-     */
-    @FXML
-    public void onButtonClicked() {
-        System.out.println("Button has been clicked");
-        counterService.incrementCounter();
-
-        int count = counterService.getCurrentCount();
-        defaultLabel.setText(Integer.toString(count));
+    public void init(Stage primaryStage) {
     }
 }
-
-
 //test comment

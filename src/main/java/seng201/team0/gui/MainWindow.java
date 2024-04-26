@@ -19,6 +19,7 @@ public class MainWindow extends Application {
      * @param primaryStage The current fxml stage, handled by javaFX Application class
      * @throws IOException if there is an issue loading fxml file
      */
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
@@ -27,9 +28,8 @@ public class MainWindow extends Application {
         MainController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
-        primaryStage.setTitle("SENG201 Example App");
-        Scene scene = new Scene(root, 1280, 1024);
-        primaryStage.setResizable(false);
+        Scene scene = new Scene(root);
+        primaryStage.setResizable(true);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

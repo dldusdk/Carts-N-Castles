@@ -42,7 +42,7 @@ public class FileReader {
     public static void main(String[] args) {
         boolean run = false;
         //Uncomment to run test and  demo of FileReader
-        //run = true;
+        run = true;
         if (run){
         FileReader file = new FileReader("src/main/resources/levelCSV/Level1/Level1Concept_Track.csv");
         ArrayList<Integer> list = file.getList();

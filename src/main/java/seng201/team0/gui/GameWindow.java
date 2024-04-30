@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 
@@ -28,6 +30,7 @@ public class GameWindow extends Application {
         baseController.init(primaryStage);
         int height = 1024;
         int width = 1280;
+
 
         primaryStage.setTitle("SENG201 Example App");
         Scene scene = new Scene(root, width, height);

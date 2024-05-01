@@ -20,11 +20,46 @@ public class LevelLoader {
         int column = 0;
         int row = 0;
 
+        String grassPath = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-2.png";
+        String trackPathRight = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-4-column-7.png";
+        String trackPathTurnDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-8.png";
+        String trackPathDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-9.png";
+        String trackPathTurnDownRight = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-3-column-6.png";
+        String trackPathTurnUpRight =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-3-column-8.png";
+        String trackPathTurnDownLR =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-6.png";
+
 
         for(ArrayList<Integer> innerList: tileList){
             row = 0;
             for(int num: innerList){
-                loadNewImage((column * tileSize + initialX), (row * tileSize), image);
+                if (num == 36){
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathRight);
+                }
+                if (num == 7){
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathTurnDown);
+                }
+                if (num == 18){
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathDown);
+                }
+                if (num == 25){
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathTurnDownRight);
+                }
+                if (num == 27){
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathTurnUpRight);
+                }
+                if (num == 5){
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathTurnDownLR);
+                }
+                if (num == -1){
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
+                }
+
                 row++;
             }
             column++;
@@ -34,9 +69,9 @@ public class LevelLoader {
 
 
 
-    public void loadNewImage(int coordY, int coordX,ImageView image){
+    public void loadNewImage(int coordY, int coordX,ImageView image,String path){
         //Load and set new cart image
-        Image source = new Image("Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-2.png");
+        Image source = new Image(path);
         ImageView trackImage = new ImageView(source);
         trackImage.setX(coordX);
         trackImage.setY(coordY);

@@ -26,16 +26,8 @@ public class GameController {
 
 
     }
-    public void loadNewImage(int coordinates) {
-        //Load and set new cart image
-        //Image cart10 = new Image("resources/Art/Asset Pack/Terrain/Ground/splitTerrain/row-0-column-4.png");
-        //ImageView cartImage = new ImageView(cart10);
-        //cartImage.setX(coordinates);
-        //cartImage.setImage(cart10);
 
-        //This makes all images share a parent with the imported ImageView cart1, dynamically adding to FXML
-        //((Pane) trackDefualt.getParent()).getChildren().add(cartImage);
-    }
 }
+
 
 

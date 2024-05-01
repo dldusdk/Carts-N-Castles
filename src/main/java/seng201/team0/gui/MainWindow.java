@@ -28,7 +28,7 @@ public class MainWindow extends Application {
         MainController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,1280,1024);
         primaryStage.setResizable(true);
         primaryStage.setScene(scene);
         primaryStage.show();

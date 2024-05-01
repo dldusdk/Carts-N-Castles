@@ -1,17 +1,10 @@
 package seng201.team0.gui;
 
-import javafx.animation.RotateTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import seng201.team0.services.CounterService;
+import seng201.team0.services.LevelLoader;
 
 /**
  * Controller for the main.fxml window
@@ -20,26 +13,28 @@ import seng201.team0.services.CounterService;
 public class GameController {
 
     @FXML
-    private ImageView cart1;
+    public ImageView trackDefualt;
+
     /**
      * Initialize the window
      *
      * @param stage Top level container for this window
      */
     public void init(Stage stage) {
-        loadNewImage(100);
-        loadNewImage(300);
+
+        LevelLoader level = new LevelLoader(trackDefualt, "src/main/resources/levelCSV/Level1/Level1Concept_Track.csv");
+
 
     }
     public void loadNewImage(int coordinates) {
         //Load and set new cart image
-        Image cart10 = new Image("Art/Asset Pack/Terrain/Ground/Tilemap_Flat.png");
-        ImageView cartImage = new ImageView(cart10);
-        cartImage.setX(coordinates);
-        cartImage.setImage(cart10);
+        //Image cart10 = new Image("resources/Art/Asset Pack/Terrain/Ground/splitTerrain/row-0-column-4.png");
+        //ImageView cartImage = new ImageView(cart10);
+        //cartImage.setX(coordinates);
+        //cartImage.setImage(cart10);
 
         //This makes all images share a parent with the imported ImageView cart1, dynamically adding to FXML
-        ((Pane) cart1.getParent()).getChildren().add(cartImage);
+        //((Pane) trackDefualt.getParent()).getChildren().add(cartImage);
     }
 }
 

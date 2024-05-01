@@ -35,6 +35,6 @@
          </font>
       </Text>
       <Button layoutX="1123.0" layoutY="215.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="132.0" text="PLAY" />
-      <ImageView fx:id="cart1" fitHeight="150.0" fitWidth="200.0" layoutX="546.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="trackDefualt" fitHeight="150.0" fitWidth="200.0" layoutX="546.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

@@ -10,17 +10,23 @@ import java.util.ArrayList;
 public class LevelLoader {
 
     public LevelLoader(ImageView image, String level){
+        //Builds a 2D array for locations of tiles from files
         FileReader loadCSV = new FileReader(level);
         ArrayList<ArrayList<Integer>> tileList = loadCSV.getList();
-        Settings settings = new Settings();
 
+        //Establishes settings (some constant, some for the 2D array loop)
+        Settings settings = new Settings();
         int initialX = settings.getIntialX();
         int tileSize = settings.getTilePixelSize();
-
         int column = 0;
         int row = 0;
 
+        boolean flooded = false;
         String grassPath = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-2.png";
+        if (flooded){
+            grassPath = "Art/Asset Pack/Terrain/Water/Water.png";
+        }
+
         String trackPathRight = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-4-column-7.png";
         String trackPathTurnDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-8.png";
         String trackPathDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-9.png";
@@ -66,8 +72,6 @@ public class LevelLoader {
         }
 
         }
-
-
 
     public void loadNewImage(int coordY, int coordX,ImageView image,String path){
         //Load and set new cart image

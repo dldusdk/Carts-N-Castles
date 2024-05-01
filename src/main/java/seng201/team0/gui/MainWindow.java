@@ -25,12 +25,15 @@ public class MainWindow extends Application {
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         Parent root = baseLoader.load();
 
-        MainController baseController = baseLoader.getController();
-        baseController.init(primaryStage);
+        int height = 1024;
+        int width = 1280;
 
-        Scene scene = new Scene(root,1280,1024);
-        primaryStage.setResizable(true);
+        primaryStage.setTitle("SENG201 Example App");
+        Scene scene = new Scene(root, width, height);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.sizeToScene();
+
         primaryStage.show();
     }
 

@@ -33,7 +33,7 @@ public class GameController {
     }
     public void loadNewImage(int coordinates) {
         //Load and set new cart image
-        Image cart10 = new Image("Art/Asset Pack/Carts/Cart1Concept.png");
+        Image cart10 = new Image("Art/Asset Pack/Terrain/Ground/Tilemap_Flat.png");
         ImageView cartImage = new ImageView(cart10);
         cartImage.setX(coordinates);
         cartImage.setImage(cart10);

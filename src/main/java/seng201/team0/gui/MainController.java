@@ -1,11 +1,14 @@
 package seng201.team0.gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Controller for the MainScreen
@@ -17,12 +20,14 @@ public class MainController {
     @FXML
     private Button quitButton;
     @FXML
+    private Button playButton;
+    @FXML
     private AnchorPane mainscreenPane;
 
     Stage stage;
 
     @FXML
-    public void quit(javafx.event.ActionEvent actionEvent)  {
+    public void quit(ActionEvent actionEvent)  {
 
         // Have a pop-up appear if the user clicks 'Quit' Button
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -37,6 +42,16 @@ public class MainController {
             stage.close();
         }
     }
+
+    @FXML
+    public void play(ActionEvent actionEvent){
+        try {
+            stage = (Stage) mainscreenPane.getScene().getWindow();
+            GameWindow gameWindow = new GameWindow();
+            gameWindow.start(stage);
+        } catch (IOException e) {
+            e.printStackTrace();
+    }}
 
     public void init(Stage primaryStage) {
     }

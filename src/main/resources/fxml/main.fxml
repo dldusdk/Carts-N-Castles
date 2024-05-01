@@ -24,14 +24,14 @@
             <Font name="Minecraft" size="46.0" />
          </font>
       </Text>
-      <Text layoutX="87.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLAY" textAlignment="CENTER" wrappingWidth="227.875">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Text>
       <Text layoutX="102.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="By Gordon &amp; Michelle" wrappingWidth="193.73663330078125">
          <font>
             <Font name="Minecraft" size="19.0" />
          </font></Text>
+      <Button fx:id="playButton" layoutX="80.0" layoutY="317.0" mnemonicParsing="false" onAction="#play" prefHeight="47.0" prefWidth="238.0" style="-fx-background-color: transparent;" text="PLAY" textAlignment="CENTER">
+         <font>
+            <Font name="Minecraft" size="28.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

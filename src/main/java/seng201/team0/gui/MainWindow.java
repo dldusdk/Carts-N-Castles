@@ -1,5 +1,6 @@
 package seng201.team0.gui;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,8 +29,10 @@ public class MainWindow extends Application {
         MainController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
+
+
         Scene scene = new Scene(root,1280,1024);
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

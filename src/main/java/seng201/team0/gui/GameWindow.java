@@ -1,10 +1,12 @@
 package seng201.team0.gui;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -28,7 +30,7 @@ public class GameWindow extends Application {
         baseController.init(primaryStage);
 
         Scene scene = new Scene(root,1280,1024);
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

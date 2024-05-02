@@ -32,7 +32,7 @@ public class MainWindow extends Application {
 
 
 
-        Scene scene = new Scene(root,1280,1024);
+        Scene scene = new Scene(root,1472,1024);
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

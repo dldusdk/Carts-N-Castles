@@ -29,7 +29,7 @@ public class GameWindow extends Application {
         GameController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
-        Scene scene = new Scene(root,1280,1024);
+        Scene scene = new Scene(root,1472,1024);
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -6,7 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -19,7 +21,6 @@ public class MainController {
      * @author Michelle Lee
      */
 
-
     @FXML
     private Button quitButton;
     @FXML
@@ -28,15 +29,13 @@ public class MainController {
     private Button normalButton;
     @FXML
     private Button hardButton;
+    @FXML
+    private Text headerText;
 
     @FXML
     private AnchorPane mainscreenPane;
-    @FXML
-    //private Label creditsLabel;
 
     Stage stage;
-
-    @FXML
 
     public void play(ActionEvent actionEvent) {
         /**
@@ -44,21 +43,42 @@ public class MainController {
          * @author Michelle Lee
          */
 
-        playButton.setVisible(false); //hide button
+        playButton.setVisible(false); //hide play button
         quitButton.setVisible(false); // hide quit button
-        //creditsLabel.setVisible(false); // hide label
-        normalButton.setVisible(true);
+        normalButton.setVisible(true); // make difficulty buttons visible
         hardButton.setVisible(true);
+        headerText.setText("Choose your difficulty!"); // change header text
 
-        try {
+        hardButton.setOnAction(e -> confirmDifficulty("HARD")); // If Hard is chosen, pass 'HARD' to confirmDifficulty method
+        normalButton.setOnAction(e -> confirmDifficulty("NORMAL")); // If Normal is chosen, pass 'HARD' to confirmDifficulty method
+
+        /*try {
             stage = (Stage) mainscreenPane.getScene().getWindow();
             GameWindow gameWindow = new GameWindow();
             gameWindow.start(stage);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
+    private void confirmDifficulty(String difficulty) {
+        // Show confirmation dialog
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Difficulty Selection");
+        alert.setHeaderText(null);
+        alert.setContentText("You've chosen " + difficulty + " difficulty.\nAre you sure?\n(Click 'OK' to continue)");
+        // Show and wait for user response
+        alert.showAndWait();
+        //if (alert.getResult() == ButtonType.OK) {
+        // try {
+                   /*try {
+            stage = (Stage) mainscreenPane.getScene().getWindow();
+            GameWindow gameWindow = new GameWindow();
+            gameWindow.start(stage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
 
 
     @FXML

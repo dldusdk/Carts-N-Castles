@@ -8,76 +8,76 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1040.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1024.0" prefWidth="1472.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="1041.0" fitWidth="1306.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1034.0" fitWidth="1490.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Art/Backgrounds/mapSelection.png" />
          </image>
       </ImageView>
-      <Text layoutX="456.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your Map!" textAlignment="CENTER">
+      <Text layoutX="521.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your Map!" textAlignment="CENTER">
          <font>
-            <Font name="Minecraft" size="46.0" />
+            <Font name="Minecraft" size="56.0" />
          </font>
       </Text>
-      <Button layoutX="139.0" layoutY="324.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="1">
+      <Button layoutX="138.0" layoutY="320.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="1">
          <font>
             <Font name="Minecraft" size="28.0" />
          </font>
       </Button>
-      <Button layoutX="1110.0" layoutY="847.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="57.0" style="-fx-background-color: transparent;" text="10">
+      <Button layoutX="523.0" layoutY="320.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="2">
+         <font>
+            <Font name="Minecraft" size="28.0" />
+         </font>
+      </Button>
+      <Button layoutX="910.0" layoutY="320.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="3">
+         <font>
+            <Font name="Minecraft" size="28.0" />
+         </font>
+      </Button>
+      <Button layoutX="780.0" layoutY="579.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="56.0" style="-fx-background-color: transparent;" text="4">
+         <font>
+            <Font name="Minecraft" size="28.0" />
+         </font>
+      </Button>
+      <Button layoutX="393.0" layoutY="579.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="59.0" style="-fx-background-color: transparent;" text="5">
+         <font>
+            <Font name="Minecraft" size="27.0" />
+         </font>
+      </Button>
+      <Button layoutX="67.0" layoutY="646.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="61.0" style="-fx-background-color: transparent;" text="6">
+         <font>
+            <Font name="Minecraft" size="28.0" />
+         </font>
+      </Button>
+      <Button layoutX="267.0" layoutY="839.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="7">
+         <font>
+            <Font name="Minecraft" size="28.0" />
+         </font>
+      </Button>
+      <Button layoutX="652.0" layoutY="839.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="8">
+         <font>
+            <Font name="Minecraft" size="28.0" />
+         </font>
+      </Button>
+      <Button layoutX="1040.0" layoutY="838.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="9" textAlignment="CENTER">
+         <font>
+            <Font name="Minecraft" size="28.0" />
+         </font>
+      </Button>
+      <Button layoutX="1232.0" layoutY="776.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="57.0" style="-fx-background-color: transparent;" text="10">
          <font>
             <Font name="Minecraft" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="1110.0" layoutY="585.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="57.0" style="-fx-background-color: transparent;" text="11">
+      <Button layoutX="1232.0" layoutY="515.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="57.0" style="-fx-background-color: transparent;" text="11">
          <font>
             <Font name="Minecraft" size="26.0" />
          </font>
       </Button>
-      <Button layoutX="787.0" layoutY="324.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="3">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
-      <Button layoutX="1108.0" layoutY="325.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="63.0" style="-fx-background-color: transparent;" text="12">
+      <Button layoutX="1229.0" layoutY="258.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="63.0" style="-fx-background-color: transparent;" text="12">
          <font>
             <Font name="Minecraft" size="27.0" />
-         </font>
-      </Button>
-      <Button layoutX="785.0" layoutY="584.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="56.0" style="-fx-background-color: transparent;" text="4">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
-      <Button layoutX="461.0" layoutY="584.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="59.0" style="-fx-background-color: transparent;" text="5">
-         <font>
-            <Font name="Minecraft" size="27.0" />
-         </font>
-      </Button>
-      <Button layoutX="131.0" layoutY="586.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="61.0" style="-fx-background-color: transparent;" text="6">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
-      <Button layoutX="462.0" layoutY="324.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="2">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
-      <Button layoutX="72.0" layoutY="845.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="7">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
-      <Button layoutX="462.0" layoutY="844.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="8">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
-      <Button layoutX="788.0" layoutY="844.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="45.0" style="-fx-background-color: transparent;" text="9" textAlignment="CENTER">
-         <font>
-            <Font name="Minecraft" size="28.0" />
          </font>
       </Button>
    </children>

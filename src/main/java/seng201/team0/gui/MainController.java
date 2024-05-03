@@ -3,17 +3,16 @@ package seng201.team0.gui;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class MainController {
     /**
@@ -43,22 +42,43 @@ public class MainController {
          * @author Michelle Lee
          */
 
-        playButton.setVisible(false); //hide play button
-        quitButton.setVisible(false); // hide quit button
-        normalButton.setVisible(true); // make difficulty buttons visible
-        hardButton.setVisible(true);
-        headerText.setText("Choose your difficulty!"); // change header text
+        // Open Text Input Dialog to get user Name
+        TextInputDialog userNameDialog = new TextInputDialog();
+        userNameDialog.setTitle("Your name");
+        userNameDialog.setHeaderText("Please enter your name:");
+        userNameDialog.setContentText("Note:Your name must be between 3-15 characters and contain no special characters:");
 
-        hardButton.setOnAction(e -> confirmDifficulty("HARD")); // If Hard is chosen, pass 'HARD' to confirmDifficulty method
-        normalButton.setOnAction(e -> confirmDifficulty("NORMAL")); // If Normal is chosen, pass 'HARD' to confirmDifficulty method
+        // Store user response
+        Optional<String> userName = userNameDialog.showAndWait();
 
-        /*try {
-            stage = (Stage) mainscreenPane.getScene().getWindow();
-            GameWindow gameWindow = new GameWindow();
-            gameWindow.start(stage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        if (userName.isPresent()) {
+            //Remove any unnecessary spaces infront and before the input
+            String name = userName.get().trim();
+            if (name.matches("^[a-zA-Z0-9 ]{3,15}$")) {
+                headerText.setText("Welcome " + userName.get() + "!\nChoose your difficulty!"); // change header text
+                headerText.setTextAlignment(TextAlignment.CENTER);
+
+                // Hide quit and play button
+                playButton.setVisible(false);
+                quitButton.setVisible(false);
+
+                // make difficulty buttons visible
+                normalButton.setVisible(true);
+                hardButton.setVisible(true);
+
+                // If Hard is chosen, pass 'HARD' to confirmDifficulty method
+                hardButton.setOnAction(e -> confirmDifficulty("HARD"));
+                // If Normal is chosen, pass 'NORMAL' to confirmDifficulty method
+                normalButton.setOnAction(e -> confirmDifficulty("NORMAL"));
+
+            } else {
+            // Show an error message for all invalid inputs
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Input");
+                alert.setHeaderText("Please enter a name between 3-15 characters with no special characters.");
+                alert.setContentText(null);
+            }
+        }
     }
 
     private void confirmDifficulty(String difficulty) {
@@ -87,7 +107,6 @@ public class MainController {
          * When Normal Button is clicked, run askName popup box and initialize game
          * @author Michelle Lee
          */
-        hardButton.setVisible(false); // code for normal difficulty goes here visibility just place holder code
     }
     @FXML
     public void hard(ActionEvent actionEvent) {
@@ -95,8 +114,6 @@ public class MainController {
          * When Hard Button is clicked, run askName popup box and initialize game
          * @author Michelle Lee
          */
-
-        normalButton.setVisible(false); // code for hard difficulty goes here
 
     }
 

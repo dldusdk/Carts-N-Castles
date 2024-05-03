@@ -14,7 +14,7 @@
             <Image url="@../Art/Backgrounds/mainscreen.png" />
          </image>
       </ImageView>
-      <Text fx:id="headerText" layoutX="475.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CARTS AND CASTLES" wrappingWidth="544.0">
+      <Text fx:id="headerText" layoutX="475.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CARTS AND CASTLES" wrappingWidth="544.0">
          <font>
             <Font name="Minecraft" size="50.0" />
          </font>

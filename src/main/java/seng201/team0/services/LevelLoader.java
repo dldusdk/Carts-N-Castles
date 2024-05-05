@@ -21,6 +21,8 @@ public class LevelLoader {
         int column = 0;
         int row = 0;
 
+
+        //Test for changing the ground texture (could implement level events this way)
         boolean flooded = false;
         String grassPath = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-2.png";
         if (flooded){
@@ -80,7 +82,7 @@ public class LevelLoader {
         trackImage.setX(coordX);
         trackImage.setY(coordY);
         trackImage.setImage(source);
-        //This makes all images share a parent with the imported ImageView trackImage, dynamically adding to FXML
+        //This makes all images share a parent with the imported ImageView trackImage, dynamically images adding to FXML
         ((Pane) image.getParent()).getChildren().add(trackImage);
     }
 

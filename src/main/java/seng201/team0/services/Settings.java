@@ -5,6 +5,9 @@ public class Settings {
     private int levelTilesHeight;
     private int tilePixelSize;
     private int initalX;
+    private int cartNumber;
+    private String difficulty;
+    private int cartSpawnIndex;
 
 
     public Settings(){
@@ -13,8 +16,27 @@ public class Settings {
         tilePixelSize = 64;
         initalX = 192;
 
-
     }
+
+    public Settings(String setDifficulty){
+        difficulty = setDifficulty;
+        cartSpawnIndex = 0;
+
+
+        if(difficulty == "Normal"){
+            cartNumber = 10;
+        }
+        if(difficulty == "Hard"){
+            cartNumber = 20;
+        }
+    }
+
+    public int getCartSpawnX(){ return(0);}
+
+    public int getCartSpawnY(){ return((320));}
+
+
+    public int getCartNumber(){ return(cartNumber); }
 
     public int getTileHeight(){
         return(levelTilesHeight);

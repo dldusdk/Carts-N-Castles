@@ -25,9 +25,10 @@ public class GameWindow extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/game.fxml"));
         Parent root = baseLoader.load();
+        String diff = "Normal";
 
         GameController baseController = baseLoader.getController();
-        baseController.init(primaryStage);
+        baseController.init(primaryStage, diff);
 
         Scene scene = new Scene(root,1472,1024);
         primaryStage.setResizable(false);

@@ -1,7 +1,9 @@
 package seng201.team0.models;
 
+import javafx.scene.image.ImageView;
+
 public class Cart {
-    public void cart(int size) {
+    public Cart(ImageView cartImage, int cartSize, String cartType, int cartSpeed) {
 
     }
 

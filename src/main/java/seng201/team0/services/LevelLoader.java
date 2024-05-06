@@ -8,11 +8,12 @@ import seng201.team0.models.FileReader;
 import java.util.ArrayList;
 
 public class LevelLoader {
+    private ArrayList<ArrayList<Integer>>tileList;
 
     public LevelLoader(ImageView image, String level){
         //Builds a 2D array for locations of tiles from files
         FileReader loadCSV = new FileReader(level);
-        ArrayList<ArrayList<Integer>> tileList = loadCSV.getList();
+        tileList = loadCSV.getList();
 
         //Establishes settings (some constant, some for the 2D array loop)
         Settings settings = new Settings();
@@ -29,6 +30,7 @@ public class LevelLoader {
             grassPath = "Art/Asset Pack/Terrain/Water/Water.png";
         }
 
+        //Set a bunch of image sources
         String trackPathRight = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-4-column-7.png";
         String trackPathTurnDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-8.png";
         String trackPathDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-9.png";
@@ -36,7 +38,7 @@ public class LevelLoader {
         String trackPathTurnUpRight =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-3-column-8.png";
         String trackPathTurnDownLR =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-6.png";
 
-
+        //build tiles using coordinates and images
         for(ArrayList<Integer> innerList: tileList){
             row = 0;
             for(int num: innerList){
@@ -92,4 +94,7 @@ public class LevelLoader {
         }
         return null;
     }
+
+    public ArrayList<ArrayList<Integer>> getTileList(){return (tileList);}
+
 }

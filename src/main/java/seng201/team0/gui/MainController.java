@@ -21,7 +21,6 @@ import java.util.Optional;
 public class MainController {
     /**
      * Main Controller for the initial start up screen of game.
-     * @author Michelle Lee
      */
 
     @FXML
@@ -65,7 +64,7 @@ public class MainController {
 
             // If the userName is not empty space
             if (userName.isPresent()) {
-                //Remove any unnecessary spaces infront and before the input and ensure is valid
+                //Remove any unnecessary spaces in front and before the input and ensure is valid
                 String name = userName.get().trim();
                 if (name.matches("^[a-zA-Z0-9 ]{3,15}$")) {
                     // Capitalize the first letter of given input
@@ -100,7 +99,7 @@ public class MainController {
                     alert.showAndWait();
                 }
             } else {
-                // When user cancels the input diagog box, does not request for the name
+                // When user cancels the input dialog box, does not request for the name
                 validNameEntered = true;
             }
         }

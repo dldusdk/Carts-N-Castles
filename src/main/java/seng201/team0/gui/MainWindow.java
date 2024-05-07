@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import seng201.team0.services.Settings;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 
@@ -29,8 +30,6 @@ public class MainWindow extends Application {
 
         MainController baseController = baseLoader.getController();
         baseController.init(primaryStage);
-
-
 
         Scene scene = new Scene(root,1472,1024);
         primaryStage.setResizable(false);

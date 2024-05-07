@@ -13,11 +13,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1485.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.GameController">
    <children>
-      <ImageView fitHeight="818.0" fitWidth="1165.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Art/Backgrounds/mapSelection.png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="trackDefault" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="cartDefault" fitHeight="150.0" fitWidth="200.0" layoutX="22.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
       <HBox layoutX="1166.0" layoutY="-5.0" prefHeight="116.0" prefWidth="318.0">
          <children>
             <Button fx:id="shop" mnemonicParsing="false" prefHeight="88.0" prefWidth="94.0" text="SHOP">
@@ -48,7 +45,7 @@
       </HBox>
       <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="1167.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="700.0" minViewportWidth="280.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="1023.0" prefViewportWidth="280.0" prefWidth="318.0">
          <content>
-            <VBox prefHeight="830.0" prefWidth="312.0">
+            <VBox prefHeight="830.0" prefWidth="320.0">
                <padding>
                   <Insets bottom="50.0" left="5.0" right="5.0" />
                </padding>
@@ -235,5 +232,6 @@
             <Font name="Minecraft" size="22.0" />
          </font>
       </Label>
+      <Button fx:id="roundButton" layoutX="980.0" layoutY="77.0" mnemonicParsing="false" onAction="#roundButtonClicked" prefHeight="25.0" prefWidth="102.0" text="START" />
    </children>
 </AnchorPane>

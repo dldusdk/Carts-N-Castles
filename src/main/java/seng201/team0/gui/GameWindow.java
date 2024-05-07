@@ -26,7 +26,7 @@ public class GameWindow extends Application {
         String diff = "Normal";
 
         GameController baseController = baseLoader.getController();
-        baseController.init(primaryStage, diff);
+        baseController.init(primaryStage);
 
         Scene scene = new Scene(root,1472,1024);
         primaryStage.setResizable(false);

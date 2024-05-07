@@ -11,8 +11,8 @@ public class Settings {
 
 
     public Settings(){
-        levelTilesHeight = 10;
-        levelTilesWidth = 20;
+        levelTilesHeight = 13;
+        levelTilesWidth = 18;
         tilePixelSize = 64;
         initalX = 192;
 
@@ -24,7 +24,7 @@ public class Settings {
 
 
         if(difficulty == "Normal"){
-            cartNumber = 10;
+            cartNumber = 1;
         }
         if(difficulty == "Hard"){
             cartNumber = 20;
@@ -33,7 +33,7 @@ public class Settings {
 
     public int getCartSpawnX(){ return(0);}
 
-    public int getCartSpawnY(){ return((320));}
+    public int getCartSpawnY(){ return((705));}
 
 
     public int getCartNumber(){ return(cartNumber); }

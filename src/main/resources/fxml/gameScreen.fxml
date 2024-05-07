@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1485.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.GameController">
+   <children>
+      <ImageView fitHeight="818.0" fitWidth="1165.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Art/Backgrounds/mapSelection.png" />
+         </image>
+      </ImageView>
+      <HBox layoutX="1166.0" layoutY="-5.0" prefHeight="116.0" prefWidth="318.0">
+         <children>
+            <Button fx:id="shop" mnemonicParsing="false" prefHeight="88.0" prefWidth="94.0" text="SHOP">
+               <font>
+                  <Font name="Minecraft" size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="inventory" mnemonicParsing="false" prefHeight="88.0" prefWidth="94.0" text="INVENTORY" textAlignment="JUSTIFY">
+               <font>
+                  <Font name="Minecraft" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="options" mnemonicParsing="false" prefHeight="88.0" prefWidth="94.0" text="OPTIONS">
+               <font>
+                  <Font name="Minecraft" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="1167.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="700.0" minViewportWidth="280.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="1023.0" prefViewportWidth="280.0" prefWidth="318.0">
+         <content>
+            <VBox prefHeight="830.0" prefWidth="312.0">
+               <padding>
+                  <Insets bottom="50.0" left="5.0" right="5.0" />
+               </padding>
+               <children>
+                  <AnchorPane fx:id="silverTower" prefHeight="163.0" prefWidth="290.0">
+                     <children>
+                        <Button fx:id="silverTower" mnemonicParsing="false" prefHeight="130.0" prefWidth="156.0" text="Silver Tower">
+                           <graphic>
+                              <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="172.0" layoutY="44.0" prefHeight="44.0" prefWidth="103.0" text="10 coins">
+                           <font>
+                              <Font name="Minecraft" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="bronzeTower" layoutX="15.0" layoutY="113.0" prefHeight="131.0" prefWidth="270.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="156.0" text="Bronze Tower">
+                           <graphic>
+                              <ImageView fx:id="bronzeTower" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Red.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="172.0" layoutY="44.0" prefHeight="44.0" prefWidth="103.0" text="20 coins">
+                           <font>
+                              <Font name="Minecraft" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="goldTower" layoutX="15.0" layoutY="244.0" prefHeight="131.0" prefWidth="270.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="156.0" text="Gold Tower">
+                           <graphic>
+                              <ImageView fx:id="goldTower" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="172.0" layoutY="44.0" prefHeight="44.0" prefWidth="103.0" text="30 coins">
+                           <font>
+                              <Font name="Minecraft" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="goldTower1" layoutX="15.0" layoutY="375.0" prefHeight="131.0" prefWidth="270.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="156.0" text="Gold Tower">
+                           <graphic>
+                              <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="172.0" layoutY="44.0" prefHeight="44.0" prefWidth="103.0" text="10 coins">
+                           <font>
+                              <Font name="Minecraft" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="goldTower11" layoutX="15.0" layoutY="506.0" prefHeight="131.0" prefWidth="270.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="156.0" text="Gold Tower">
+                           <graphic>
+                              <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="172.0" layoutY="44.0" prefHeight="44.0" prefWidth="103.0" text="10 coins">
+                           <font>
+                              <Font name="Minecraft" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="goldTower111" layoutX="15.0" layoutY="637.0" prefHeight="131.0" prefWidth="270.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="156.0" text="Gold Tower">
+                           <graphic>
+                              <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="172.0" layoutY="44.0" prefHeight="44.0" prefWidth="103.0" text="10 coins">
+                           <font>
+                              <Font name="Minecraft" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="goldTower1111" layoutX="15.0" layoutY="660.0" prefHeight="131.0" prefWidth="270.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="156.0" text="Gold Tower">
+                           <graphic>
+                              <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="172.0" layoutY="44.0" prefHeight="44.0" prefWidth="103.0" text="10 coins">
+                           <font>
+                              <Font name="Minecraft" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="goldTower11111" layoutX="15.0" layoutY="790.0" prefHeight="131.0" prefWidth="270.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="156.0" text="Gold Tower">
+                           <graphic>
+                              <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="172.0" layoutY="44.0" prefHeight="44.0" prefWidth="103.0" text="10 coins">
+                           <font>
+                              <Font name="Minecraft" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="goldTower111111" layoutX="15.0" layoutY="920.0" prefHeight="131.0" prefWidth="270.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="156.0" text="Gold Tower">
+                           <graphic>
+                              <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="172.0" layoutY="44.0" prefHeight="44.0" prefWidth="103.0" text="10 coins">
+                           <font>
+                              <Font name="Minecraft" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <Button layoutX="52.0" layoutY="38.0" mnemonicParsing="false" text="PAUSE" />
+      <Button layoutX="1189.0" layoutY="109.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="120.0" text="SELL">
+         <font>
+            <Font name="Minecraft" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="1337.0" layoutY="110.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="120.0" text="???">
+         <font>
+            <Font name="Minecraft" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="980.0" layoutY="33.0" style="-fx-background-color: white;" text="ROUNDS ">
+         <font>
+            <Font name="Minecraft" size="22.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

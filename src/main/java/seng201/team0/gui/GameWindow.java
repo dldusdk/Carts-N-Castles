@@ -1,12 +1,10 @@
 package seng201.team0.gui;
 
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -23,7 +21,7 @@ public class GameWindow extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/game.fxml"));
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
         Parent root = baseLoader.load();
         String diff = "Normal";
 

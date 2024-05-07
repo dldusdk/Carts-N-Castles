@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1485.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.GameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1472.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.GameController">
    <children>
       <ImageView fx:id="trackDefault" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="cartDefault" fitHeight="150.0" fitWidth="200.0" layoutX="22.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox layoutX="1166.0" layoutY="-5.0" prefHeight="116.0" prefWidth="318.0">
+      <HBox layoutX="1154.0" layoutY="2.0" prefHeight="116.0" prefWidth="318.0">
          <children>
             <Button fx:id="shop" mnemonicParsing="false" prefHeight="88.0" prefWidth="94.0" text="SHOP">
                <font>
@@ -43,7 +43,7 @@
             </Button>
          </children>
       </HBox>
-      <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="1167.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="700.0" minViewportWidth="280.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="1023.0" prefViewportWidth="280.0" prefWidth="318.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="1152.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0">
          <content>
             <VBox prefHeight="830.0" prefWidth="320.0">
                <padding>
@@ -182,7 +182,7 @@
                            <graphic>
                               <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                    <Image url="@../../../../../../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -200,7 +200,7 @@
                            <graphic>
                               <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                    <Image url="@../../../../../../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -217,17 +217,17 @@
          </content>
       </ScrollPane>
       <Button layoutX="52.0" layoutY="38.0" mnemonicParsing="false" text="PAUSE" />
-      <Button layoutX="1189.0" layoutY="109.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="120.0" text="SELL">
+      <Button layoutX="1182.0" layoutY="111.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="120.0" text="SELL">
          <font>
             <Font name="Minecraft" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="1337.0" layoutY="110.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="120.0" text="???">
+      <Button layoutX="1333.0" layoutY="112.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="120.0" text="???">
          <font>
             <Font name="Minecraft" size="12.0" />
          </font>
       </Button>
-      <Label layoutX="980.0" layoutY="33.0" style="-fx-background-color: white;" text="ROUNDS ">
+      <Label layoutX="980.0" layoutY="33.0" style="-fx-background-color: transparent;" text="ROUNDS ">
          <font>
             <Font name="Minecraft" size="22.0" />
          </font>

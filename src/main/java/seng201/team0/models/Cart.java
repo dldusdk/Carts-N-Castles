@@ -39,7 +39,7 @@ public class Cart {
 
     public ImageView loadCart(){
         //Change to cart class
-        Image source = new Image("Art/Asset Pack/Carts/PlainCartEmpty.png");
+        Image source = new Image("Art/Asset Pack/Carts/SilverEmpty.png");
         ImageView cartImage = new ImageView(source);
         cartImage.setX(Math.random() * (200 + cartSpawnLocationX));
         cartImage.setY(cartSpawnLocationY);
@@ -55,7 +55,7 @@ public class Cart {
     }
 
     public void checkCollision(ImageView cart){
-        System.out.println(cart.getX());
+        //do something
 
     }
 }

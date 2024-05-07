@@ -22,6 +22,8 @@ public class loadRound {
     public loadRound(String difficultySetting, ImageView cartDefault,ArrayList<ArrayList<Integer>>setTileList){
 
         tileList = setTileList;
+        CartPathFinder cartPath = new CartPathFinder(tileList);
+
 
         difficulty = difficultySetting;
         Settings settings = new Settings(difficulty);
@@ -32,24 +34,9 @@ public class loadRound {
         ArrayList<Cart> cartList = new ArrayList<>();
         for (int i=0;i < cartNumber; i++){
             Cart cart = new Cart(cartDefault,0,"bronze",0);
-            System.out.println(i);
-            loadCart(cartDefault);
+            cart.loadCart();
+            //loadCart(cartDefault);
         }
-    }
-
-    public void loadCart(ImageView cartImageSource){
-        //Change to cart class
-        Image source = new Image("Art/Asset Pack/Carts/PlainCartEmpty.png");
-        ImageView cartImage = new ImageView(source);
-        cartImage.setX(Math.random() * (200 + cartSpawnLocationX));
-        cartImage.setY(cartSpawnLocationY);
-        cartImage.setImage(source);
-        ((Pane) cartImageSource.getParent()).getChildren().add(cartImage);
-        TranslateTransition movement = new TranslateTransition(Duration.seconds(2), cartImage);
-        movement.setByX(100);
-        movement.play();
-
-
     }
 
 

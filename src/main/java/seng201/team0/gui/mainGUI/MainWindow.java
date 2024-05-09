@@ -1,13 +1,10 @@
-package seng201.team0.gui;
+package seng201.team0.gui.mainGUI;
 
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import seng201.team0.services.Settings;
-import javafx.scene.text.Font;
 
 import java.io.IOException;
 

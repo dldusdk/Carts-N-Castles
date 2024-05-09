@@ -1,4 +1,4 @@
-package seng201.team0.gui;
+package seng201.team0.gui.mainGUI;
 
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;

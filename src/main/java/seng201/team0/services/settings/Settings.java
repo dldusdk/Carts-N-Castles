@@ -1,4 +1,4 @@
-package seng201.team0.services;
+package seng201.team0.services.settings;
 
 public class Settings {
     private int levelTilesWidth;
@@ -8,6 +8,7 @@ public class Settings {
     private int cartNumber;
     private String difficulty;
     private int cartSpawnIndex;
+
 
 
     public Settings(){
@@ -21,7 +22,6 @@ public class Settings {
     public Settings(String setDifficulty){
         difficulty = setDifficulty;
         cartSpawnIndex = 0;
-
 
         if(difficulty == "Normal"){
             cartNumber = 1;

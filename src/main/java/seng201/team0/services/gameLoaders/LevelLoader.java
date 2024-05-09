@@ -1,36 +1,35 @@
-package seng201.team0.services;
+package seng201.team0.services.gameLoaders;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import seng201.team0.models.FileReader;
+import seng201.team0.services.settings.Settings;
+import seng201.team0.services.fileReaders.FileReader;
 
 import java.util.ArrayList;
 
 public class LevelLoader {
     private ArrayList<ArrayList<Integer>>tileList;
+    private ArrayList<ArrayList<Integer>>waypointsList;
+
+
 
     public LevelLoader(ImageView image, String level){
-        //Builds a 2D array for locations of tiles from files
-        FileReader loadCSV = new FileReader(level);
-        tileList = loadCSV.getList();
-
-        //Establishes settings (some constant, some for the 2D array loop)
+        //Gets settings of spawn
         Settings settings = new Settings();
         int initialX = settings.getIntialX();
         int tileSize = settings.getTilePixelSize();
-        int column = 0;
-        int row = 0;
 
+        //Builds a 2D array for locations of tiles from files
+        int levelTilesWidth = settings.getTileWidth();
+        int levelTilesHeight = settings.getTileHeight();
 
-        //Test for changing the ground texture (could implement level events this way)
-        boolean flooded = false;
-        String grassPath = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-2.png";
-        if (flooded){
-            grassPath = "Art/Asset Pack/Terrain/Water/Water.png";
-        }
+        FileReader loadCSV = new FileReader(level,levelTilesWidth,levelTilesHeight);
+        tileList = loadCSV.getList();
+
 
         //Set a bunch of image sources
+        String grassPath = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-2.png";
         String trackPathRight = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-4-column-7.png";
         String trackPathTurnDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-8.png";
         String trackPathDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-9.png";
@@ -38,9 +37,12 @@ public class LevelLoader {
         String trackPathTurnUpRight =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-3-column-8.png";
         String trackPathTurnDownLR =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-6.png";
 
+
         //build tiles using coordinates and images
+        int column = 0;
         for(ArrayList<Integer> innerList: tileList){
-            row = 0;
+            int row = 0;
+            ArrayList<Integer> arrayList = new ArrayList<>(2);
             for(int num: innerList){
                 if (num == 36){
                     loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
@@ -75,6 +77,7 @@ public class LevelLoader {
             column++;
         }
 
+
         }
 
     public void loadNewImage(int coordY, int coordX,ImageView image,String path){
@@ -88,6 +91,7 @@ public class LevelLoader {
         ((Pane) image.getParent()).getChildren().add(trackImage);
     }
 
+
     public String getTileType(int id){
         if (id == -1){
             return("Art/Asset Pack/Terrain/Ground/splitTerrain/row-0-column-4.png");
@@ -96,5 +100,6 @@ public class LevelLoader {
     }
 
     public ArrayList<ArrayList<Integer>> getTileList(){return (tileList);}
+
 
 }

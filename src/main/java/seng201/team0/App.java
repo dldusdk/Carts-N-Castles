@@ -1,8 +1,6 @@
 package seng201.team0;
 
-import seng201.team0.gui.GameWindow;
-import seng201.team0.gui.MainWindow;
-
+import seng201.team0.gui.gameGUI.GameWindow;
 
 
 /**

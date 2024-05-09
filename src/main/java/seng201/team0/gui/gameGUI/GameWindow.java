@@ -1,10 +1,11 @@
-package seng201.team0.gui;
+package seng201.team0.gui.gameGUI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import seng201.team0.gui.gameGUI.GameController;
 
 import java.io.IOException;
 

@@ -69,11 +69,6 @@ public class CartBasic {
         return(cartImage);
     }
 
-    public void checkCollision(ImageView cart) {
-        //do something
-
-    }
-
     public void animateCart(ArrayList<ArrayList<Integer>>cartPath,double cartSpeed) {
         CartAnimation cartAnimation = new CartAnimation(cartObject,cartPath,cartSpeed);
         transitionList = cartAnimation.getAnimations();

@@ -2,6 +2,7 @@ package seng201.team0.services.gameLoaders;
 
 import javafx.scene.image.ImageView;
 import seng201.team0.models.carts.CartBasic;
+import seng201.team0.models.towers.Projectile;
 import seng201.team0.services.animation.CartAnimation;
 import seng201.team0.services.settings.Settings;
 
@@ -33,8 +34,7 @@ public class LoadRound {
         cartNumber = settings.getCartNumber();
         cartSpawnLocationX = settings.getCartSpawnX();
         cartSpawnLocationY = settings.getCartSpawnY();
-
-
+        Projectile p = new Projectile(1,2);
 
         startRound();
 

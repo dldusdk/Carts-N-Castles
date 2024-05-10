@@ -9,8 +9,6 @@ import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
 
-import java.util.ArrayList;
-
 public class GameController {
 
     @FXML
@@ -38,18 +36,32 @@ public class GameController {
 
         this.primaryStage = primaryStage;
         // Add any other initialization logic here
+        String levelPath =  "src/main/resources/levelCSV/Level1/Level1Concept_Track.csv";
+        String levelDecor = "src/main/resources/levelCSV/Level1/Level1Concept_Decorations.csv";
+
         difficulty = "Normal";
 
         roundButton.setText(String.valueOf("Play: "+round));
-        levelGrid = new LevelLoader(trackDefault, "src/main/resources/levelCSV/Level1/Level1Concept_Track.csv");
+        levelGrid = new LevelLoader(trackDefault,levelPath,levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath");
     }
 
     @FXML
     public void roundButtonClicked(ActionEvent event){
 
-        LoadRound newRound = new LoadRound(difficulty, cartDefault,levelGrid,path);
+        LoadRound newRound = new LoadRound(round,difficulty, cartDefault,levelGrid,path);
         round++;
+        roundButton.setText(String.valueOf(round));
+        boolean roundState = true;
+        roundButton.setDisable(roundState);
+        while (roundState){
+            int cartCount = newRound.getCartNumber();
+            if (cartCount == 0){
+                roundState = false;
+            }
+        }
+        roundButton.setDisable(roundState);
+
     }
     // Add other methods and properties as needed
 }

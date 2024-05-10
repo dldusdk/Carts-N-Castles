@@ -18,8 +18,10 @@ public class LoadRound {
     private ArrayList<ArrayList<Integer>>cartPath;
     private int roundNumber;
     private ImageView cartImage;
+    private int roundCount;
 
-    public LoadRound(String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath){
+    public LoadRound(int round,String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath){
+        roundNumber = round;
 
         tileList = gridData.getTileList();
         //cartPath = gridData.getPath();
@@ -50,4 +52,7 @@ public class LoadRound {
     }
 
 
+    public int getCartNumber() {
+        return(0);
+    }
 }

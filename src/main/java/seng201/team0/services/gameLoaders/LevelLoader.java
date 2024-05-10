@@ -11,23 +11,35 @@ import java.util.ArrayList;
 public class LevelLoader {
     private ArrayList<ArrayList<Integer>>tileList;
     private ArrayList<ArrayList<Integer>>waypointsList;
+    private ArrayList<ArrayList<Integer>>decorationList;
+    private int levelTilesWidth;
+    private int levelTilesHeight;
+    private int tileSize;
+    private int initialX;
+    private ImageView base1Image;
 
 
 
-    public LevelLoader(ImageView image, String level){
+    public LevelLoader(ImageView image, String level, String decor){
+        base1Image = image;
         //Gets settings of spawn
         Settings settings = new Settings();
-        int initialX = settings.getIntialX();
-        int tileSize = settings.getTilePixelSize();
+        initialX = settings.getIntialX();
+        tileSize = settings.getTilePixelSize();
 
         //Builds a 2D array for locations of tiles from files
-        int levelTilesWidth = settings.getTileWidth();
-        int levelTilesHeight = settings.getTileHeight();
+        levelTilesWidth = settings.getTileWidth();
+        levelTilesHeight = settings.getTileHeight();
 
         FileReader loadCSV = new FileReader(level,levelTilesWidth,levelTilesHeight);
         tileList = loadCSV.getList();
+        FileReader loadDecoration = new FileReader(decor,levelTilesWidth,levelTilesHeight);
+        decorationList = loadDecoration.getList();
+        loadLevel();
+        loadDecorations();
+        }
 
-
+    private void loadLevel() {
         //Set a bunch of image sources
         String grassPath = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-2.png";
         String trackPathRight = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-4-column-7.png";
@@ -37,7 +49,6 @@ public class LevelLoader {
         String trackPathTurnUpRight =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-3-column-8.png";
         String trackPathTurnDownLR =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-6.png";
 
-
         //build tiles using coordinates and images
         int column = 0;
         for(ArrayList<Integer> innerList: tileList){
@@ -45,31 +56,31 @@ public class LevelLoader {
             ArrayList<Integer> arrayList = new ArrayList<>(2);
             for(int num: innerList){
                 if (num == 36){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathRight);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathRight);
                 }
                 if (num == 7){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathTurnDown);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnDown);
                 }
                 if (num == 18){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathDown);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathDown);
                 }
                 if (num == 25){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathTurnDownRight);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnDownRight);
                 }
                 if (num == 27){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathTurnUpRight);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnUpRight);
                 }
                 if (num == 5){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,trackPathTurnDownLR);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnDownLR);
                 }
                 if (num == -1){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), image,grassPath);
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
                 }
 
                 row++;
@@ -77,8 +88,28 @@ public class LevelLoader {
             column++;
         }
 
+    }
 
+    private void loadDecorations(){
+        String rockWallPath = "Art/Asset Pack/Deco/09.png";
+
+        int column = 0;
+        for(ArrayList<Integer> innerList: decorationList){
+            int row = 0;
+            ArrayList<Integer> arrayList = new ArrayList<>(2);
+            for(int num: innerList){
+                if (num == 9){
+                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,rockWallPath);
+                }
+
+                row++;
+            }
+            column++;
         }
+
+    }
+
+
 
     public void loadNewImage(int coordY, int coordX,ImageView image,String path){
         //Load and set new cart image

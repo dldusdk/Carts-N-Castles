@@ -1,6 +1,7 @@
 package seng201.team0.models.carts;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
@@ -21,6 +22,7 @@ public class CartBasic {
     private TranslateTransition movement;
     private double speed ;
     private ArrayList<TranslateTransition> transitionList;
+    private ArrayList<RotateTransition> rotationList;
 
     //Might have to put in controller loop for animation and projectile logic
     private AnimationTimer collisionTimer = new AnimationTimer() {
@@ -75,10 +77,21 @@ public class CartBasic {
     public void animateCart(ArrayList<ArrayList<Integer>>cartPath,double cartSpeed) {
         CartAnimation cartAnimation = new CartAnimation(cartObject,cartPath,cartSpeed);
         transitionList = cartAnimation.getAnimations();
+        rotationList = cartAnimation.getRotations();
 
 
         SequentialTransition sequentialTransition = new SequentialTransition();
-        sequentialTransition.getChildren().addAll(transitionList);
+        for (int i=0; i < transitionList.size(); i++){
+            sequentialTransition.getChildren().add(transitionList.get(i));
+            if(i < rotationList.size()-1){
+                sequentialTransition.getChildren().add(rotationList.get(i));
+            }
+
+
+        }
+
+
+        //sequentialTransition.getChildren().addAll(transitionList);
 
         sequentialTransition.play();
         }

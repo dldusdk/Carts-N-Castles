@@ -80,6 +80,8 @@ public class LevelLoader {
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnDownLR);
                 }
                 if (num == -1){
+                    //coordList.add()
+                    //Make list here that creates a new list of coordinates for valid placement
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
                 }
 

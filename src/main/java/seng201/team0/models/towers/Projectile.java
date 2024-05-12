@@ -24,7 +24,7 @@ public class Projectile {
     }
 
     private void loadProjectile() {
-        System.out.println("Seconds = "+count+"   "+"Printing every 2 second :)");
+        //System.out.println("Seconds = "+count+"   "+"Printing every 2 second :)");
         count += 2;
     }
 }

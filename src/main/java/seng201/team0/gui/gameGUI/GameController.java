@@ -19,8 +19,9 @@ public class GameController {
     private ImageView cartDefault;
 
     private Stage primaryStage;
-    private int round = 0;
+    private int round = 1;
     private String difficulty;
+    private int totalRounds=10; //need to scale this on difficulty
     private LevelLoader levelGrid;
     private PathLoader path;
 
@@ -44,24 +45,33 @@ public class GameController {
         roundButton.setText(String.valueOf("Play: "+round));
         levelGrid = new LevelLoader(trackDefault,levelPath,levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath");
+
+        roundButton.setText((0 +"/"+String.valueOf(totalRounds)));
     }
 
     @FXML
-    public void roundButtonClicked(ActionEvent event){
-
-        LoadRound newRound = new LoadRound(round,difficulty, cartDefault,levelGrid,path);
-        round++;
-        roundButton.setText(String.valueOf(round));
-        boolean roundState = true;
-        roundButton.setDisable(roundState);
-        while (roundState){
-            int cartCount = newRound.getCartNumber();
-            if (cartCount == 0){
-                roundState = false;
+    public void roundButtonClicked(ActionEvent event) {
+        if (round > totalRounds) {
+            roundButton.setDisable(true);
+            //Should switch view to win screen.
+        } else {
+            LoadRound newRound = new LoadRound(round, difficulty, cartDefault, levelGrid, path,10);
+            roundButton.setText((round + "/" + String.valueOf(totalRounds)));
+            round++;
+            boolean roundState = true;
+            roundButton.setDisable(roundState);
+            while (roundState) {
+                int cartCount = 0;
+                if (cartCount == 0) {
+                    roundState = false;
+                }
             }
         }
-        roundButton.setDisable(roundState);
+        roundButton.setDisable(false);
+    }
+
+
+
 
     }
     // Add other methods and properties as needed
-}

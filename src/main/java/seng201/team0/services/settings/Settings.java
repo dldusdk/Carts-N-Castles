@@ -31,12 +31,12 @@ public class Settings {
         }
     }
 
-    public int getCartSpawnX(){ return(0);}
+    public int getCartSpawnX(){ return(-100);}
 
     public int getCartSpawnY(){ return((705));}
 
 
-    public int getCartNumber(){ return(cartNumber); }
+    public int getCartNumber(int roundNumber){ return(roundNumber); }
 
     public int getTileHeight(){
         return(levelTilesHeight);

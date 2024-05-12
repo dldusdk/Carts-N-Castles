@@ -23,11 +23,11 @@ public class CartBasic {
     private double speed ;
     private ArrayList<TranslateTransition> transitionList;
     private ArrayList<RotateTransition> rotationList;
+    private int capicity = 0;
 
     //Might have to put in controller loop for animation and projectile logic
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
-
                 if (movement != null && cartObject != null) {
                     System.out.println("X: " + (cartObject.getX() + cartObject.getTranslateX()));
                 }
@@ -35,12 +35,11 @@ public class CartBasic {
     };
 
 
-    public CartBasic(ImageView cartImageImport, int cartSize, String cartType, double cartSpeed, ArrayList<ArrayList<Integer>>cartPath) {
+    public CartBasic(ImageView cartImageImport, int cartSize, String cartType, double cartSpeed, ArrayList<ArrayList<Integer>>cartPath,int cartX) {
         Settings settings = new Settings();
-        cartSpawnLocationX = settings.getCartSpawnX();
+        //cartSpawnLocationX = settings.getCartSpawnX();
+        cartSpawnLocationX = cartX;
         cartSpawnLocationY = settings.getCartSpawnY();
-
-
 
         collisionTimer.start();
         speed = cartSpeed;
@@ -73,6 +72,9 @@ public class CartBasic {
         CartAnimation cartAnimation = new CartAnimation(cartObject,cartPath,cartSpeed);
         transitionList = cartAnimation.getAnimations();
         rotationList = cartAnimation.getRotations();
+
+        transitionList.get(0).setByX(Math.abs(cartSpawnLocationX) + transitionList.get(0).getByX());
+        System.out.println(transitionList.get(0).getByX());
 
 
         SequentialTransition sequentialTransition = new SequentialTransition();

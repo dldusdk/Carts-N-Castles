@@ -47,6 +47,8 @@ public class GameController {
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath");
 
         roundButton.setText((0 +"/"+String.valueOf(totalRounds)));
+
+
     }
 
     @FXML

@@ -28,8 +28,8 @@ public class CartBasic {
     //Might have to put in controller loop for animation and projectile logic
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
-                if (movement != null && cartObject != null) {
-                    System.out.println("X: " + (cartObject.getX() + cartObject.getTranslateX()));
+                if (cartObject != null) {
+                    //System.out.println("X: " + cartObject.getTranslateX());
                 }
             }
     };
@@ -64,17 +64,18 @@ public class CartBasic {
         cartImage.setX(cartSpawnLocationX);
         cartImage.setY(cartSpawnLocationY);
         cartImage.setImage(source);
+        System.out.println("========"+cartImageSource.getParent());
         ((Pane) cartImageSource.getParent()).getChildren().add(cartImage);
         return(cartImage);
     }
 
     public void animateCart(ArrayList<ArrayList<Integer>>cartPath,double cartSpeed) {
-        CartAnimation cartAnimation = new CartAnimation(cartObject,cartPath,cartSpeed);
+        //System.out.println(cartSpawnLocationX);
+        CartAnimation cartAnimation = new CartAnimation(cartObject,cartPath,cartSpeed,cartSpawnLocationX);
         transitionList = cartAnimation.getAnimations();
         rotationList = cartAnimation.getRotations();
 
         transitionList.get(0).setByX(Math.abs(cartSpawnLocationX) + transitionList.get(0).getByX());
-        System.out.println(transitionList.get(0).getByX());
 
 
         SequentialTransition sequentialTransition = new SequentialTransition();

@@ -15,10 +15,13 @@ public class CartAnimation {
     private ArrayList<ArrayList<Integer>>cartPathList;
     private double speed;
     private ImageView cartSource;
+    private int count = 0;
+    private int cartSpawnX;
 
-    public CartAnimation(ImageView cart, ArrayList<ArrayList<Integer>>cartPaths,double cartSpeed){
+    public CartAnimation(ImageView cart, ArrayList<ArrayList<Integer>>cartPaths,double cartSpeed,int cartX){
+        cartSpawnX = cartX;
         cartSource = cart;
-        speed = cartSpeed;
+        speed = 100;
         transitionList = new ArrayList<>();
         rotationList = new ArrayList<>();
         cartPathList = cartPaths;
@@ -49,11 +52,25 @@ public class CartAnimation {
 
 
     public void createNewAnimation(String type, int firstCoord, int secondCoord){
-        double distance = Math.abs(firstCoord - secondCoord);
-        double time = speed;
+        System.out.println("=======================");
+        double value = Math.abs(firstCoord-secondCoord);
+        if(!transitionList.isEmpty()){System.out.println("Experimenting "+transitionList.getLast().getFromX());}
+
+        ArrayList<Integer> coords = new ArrayList<>();
+
+        coords.add(Math.abs(350 + Math.abs(cartSpawnX)));
+        coords.add(150);
+        coords.add(360);
+        coords.add(400);
+        coords.add(450);
+
+
+        double distance = coords.get(count);
+        System.out.println("DISTANCE "+distance);
+       // System.out.println("Distance: "+distance);
         TranslateTransition transition = new TranslateTransition();
         transition.setInterpolator(Interpolator.LINEAR);
-        transition.setDuration(Duration.seconds(getTime(distance,time)));
+        transition.setDuration(Duration.seconds(getTime(distance)));
         transition.setNode(cartSource);
 
         RotateTransition rotation = new RotateTransition();
@@ -75,16 +92,17 @@ public class CartAnimation {
         //System.out.println(transition.getDuration());
 
         transitionList.add(transition);
+        count++;
         //transitionList.add(rotateTransition);
     }
 
-    public double getTime(double distance, double time){
+    public double getTime(double distance){
         //Returns time = distance/speed
-        System.out.println("TIME(SECONDS)" +distance/speed);
-        System.out.println("DISTANCE: "+ distance);
-        System.out.println("SPEED: "+ speed);
-        System.out.println("====================================================");
-        return(distance / time);
+        //System.out.println("TIME(SECONDS)" +distance/speed);
+        ///System.out.println("DISTANCE: "+ distance);
+        //System.out.println("SPEED: "+ speed);
+        //.out.println("====================================================");
+        return(distance / speed);
     }
 
 

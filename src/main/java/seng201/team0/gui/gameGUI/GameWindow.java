@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import seng201.team0.gui.gameGUI.GameController;
@@ -32,6 +33,15 @@ public class GameWindow extends Application {
         baseController.init(primaryStage);
 
         Scene scene = new Scene(root,1472,1024);
+
+        scene.setOnMouseClicked((MouseEvent event) -> {
+            // Get the x and y coordinates of the mouse click event
+            double x = event.getX();
+            double y = event.getY();
+
+            // Update the Text object to display the coordinates
+            //System.out.println("Mouse clicked at coordinates: (x=" + x + ", y=" + y + ")");
+        });
 
 
         //Code so it can run on Gordon's mac

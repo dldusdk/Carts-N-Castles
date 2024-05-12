@@ -49,7 +49,7 @@ public class CartAnimation {
 
 
     public TranslateTransition createNewAnimation(String type, int firstCoord, int secondCoord){
-        System.out.println("First "+firstCoord+" Second "+secondCoord);
+
         double distance = Math.abs(secondCoord - firstCoord);
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(cartSource);
@@ -70,8 +70,8 @@ public class CartAnimation {
             rotationList.add(rotation);
             transition.setByY(secondCoord);
         }
-
-        System.out.println(transition.getDuration());
+        //System.out.println("First "+firstCoord+" Second "+secondCoord);
+        //System.out.println(transition.getDuration());
 
         transitionList.add(transition);
         //transitionList.add(rotateTransition);

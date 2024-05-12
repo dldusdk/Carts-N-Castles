@@ -29,7 +29,8 @@ public class CartBasic {
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
                 if (cartObject != null) {
-                    //System.out.println("X: " + cartObject.getTranslateX());
+                    System.out.println("X: " + cartObject.getTranslateX());
+                    System.out.println("Y: " + cartObject.getTranslateY());
                 }
             }
     };

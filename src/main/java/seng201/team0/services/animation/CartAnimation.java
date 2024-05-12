@@ -52,20 +52,25 @@ public class CartAnimation {
 
 
     public void createNewAnimation(String type, int firstCoord, int secondCoord){
-        System.out.println("=======================");
-        double value = Math.abs(firstCoord-secondCoord);
-        if(!transitionList.isEmpty()){System.out.println("Experimenting "+transitionList.getLast().getFromX());}
+        if(transitionList.isEmpty()){
+            firstCoord = 0;
+            secondCoord = 0;
+        }
+        System.out.println("FIRST "+firstCoord+" Second "+secondCoord);
+        //double value = Math.abs(firstCoord-secondCoord);
+       // if(!transitionList.isEmpty()){System.out.println("Experimenting "+transitionList.getLast().getFromX());}
 
         ArrayList<Integer> coords = new ArrayList<>();
 
-        coords.add(Math.abs(350 + Math.abs(cartSpawnX)));
-        coords.add(150);
-        coords.add(360);
-        coords.add(400);
-        coords.add(450);
+        //coords.add(Math.abs(350 + Math.abs(cartSpawnX)));
+        //coords.add(150);
+        //coords.add(360);
+        //coords.add(400);
+        //coords.add(450);
 
 
-        double distance = coords.get(count);
+        //double distance = coords.get(count);
+        double distance = Math.abs(secondCoord - firstCoord);
         System.out.println("DISTANCE "+distance);
        // System.out.println("Distance: "+distance);
         TranslateTransition transition = new TranslateTransition();
@@ -80,13 +85,15 @@ public class CartAnimation {
             rotation.setByAngle(90);
             rotation.setDuration(Duration.seconds(1));
             rotationList.add(rotation);
-            transition.setByX(secondCoord);
+            transition.setToX(secondCoord);
+
         }
         if(Objects.equals(type, "y")){
             rotation.setByAngle(90);
             rotation.setDuration(Duration.seconds(1));
             rotationList.add(rotation);
-            transition.setByY(secondCoord);
+            transition.setFromY(firstCoord);
+            transition.setToY(secondCoord);
         }
         //System.out.println("First "+firstCoord+" Second "+secondCoord);
         //System.out.println(transition.getDuration());
@@ -114,3 +121,9 @@ public class CartAnimation {
 
     public ArrayList<RotateTransition> getRotations() {return(rotationList);}
 }
+
+
+//Theroies why this is going wrong:
+//Coordinates in wrong place (takes from intial transiiton start so perhaps need to initlize at 0,0 so it is
+//relative to screen
+//Start index and first coordniate is wrong

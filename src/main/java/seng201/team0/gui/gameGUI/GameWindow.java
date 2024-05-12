@@ -34,15 +34,6 @@ public class GameWindow extends Application {
 
         Scene scene = new Scene(root,1472,1024);
 
-        scene.setOnMouseClicked((MouseEvent event) -> {
-            // Get the x and y coordinates of the mouse click event
-            double x = event.getX();
-            double y = event.getY();
-
-            // Update the Text object to display the coordinates
-            //System.out.println("Mouse clicked at coordinates: (x=" + x + ", y=" + y + ")");
-        });
-
 
         //Code so it can run on Gordon's mac
         String systemType = System.getProperty("os.name");

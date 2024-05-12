@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
@@ -24,6 +26,8 @@ public class GameController {
     private int totalRounds=10; //need to scale this on difficulty
     private LevelLoader levelGrid;
     private PathLoader path;
+    @FXML
+    private Pane testPane;
 
 
     /**
@@ -33,6 +37,15 @@ public class GameController {
 
     public void init(Stage primaryStage) {
         //Should put level path in Settings later
+
+        testPane.setOnMouseClicked((MouseEvent event) -> {
+            // Get the x and y coordinates of the mouse click event
+            double x = event.getX();
+            double y = event.getY();
+
+            // Update the Text object to display the coordinates
+            System.out.println("Mouse clicked at coordinates: (x=" + x + ", y=" + y + ")");
+        });
 
 
         this.primaryStage = primaryStage;

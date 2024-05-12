@@ -4,10 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import seng201.team0.gui.gameGUI.GameController;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Class starts the javaFX application window
@@ -30,8 +32,22 @@ public class GameWindow extends Application {
         baseController.init(primaryStage);
 
         Scene scene = new Scene(root,1472,1024);
+
+
+        //Code so it can run on Gordon's mac
+        String systemType = System.getProperty("os.name");
+        if(Objects.equals(systemType, "Mac OS X")){
+            System.out.println(systemType);
+            double scaleFactor = 0.75;
+            Scale scale = new Scale(scaleFactor, scaleFactor);
+            scale.setPivotX(0);
+            scale.setPivotY(0);
+            scene.getRoot().getTransforms().setAll(scale);}
+
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
+
+
         primaryStage.show();
     }
 

@@ -44,8 +44,8 @@ public class LoadRound {
 
     public void startRound(){ArrayList<CartBasic> cartList = new ArrayList<>();
         Random random = new Random();
-        for (int i=0;i < 1; i++){
-            int cartSpawnX = random.ints(-200,-100).findFirst().getAsInt();
+        for (int i=0;i < 5; i++){
+            int cartSpawnX = random.ints(-2000,-100).findFirst().getAsInt();
             //System.out.println(cartSpawnX);
             double cartSpeed = Math.random();
             CartBasic cart = new CartBasic(cartImage,0,"bronze",10,cartPath,cartSpawnX);

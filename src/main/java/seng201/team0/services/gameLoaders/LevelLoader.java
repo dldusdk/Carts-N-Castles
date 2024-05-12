@@ -124,6 +124,13 @@ public class LevelLoader {
         ((Pane) image.getParent()).getChildren().add(trackImage);
     }
 
+    public boolean canPlaceTower(int row, int column) {
+        // Check if the given tile coordinates are valid for tower placement
+        int tileValue = tileList.get(row).get(column);
+        // Example: If tile value is -1, it's grass and tower can be placed
+        return tileValue == -1;
+    }
+
 
     public String getTileType(int id){
         if (id == -1){

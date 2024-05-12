@@ -38,6 +38,10 @@ public class Settings {
 
     public int getCartNumber(int roundNumber){ return(roundNumber); }
 
+    public int defaultTowerX(){ return(0);}
+
+    public int defaultTowerY(){ return(800);}
+
     public int getTileHeight(){
         return(levelTilesHeight);
     }

@@ -1,0 +1,8 @@
+{
+  "name": "Bronze Tower",
+  "imageName": "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Red.png",
+  "description": "A tower that shoots only Silver Bars.",
+  "shootSpeed": 20,
+  "towerPrice": 45,
+  "xptolevelUp": 30
+}

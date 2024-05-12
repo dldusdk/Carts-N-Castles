@@ -1,0 +1,8 @@
+{
+  "name": "Gold Tower",
+  "imageName": "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png",
+  "description": "A tower that shoots only Gold Bars.",
+  "shootSpeed": 10,
+  "towerPrice": 65,
+  "xptolevelUp": 20
+}

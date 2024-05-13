@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class LevelLoader {
     private ArrayList<ArrayList<Integer>>tileList;
-    private ArrayList<ArrayList<Integer>>waypointsList;
     private ArrayList<ArrayList<Integer>>decorationList;
     private int levelTilesWidth;
     private int levelTilesHeight;
@@ -18,11 +17,9 @@ public class LevelLoader {
     private int initialX;
     private ImageView base1Image;
 
-
-
     public LevelLoader(ImageView image, String level, String decor){
         base1Image = image;
-        //Gets settings of spawn
+        //Gets settings of spawn, dependent on which level is chosen
         Settings settings = new Settings();
         initialX = settings.getIntialX();
         tileSize = settings.getTilePixelSize();
@@ -49,7 +46,7 @@ public class LevelLoader {
         String trackPathTurnUpRight =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-3-column-8.png";
         String trackPathTurnDownLR =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-6.png";
 
-        //build tiles using coordinates and images
+        //Build tiles using coordinates and images
         int column = 0;
         for(ArrayList<Integer> innerList: tileList){
             int row = 0;
@@ -81,7 +78,11 @@ public class LevelLoader {
                 }
                 if (num == -1){
                     //coordList.add()
-                    //Make list here that creates a new list of coordinates for valid placement
+                    //@Michelle
+                    // Make list here that creates a new list of coordinates for valid placement for tower valid placement
+                    //Might have to be a 2D array to store X and Ys
+                    //There are other, easier (although less dynamic) ways to do this though, message
+                    //if you get stuck :)
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
                 }
 
@@ -111,10 +112,8 @@ public class LevelLoader {
 
     }
 
-
-
     public void loadNewImage(int coordY, int coordX,ImageView image,String path){
-        //Load and set new cart image
+        //Load and set new cart image's parameters
         Image source = new Image(path);
         ImageView trackImage = new ImageView(source);
         trackImage.setX(coordX);
@@ -131,8 +130,8 @@ public class LevelLoader {
         return tileValue == -1;
     }
 
-
     public String getTileType(int id){
+        //Currently unused but could be useful
         if (id == -1){
             return("Art/Asset Pack/Terrain/Ground/splitTerrain/row-0-column-4.png");
         }

@@ -12,7 +12,7 @@ public class Projectile {
     int xCoord;
     int yCoord;
     int count = 0;
-    Timeline timeline = new Timeline();
+    Timeline timeline;
 
     public Projectile(int xCoord, int yCoord){
         timeline = new Timeline(

@@ -1,14 +1,12 @@
 package seng201.team0.models.carts;
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.RotateTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import seng201.team0.services.animation.CartAnimation;
+import seng201.team0.services.animation.GeneralAnimationKeyframing;
 import seng201.team0.services.settings.Settings;
 
 import java.util.ArrayList;
@@ -16,83 +14,105 @@ import java.util.ArrayList;
 
 public class CartBasic {
     private int cartSpawnLocationX;
-    private int cartSpawnLocationY;
     private ImageView cartImageSource;
     private ImageView cartObject;
-    private TranslateTransition movement;
     private double speed ;
     private ArrayList<TranslateTransition> transitionList;
     private ArrayList<RotateTransition> rotationList;
-    private int capicity = 0;
+    private boolean movement = true;
 
-    //Might have to put in controller loop for animation and projectile logic
+    //Move to LoadRound
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
-                if (cartObject != null) {
-                    System.out.println("X: " + cartObject.getTranslateX());
-                    System.out.println("Y: " + cartObject.getTranslateY());
-                }
+                if (cartObject != null && movement) {
+                    if(cartObject.getTranslateX() > 1050){
+                        movement = false;
+                        explode();
+                        //cartObject = null;
+                    }}
             }
     };
 
 
-    public CartBasic(ImageView cartImageImport, int cartSize, String cartType, double cartSpeed, ArrayList<ArrayList<Integer>>cartPath,int cartX) {
-        Settings settings = new Settings();
-        //cartSpawnLocationX = settings.getCartSpawnX();
+
+
+    public CartBasic(ImageView cartImageImport, int cartSize, String cartType, double cartSpeed,
+                     ArrayList<ArrayList<Integer>>rotatePath,
+                     ArrayList<ArrayList<Integer>>cartPath,int cartX) {
         cartSpawnLocationX = cartX;
-        cartSpawnLocationY = settings.getCartSpawnY();
 
         collisionTimer.start();
         speed = cartSpeed;
         cartImageSource = cartImageImport;
 
-
-
         cartObject = loadCart();
-        animateCart(cartPath,cartSpeed);
-
-        //movement = new TranslateTransition(Duration.seconds(1), cartObject);
-        //animateCart(cartObject);
-
-
+        animateCart(cartPath,rotatePath,speed);
     }
 
 
     public ImageView loadCart(){
-        //Change to cart class
         Image source = new Image("Art/Asset Pack/Carts/SilverEmpty.png");
         ImageView cartImage = new ImageView(source);
-        cartImage.setX(cartSpawnLocationX);
-        cartImage.setY(cartSpawnLocationY);
+        cartImage.setX(0);
+        cartImage.setY(0);
         cartImage.setImage(source);
-        System.out.println("========"+cartImageSource.getParent());
         ((Pane) cartImageSource.getParent()).getChildren().add(cartImage);
         return(cartImage);
     }
 
-    public void animateCart(ArrayList<ArrayList<Integer>>cartPath,double cartSpeed) {
-        //System.out.println(cartSpawnLocationX);
-        CartAnimation cartAnimation = new CartAnimation(cartObject,cartPath,cartSpeed,cartSpawnLocationX);
+    public void animateCart(ArrayList<ArrayList<Integer>>cartPath,ArrayList<ArrayList<Integer>>rotatePath,double cartSpeed) {
+        CartAnimation cartAnimation = new CartAnimation(cartObject,cartPath,rotatePath,cartSpeed,cartSpawnLocationX);
         transitionList = cartAnimation.getAnimations();
         rotationList = cartAnimation.getRotations();
-
-        transitionList.get(0).setByX(Math.abs(cartSpawnLocationX) + transitionList.get(0).getByX());
-
-
         SequentialTransition sequentialTransition = new SequentialTransition();
         for (int i=0; i < transitionList.size(); i++){
             sequentialTransition.getChildren().add(transitionList.get(i));
             if(i < rotationList.size()-1){
                 sequentialTransition.getChildren().add(rotationList.get(i));
+                }
             }
-
-
-        }
-
-
-        //sequentialTransition.getChildren().addAll(transitionList);
-
         sequentialTransition.play();
         }
+
+    private void explode() {
+
+        //Code is ugly, needs to be converted to a for loop
+
+
+        ImageView image = new ImageView();
+        image.setX(1000);
+        image.setY(380);
+
+        ((Pane) cartImageSource.getParent()).getChildren().add(image);
+
+        Image newImage1 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-1.png");
+        Image newImage2 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-2.png");
+        Image newImage3 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-3.png");
+        Image newImage4 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-4.png");
+        Image newImage5 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-5.png");
+        Image newImage6 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-6.png");
+        Image newImage7 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-7.png");
+        Image newImage8 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-8.png");
+        Image newImage9 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-9.png");
+        Duration delay = Duration.seconds(0.1);
+
+        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage1, delay);
+        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage2, delay.multiply(2));
+        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage3, delay.multiply(3));
+        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage4, delay.multiply(4));
+        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage5, delay.multiply(5));
+        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage6, delay.multiply(5));
+        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage7, delay.multiply(5));
+        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage8, delay.multiply(5));
+        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage9, delay.multiply(5));
+
+        GeneralAnimationKeyframing.addHideAnimation(image, delay.multiply(5).add(Duration.seconds(0.1)));
+        cartObject.setVisible(false);
+
+
+    }
+
+    public ImageView getCartObject(){return(cartObject);}
+
 
 }

@@ -7,11 +7,17 @@ import java.util.ArrayList;
 public class PathLoader {
 
     private ArrayList<ArrayList<Integer>> loadWaypoints;
+    private ArrayList<ArrayList<Integer>> loadRotatesDirections;
 
-    public PathLoader(String path){
+    public PathLoader(String wayPath,String rotatePath){
         int numWaypoints = 7; //Move this to settings
-        FileReader cartLoader = new FileReader(path, numWaypoints);
+        int numRotates = 5;
+
+        FileReader cartLoader = new FileReader(wayPath, numWaypoints);
         loadWaypoints = cartLoader.getList();
+
+        FileReader cartRotateLoader = new FileReader(rotatePath, numRotates);
+        loadRotatesDirections = cartRotateLoader.getList();
         //System.out.println(loadWaypoints);
     }
 
@@ -20,4 +26,6 @@ public class PathLoader {
     public ArrayList<ArrayList<Integer>> getPath(){return (loadWaypoints);}
 
 
+    public ArrayList<ArrayList<Integer>> getRotatePath() {return(loadRotatesDirections);
+    }
 }

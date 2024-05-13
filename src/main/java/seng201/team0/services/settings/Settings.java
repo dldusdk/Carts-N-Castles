@@ -33,7 +33,7 @@ public class Settings {
 
     public int getCartSpawnX(){ return(0);}
 
-    public int getCartSpawnY(){ return((728));}
+    public int getCartSpawnY(){ return((0));}
 
 
     public int getCartNumber(int roundNumber){ return(roundNumber); }

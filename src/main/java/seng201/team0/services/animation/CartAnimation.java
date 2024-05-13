@@ -11,26 +11,32 @@ import java.util.Objects;
 
 public class CartAnimation {
     private ArrayList<TranslateTransition> transitionList;
-    private ArrayList<RotateTransition> rotationList;
+    private ArrayList<ArrayList<Integer>>rotationDirectionList;
     private ArrayList<ArrayList<Integer>>cartPathList;
+    private ArrayList<RotateTransition> rotationList;
     private double speed;
     private ImageView cartSource;
-    private int count = 0;
-    private int cartSpawnX;
+    private int cartSpawn;
+    private int rotateCount = 0;
 
-    public CartAnimation(ImageView cart, ArrayList<ArrayList<Integer>>cartPaths,double cartSpeed,int cartX){
-        cartSpawnX = cartX;
+    public CartAnimation(ImageView cart, ArrayList<ArrayList<Integer>>rotationPaths,
+                         ArrayList<ArrayList<Integer>>cartPaths,double cartSpeed,int cartSpawnCoord){
+        cartSpawn = cartSpawnCoord;
+
         cartSource = cart;
+        cart.setTranslateX(0);
+        cart.setTranslateY(0);
         speed = 100;
         transitionList = new ArrayList<>();
         rotationList = new ArrayList<>();
+
+        rotationDirectionList = rotationPaths;
         cartPathList = cartPaths;
 
         buildTransitionList();
     }
 
     public void buildTransitionList() {
-        //System.out.println(cartPathList);
 
         for (int i = 0; i < cartPathList.size(); i++) {
             ArrayList<Integer> currentRow = cartPathList.get(i);
@@ -53,65 +59,39 @@ public class CartAnimation {
 
     public void createNewAnimation(String type, int firstCoord, int secondCoord){
         if(transitionList.isEmpty()){
-            firstCoord = 0;
-            secondCoord = 0;
+            firstCoord = cartSpawn;
         }
-        System.out.println("FIRST "+firstCoord+" Second "+secondCoord);
-        //double value = Math.abs(firstCoord-secondCoord);
-       // if(!transitionList.isEmpty()){System.out.println("Experimenting "+transitionList.getLast().getFromX());}
 
-        ArrayList<Integer> coords = new ArrayList<>();
-
-        //coords.add(Math.abs(350 + Math.abs(cartSpawnX)));
-        //coords.add(150);
-        //coords.add(360);
-        //coords.add(400);
-        //coords.add(450);
-
-
-        //double distance = coords.get(count);
-        double distance = Math.abs(secondCoord - firstCoord);
-        System.out.println("DISTANCE "+distance);
-       // System.out.println("Distance: "+distance);
         TranslateTransition transition = new TranslateTransition();
-        transition.setInterpolator(Interpolator.LINEAR);
+        transition.setInterpolator(Interpolator.LINEAR); //Removes default speed ramp up on animation
+
+        double distance = Math.abs(secondCoord - firstCoord);
         transition.setDuration(Duration.seconds(getTime(distance)));
         transition.setNode(cartSource);
 
         RotateTransition rotation = new RotateTransition();
         rotation.setNode(cartSource);
+        rotation.setByAngle(rotationDirectionList.get(rotateCount).getFirst());
+        rotation.setDuration(Duration.seconds(0.2));
+        rotationList.add(rotation);
 
+        rotateCount++;
         if(Objects.equals(type, "x")){
-            rotation.setByAngle(90);
-            rotation.setDuration(Duration.seconds(1));
-            rotationList.add(rotation);
+            transition.setFromX(firstCoord);
             transition.setToX(secondCoord);
-
         }
         if(Objects.equals(type, "y")){
-            rotation.setByAngle(90);
-            rotation.setDuration(Duration.seconds(1));
-            rotationList.add(rotation);
+
             transition.setFromY(firstCoord);
             transition.setToY(secondCoord);
         }
-        //System.out.println("First "+firstCoord+" Second "+secondCoord);
-        //System.out.println(transition.getDuration());
-
         transitionList.add(transition);
-        count++;
-        //transitionList.add(rotateTransition);
     }
 
     public double getTime(double distance){
         //Returns time = distance/speed
-        //System.out.println("TIME(SECONDS)" +distance/speed);
-        ///System.out.println("DISTANCE: "+ distance);
-        //System.out.println("SPEED: "+ speed);
-        //.out.println("====================================================");
         return(distance / speed);
     }
-
 
 
     public ArrayList<TranslateTransition> getAnimations(){
@@ -123,7 +103,3 @@ public class CartAnimation {
 }
 
 
-//Theroies why this is going wrong:
-//Coordinates in wrong place (takes from intial transiiton start so perhaps need to initlize at 0,0 so it is
-//relative to screen
-//Start index and first coordniate is wrong

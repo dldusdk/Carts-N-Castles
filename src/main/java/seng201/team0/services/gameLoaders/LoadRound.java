@@ -13,52 +13,37 @@ public class LoadRound {
 
     private String difficulty;
     private int cartNumber;
-    private int cartSpawnLocationX;
-    private int cartSpawnLocationY;
-    private ArrayList<ArrayList<Integer>>tileList;
     private ArrayList<ArrayList<Integer>>cartPath;
+    private ArrayList<ArrayList<Integer>>rotatePath;
     private int roundNumber;
     private ImageView cartImage;
-    private int roundCount;
 
     public LoadRound(int round,String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath,int cartAmount){
         roundNumber = round;
-
-        tileList = gridData.getTileList();
-        //cartPath = gridData.getPath();
         cartImage = cartDefault;
         cartPath = gridPath.getPath();
+        rotatePath = gridPath.getRotatePath();
         cartNumber = cartAmount;
-
         difficulty = difficultySetting;
-        Settings settings = new Settings(difficulty);
-
-        cartSpawnLocationX = settings.getCartSpawnX();
-        cartSpawnLocationY = settings.getCartSpawnY();
-        Projectile p = new Projectile(1,2);
 
         startRound();
-
-
     }
 
     public void startRound(){ArrayList<CartBasic> cartList = new ArrayList<>();
-        int lowerBound = -200;
-        int upperBound = -100;
+        int lowerBound = getSpawnLowerBound();
+        int upperBound = getSpawnUpperBound();
         Random random = new Random();
-        for (int i=0;i < 1; i++){
-            //int cartSpawnX = random.ints(-2000,-100).findFirst().getAsInt();
-            int cartSpawnX = 100;
-            //System.out.println(cartSpawnX);
+        for (int i=0;i < 2; i++){
+            int cartSpawnX = random.ints(lowerBound,upperBound).findFirst().getAsInt();
             double cartSpeed = Math.random();
-            CartBasic cart = new CartBasic(cartImage,0,"bronze",10,cartPath,cartSpawnX);
-            //loadCart(cartDefault);
+            CartBasic cart = new CartBasic(cartImage,0,"bronze",30,cartPath,rotatePath,cartSpawnX);
         }
 
 
     }
 
-
+    public int getSpawnLowerBound(){return(-4000);}
+    public int getSpawnUpperBound(){return(-100);}
     public int getCartNumber() {
         return(cartNumber);
     }

@@ -58,18 +58,6 @@ public class GameController {
         //Should put level path in Settings later
         // Initialize Tower Instance
 
-        //save = new Save();
-        //save.loadSave(new File("save/player1"));
-        //testPane.setOnMouseClicked((MouseEvent event) -> {
-            // Get the x and y coordinates of the mouse click event
-        //double x = event.getX();
-            //double y = event.getY();
-
-            // Update the Text object to display the coordinates
-            //System.out.println("Mouse clicked at coordinates: (x=" + x + ", y=" + y + ")");
-        //});
-
-
         this.primaryStage = primaryStage;
         // Add any other initialization logic here
         String levelPath =  "src/main/resources/levelCSV/Level1/Level1Concept_Track.csv";
@@ -79,7 +67,7 @@ public class GameController {
 
         roundButton.setText(String.valueOf("Play: "+round));
         levelGrid = new LevelLoader(trackDefault,levelPath,levelDecor);
-        path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath");
+        path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath","src/main/resources/levelCSV/Level1/Level1RotatePath");
 
     }
 

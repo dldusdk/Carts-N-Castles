@@ -9,6 +9,9 @@ import seng201.team0.services.settings.Settings;
 import java.util.ArrayList;
 import java.util.Random;
 
+//Move animation timer into this class, move goldmine into own class with method for destruction based on
+//found failure
+
 public class LoadRound {
 
     private String difficulty;

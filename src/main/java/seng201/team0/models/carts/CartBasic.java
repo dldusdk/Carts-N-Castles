@@ -98,7 +98,7 @@ public class CartBasic {
         Image newImage7 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-7.png");
         Image newImage8 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-8.png");
         Image newImage9 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-9.png");
-        Duration delay = Duration.seconds(0.1);
+        Duration delay = Duration.seconds(0.09);
 
         GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage1, delay);
         GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage2, delay.multiply(2));

@@ -69,6 +69,12 @@ public class GameController {
         levelGrid = new LevelLoader(trackDefault,levelPath,levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath","src/main/resources/levelCSV/Level1/Level1RotatePath");
 
+        ImageView goldMine = new ImageView("Art/Asset Pack/Resources/Gold Mine/GoldMine_Active.png");
+        goldMine.setX(970);
+        goldMine.setY(340);
+        ((Pane) trackDefault.getParent()).getChildren().add(goldMine);
+
+
     }
 
     @FXML

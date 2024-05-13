@@ -25,7 +25,7 @@ public class CartBasic {
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
                 if (cartObject != null && movement) {
-                    if(cartObject.getTranslateX() > 1050){
+                    if(cartObject.getTranslateX() > 1000){
                         movement = false;
                         explode();
                         //cartObject = null;
@@ -76,12 +76,16 @@ public class CartBasic {
 
     private void explode() {
 
-        //Code is ugly, needs to be converted to a for loop
+        //Code is ugly, needs to be converted to a loop
 
 
         ImageView image = new ImageView();
-        image.setX(1000);
+        image.setX(965);
         image.setY(380);
+
+        double scaleFactor = 1.5;
+        image.setScaleX(scaleFactor);
+        image.setScaleY(scaleFactor);
 
         ((Pane) cartImageSource.getParent()).getChildren().add(image);
 

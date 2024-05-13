@@ -46,7 +46,7 @@ public class GameController {
     private LevelLoader levelGrid;
     private PathLoader path;
     @FXML
-    private Pane testPane;
+    //private Pane testPane;
 
 
     /**
@@ -60,14 +60,14 @@ public class GameController {
 
         //save = new Save();
         //save.loadSave(new File("save/player1"));
-        testPane.setOnMouseClicked((MouseEvent event) -> {
+        //testPane.setOnMouseClicked((MouseEvent event) -> {
             // Get the x and y coordinates of the mouse click event
-            double x = event.getX();
-            double y = event.getY();
+        //double x = event.getX();
+            //double y = event.getY();
 
             // Update the Text object to display the coordinates
-            System.out.println("Mouse clicked at coordinates: (x=" + x + ", y=" + y + ")");
-        });
+            //System.out.println("Mouse clicked at coordinates: (x=" + x + ", y=" + y + ")");
+        //});
 
 
         this.primaryStage = primaryStage;
@@ -177,4 +177,4 @@ public class GameController {
 
     }
     // Add other methods and properties as needed
-}
+

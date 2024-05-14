@@ -26,7 +26,7 @@ public class CartAnimation {
         cartSource = cart;
         cart.setTranslateX(0);
         cart.setTranslateY(0);
-        speed = 100;
+        speed = cartSpeed;
         transitionList = new ArrayList<>();
         rotationList = new ArrayList<>();
 

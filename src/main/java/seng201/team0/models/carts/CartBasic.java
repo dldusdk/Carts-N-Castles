@@ -22,16 +22,7 @@ public class CartBasic {
     private boolean movement = true;
 
     //Move to LoadRound
-    private AnimationTimer collisionTimer = new AnimationTimer() {
-        public void handle(long timestamp) {
-                if (cartObject != null && movement) {
-                    if(cartObject.getTranslateX() > 1000){
-                        movement = false;
-                        explode();
-                        //cartObject = null;
-                    }}
-            }
-    };
+
 
 
 
@@ -41,7 +32,6 @@ public class CartBasic {
                      ArrayList<ArrayList<Integer>>cartPath,int cartX) {
         cartSpawnLocationX = cartX;
 
-        collisionTimer.start();
         speed = cartSpeed;
         cartImageSource = cartImageImport;
 
@@ -74,7 +64,7 @@ public class CartBasic {
         sequentialTransition.play();
         }
 
-    private void explode() {
+    public void explode() {
         //Code is ugly, needs to be converted to a loop
         ImageView image = new ImageView();
         image.setX(965);
@@ -108,6 +98,8 @@ public class CartBasic {
         GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage9, delay.multiply(5));
 
         GeneralAnimationKeyframing.addHideAnimation(image, delay.multiply(5).add(Duration.seconds(0.1)));
+
+
         cartObject.setVisible(false);
     }
 

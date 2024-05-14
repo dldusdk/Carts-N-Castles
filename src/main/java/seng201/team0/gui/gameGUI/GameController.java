@@ -135,9 +135,13 @@ public class GameController {
         paneTest.setCursor(new ImageCursor(towerImage));
     }
 
-    // Get tower placement coordinates on main Anchor Pane
     @FXML
     public void paneClick(MouseEvent event) {
+        /**
+         * If the towerButton is clicked and we have a tower type, get coordinates and check if able to place tower
+         * If able to place, then place tower on map.
+         * @author Michelle Lee
+         */
         // If the tower button is clicked once get the coordinates
         if ((isPurchaseMode) && selectedTowerType != null) {
             paneX = event.getX();
@@ -153,6 +157,10 @@ public class GameController {
         }
 
     private void invalidTowerPlacement() {
+        /**
+         * Dialog box for any invalid tower placements
+         * @author Michelle Lee
+         */
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Invalid Tower Placement");
         alert.setHeaderText("You must not place the tower on the cart's track!");
@@ -162,12 +170,20 @@ public class GameController {
 
 
     private boolean canPlaceTower(double x, double y) {
+        /**
+         * Checks whether the tower is able to be placed on selected tile
+         * @author Michelle Lee
+         */
         // Implement logic to check if the tower can be placed
         // For now, return true for simplicity
         return true;
     }
 
     private void placeTower(double x, double y, String towerType) {
+        /**
+         * Returns the correct image based on tower button chosen
+         * @author Michelle Lee
+         */
         String imagePath = "";
         switch (towerType) {
             case "Bronze":
@@ -191,6 +207,10 @@ public class GameController {
     }
 
     private void resetPurchaseMode() {
+        /**
+         * Once tower placed, reset all!
+         * @author Michelle Lee
+         */
         isPurchaseMode = false;
         selectedTowerType = null;
         paneTest.setCursor(null);  // Reset cursor to default

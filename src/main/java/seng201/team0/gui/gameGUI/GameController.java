@@ -56,7 +56,7 @@ public class GameController {
 
 
     private Stage primaryStage;
-    private int round = 0;
+    private int round = 1;
     private String difficulty;
     private int totalRounds=10; //need to scale this on difficulty
     private LevelLoader levelGrid;
@@ -111,7 +111,7 @@ public class GameController {
 
         difficulty = "Normal";
 
-        roundButton.setText(String.valueOf("Play: "+ round));
+        roundButton.setText(String.valueOf("Play: "+ 0));
         levelGrid = new LevelLoader(trackDefault,levelPath,levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath","src/main/resources/levelCSV/Level1/Level1RotatePath");
 

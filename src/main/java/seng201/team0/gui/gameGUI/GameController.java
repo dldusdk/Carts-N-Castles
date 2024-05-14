@@ -5,16 +5,18 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import seng201.team0.models.Shop;
 import javafx.util.Duration;
 import seng201.team0.models.carts.CartBasic;
 import seng201.team0.services.gameLoaders.LevelLoader;
@@ -42,12 +44,19 @@ public class GameController {
     private Button goldTower;
     @FXML
     private AnchorPane paneTest;
+
     // 0 Means not clicked
-    private double buttonCounter = 0;
+    private int purchasedTowers = 0;
+    private int availableTowers = 10;
     private double paneX;
     private double paneY;
+
+    private boolean isPurchaseMode = false;
+    private String selectedTowerType;
+
+
     private Stage primaryStage;
-    private int round = 1;
+    private int round = 0;
     private String difficulty;
     private int totalRounds=10; //need to scale this on difficulty
     private LevelLoader levelGrid;
@@ -92,6 +101,8 @@ public class GameController {
         //Should put level path in Settings later
         // Initialize Tower Instance
         roundButton.setText((0 +"/"+String.valueOf(totalRounds)));
+        //save = new Save();
+        //save.loadSave(new File("save/player1"));
 
         this.primaryStage = primaryStage;
         // Add any other initialization logic here
@@ -100,7 +111,7 @@ public class GameController {
 
         difficulty = "Normal";
 
-        roundButton.setText(String.valueOf("Play: "+round));
+        roundButton.setText(String.valueOf("Play: "+ round));
         levelGrid = new LevelLoader(trackDefault,levelPath,levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath","src/main/resources/levelCSV/Level1/Level1RotatePath");
 
@@ -115,65 +126,132 @@ public class GameController {
 
     @FXML
     public void buyTower(MouseEvent event) {
-        /***
-         * Takes money away from currency
-         * Tower placed where mouse clicked
-         * - Checks if tower is in a valid point first then places
-         * Removes item from shop
+        /**
+         * @author Michelle Lee
          */
-        // When button is pressed, gets fx:id
-        if (buttonCounter == 0) {
-            Button pressedButton = (Button) event.getSource();
-            // if fx:id = silverTower
-            if (pressedButton == silverTower) {
-                //buttonCounter += 1;
-                System.out.println("Silver Tower button pressed!");
-                paneClick(event);
-                // Change button image to sold image and disable the button
+        // Initialize stock levels of tower
+        Shop Shop = new Shop();
+        availableTowers = Shop.towerStock();
+        Button pressedButton = (Button) event.getSource();
 
-                // Create new image view of silverTowerI,age
-                pressedButton.setGraphic(new ImageView("Art/Shop/sold.png"));
-
-                // Call method to check if tower can be placed
-                //if (canPlaceTower()) {
-                // Place tower if allowed
-                //  System.out.println("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png");
-                //canPlaceTower();
-                // Minus money
-                // Implement deduction of money here
-                //} else {
-                //  System.out.println("Cannot place tower on restricted tile!");
-            }
-            // if bronzeTower
+        // If Towers are in stock
+        if (availableTowers != 0) {
+            // Tower Stock - 1
+            availableTowers--;
+            // if fx:id = bronzeTower
             if (pressedButton == bronzeTower) {
-                System.out.println("Bronze Tower button pressed!");
-                // Implement logic for bronze tower placement
+                selectedTowerType = "Bronze";
+                isPurchaseMode = true;
+                //bronzeTower stock - 1
+                setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Red.png");
+            }
+            // if silverTower
+            if (pressedButton == silverTower) {
+                selectedTowerType = "Silver";
+                isPurchaseMode = true;
+                setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png");
             }
             // if goldTower
             if (pressedButton == goldTower) {
-                System.out.println("Gold Tower button pressed!");
-                // Implement logic for gold tower placement
+                selectedTowerType = "Gold";
+                isPurchaseMode = true;
+                setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png");
+            }
+            else if (availableTowers == 0) {
+                // Tower stock is 0, therefore sold out!!!
+                pressedButton.setGraphic(new ImageView("Art/Shop/sold.png"));
             }
         }
     }
 
-    // Get tower placement coordinates on main Anchor Pane
-    @FXML
-    public void paneClick(MouseEvent event){
-        paneX = event.getX();
-        paneY = event.getY();
-            // Set Cursor to tower image
-            ImageView silverTowerImage = new ImageView("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png");
-            silverTowerImage.setFitWidth(128);
-            silverTowerImage.setFitHeight(256);
-            paneTest.setCursor(new ImageCursor(silverTowerImage.getImage()));
-            ((Pane) trackDefault.getParent()).getChildren().add(silverTowerImage);
+    private void setupCursorForTower(String imagePath) {
+        /**
+         * Changes the cursor depending on the button clicked
+         * @author Michelle Lee
+         */
+        Image towerImage = new Image(imagePath);
+        paneTest.setCursor(new ImageCursor(towerImage));
+    }
 
-            // Place cursor  in the middle of image
-            silverTowerImage.setX(paneX - 64);
-            silverTowerImage.setY(paneY - 128);
-            // Disable silverTower button
-            silverTower.setDisable(true);
+    @FXML
+    public void paneClick(MouseEvent event) {
+        /**
+         * If the towerButton is clicked and we have a tower type, get coordinates and check if able to place tower
+         * If able to place, then place tower on map.
+         * @author Michelle Lee
+         */
+        // If the tower button is clicked once get the coordinates
+        if ((isPurchaseMode) && selectedTowerType != null) {
+            paneX = event.getX();
+            paneY = event.getY();
+        }
+        // if the coordinate is a valid point then we can place the tower
+            if (canPlaceTower(paneX, paneY)) {
+                placeTower(paneX, paneY, selectedTowerType);
+                resetPurchaseMode();
+            } else {
+                invalidTowerPlacement();
+            }
+        }
+
+    private void invalidTowerPlacement() {
+        /**
+         * Dialog box for any invalid tower placements
+         * @author Michelle Lee
+         */
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Tower Placement");
+        alert.setHeaderText("You must not place the tower on the cart's track!");
+        alert.setContentText(null);
+        alert.showAndWait();
+    }
+
+
+    private boolean canPlaceTower(double x, double y) {
+        /**
+         * Checks whether the tower is able to be placed on selected tile
+         * @author Michelle Lee
+         */
+        // Implement logic to check if the tower can be placed
+        // For now, return true for simplicity
+        return true;
+    }
+
+    private void placeTower(double x, double y, String towerType) {
+        /**
+         * Returns the correct image based on tower button chosen
+         * @author Michelle Lee
+         */
+        String imagePath = "";
+        switch (towerType) {
+            case "Bronze":
+                imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Red.png";
+                break;
+            case "Silver":
+                imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png";
+                break;
+            case "Gold":
+                imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png";
+                break;
+        }
+
+        ImageView towerImage = new ImageView(new Image(imagePath));
+        towerImage.setFitWidth(128);
+        towerImage.setFitHeight(256);
+        towerImage.setX(x - 64);
+        towerImage.setY(y - 128);
+
+        ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
+    }
+
+    private void resetPurchaseMode() {
+        /**
+         * Once tower placed, reset all!
+         * @author Michelle Lee
+         */
+        isPurchaseMode = false;
+        selectedTowerType = null;
+        paneTest.setCursor(null);  // Reset cursor to default
     }
 
     @FXML

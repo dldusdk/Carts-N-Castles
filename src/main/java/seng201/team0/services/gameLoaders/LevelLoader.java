@@ -85,7 +85,6 @@ public class LevelLoader {
                     //if you get stuck :)
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
                 }
-
                 row++;
             }
             column++;
@@ -104,12 +103,10 @@ public class LevelLoader {
                 if (num == 9){
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,rockWallPath);
                 }
-
                 row++;
             }
             column++;
         }
-
     }
 
     public void loadNewImage(int coordY, int coordX,ImageView image,String path){
@@ -125,7 +122,9 @@ public class LevelLoader {
 
     public boolean canPlaceTower(int row, int column) {
         // Check if the given tile coordinates are valid for tower placement
+        // X,Y coordinates of the clicked tile
         int tileValue = tileList.get(row).get(column);
+
         // Example: If tile value is -1, it's grass and tower can be placed
         return tileValue == -1;
     }

@@ -1,8 +1,8 @@
 package seng201.team0.models;
 
-import seng201.team0.services.gameLoaders.LevelLoader;
-import seng201.team0.services.settings.Settings;
-import seng201.team0.services.gameLoaders.LoadRound;
+/**
+ * ALLOW THREE TOWERS DEFAULT to buy when round starts after that it will be based on coins and
+ */
 
 public class Tower {
 
@@ -13,6 +13,16 @@ public class Tower {
     int towerLevel;
     int towerPrice;
     int towerHealth;
+
+    // TESTING
+    double testCoordinateX;
+    double testCoordinateY;
+
+    public void checkifValid(double testCoordinateX, double testCoordinateY) {
+
+
+
+    }
 }
 
 //public defaultTowers(){
@@ -27,8 +37,8 @@ public class Tower {
     // run the check if valid method
     // once TRUE is returned allow the placement of tower image on to map
 
-
-
-//public bool checkifValid(double xCoord, double yCoord) {}
-    // Checks if the coordinate the user clicked on is valid
+// Checks if the coordinate the user clicked on is valid
     // Check what tiles the coordinate matches to, and as long as it is a grass or rock tile then return TRUE
+
+
+// public moveTower() {}

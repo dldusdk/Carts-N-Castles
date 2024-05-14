@@ -41,7 +41,7 @@ public class FileReader {
     }
 
     public FileReader(String path,int levelTilesHeight) {
-        System.out.print(path);
+        //System.out.print(path);
         //Constructor for loading path, sets to 2 because of 2 dimensions (x,y)
         int levelTilesWidth = 2;
 

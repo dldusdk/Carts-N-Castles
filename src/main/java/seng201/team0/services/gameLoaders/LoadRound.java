@@ -48,6 +48,6 @@ public class LoadRound {
     public int getSpawnLowerBound(){return(-4000);}
     public int getSpawnUpperBound(){return(-100);}
     public int getCartNumber() {
-        return(cartNumber);
+        return(0);
     }
 }

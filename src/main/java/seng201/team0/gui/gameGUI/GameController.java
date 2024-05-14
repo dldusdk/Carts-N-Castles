@@ -1,5 +1,6 @@
 package seng201.team0.gui.gameGUI;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -15,6 +16,8 @@ import javafx.stage.Stage;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
+
+
 
 public class GameController {
 
@@ -37,16 +40,25 @@ public class GameController {
     private double buttonCounter = 0;
     private double paneX;
     private double paneY;
-
-
     private Stage primaryStage;
     private int round = 1;
     private String difficulty;
     private int totalRounds=10; //need to scale this on difficulty
     private LevelLoader levelGrid;
     private PathLoader path;
-    @FXML
-    //private Pane testPane;
+    private boolean roundState = false;
+    private LoadRound newRound = null;
+
+    private AnimationTimer gameTimer = new AnimationTimer() {
+        public void handle(long timestamp) {
+            if(roundState){
+                if (newRound.getCartNumber()==0){
+                    roundState = false;
+                }
+            }
+
+                }
+    };
 
 
     /**
@@ -69,6 +81,7 @@ public class GameController {
         levelGrid = new LevelLoader(trackDefault,levelPath,levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath","src/main/resources/levelCSV/Level1/Level1RotatePath");
 
+        //move this to own class
         ImageView goldMine = new ImageView("Art/Asset Pack/Resources/Gold Mine/GoldMine_Active.png");
         goldMine.setX(970);
         goldMine.setY(340);
@@ -146,24 +159,19 @@ public class GameController {
     }
 
     @FXML
-    public void roundButtonClicked(ActionEvent event) {
+    public void roundButtonClicked(ActionEvent event) throws InterruptedException {
+        gameTimer.start();
+        roundState = true;
         if (round > totalRounds) {
             roundButton.setDisable(true);
             //Should switch view to win screen.
         } else {
-            LoadRound newRound = new LoadRound(round, difficulty, cartDefault, levelGrid, path,10);
+            newRound = new LoadRound(round, difficulty, cartDefault, levelGrid, path,10);
             roundButton.setText((round + "/" + String.valueOf(totalRounds)));
             round++;
-            boolean roundState = true;
             roundButton.setDisable(roundState);
-            while (roundState) {
-                int cartCount = 0;
-                if (cartCount == 0) {
-                    roundState = false;
-                }
-            }
         }
-        roundButton.setDisable(false);
+
     }
 
 

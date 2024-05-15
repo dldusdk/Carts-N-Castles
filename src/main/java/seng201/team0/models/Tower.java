@@ -18,11 +18,9 @@ public class Tower {
     double testCoordinateX;
     double testCoordinateY;
 
-    public void checkifValid(double testCoordinateX, double testCoordinateY) {
 
 
 
-    }
 }
 
 //public defaultTowers(){

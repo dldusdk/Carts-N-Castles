@@ -1,8 +1,6 @@
 package seng201.team0.gui.gameGUI;
 
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.ImageCursor;
@@ -15,17 +13,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import seng201.team0.models.Shop;
-import javafx.util.Duration;
 import seng201.team0.models.carts.CartBasic;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 
@@ -69,9 +64,9 @@ public class GameController {
 
     private Stage stage;
     private Stage primaryStage;
-    private int round = 1;
+    private int roundNumber = 0;
     private String difficulty;
-    private int totalRounds = 10; //need to scale this on difficulty
+    private int totalRounds = 10; //need to scale this on player choice
     private LevelLoader levelGrid;
     private PathLoader path;
     private boolean roundState = false;
@@ -82,15 +77,17 @@ public class GameController {
 
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
-            Iterator<CartBasic> iterator = cartList.iterator(); //So carts can safely be removed in loop
-            while (iterator.hasNext()) {
-                CartBasic cart = iterator.next();
-                if (cart.getCartObject().getTranslateX() > 1025) {
-                    iterator.remove();
-                    cart.explode();
-                    cartNumber--;
-                }
-            }
+            if(!cartList.isEmpty()){
+                Iterator<CartBasic> iterator = cartList.iterator(); //So carts can safely be removed in loop
+                while (iterator.hasNext()) {
+                    CartBasic cart = iterator.next();
+                    if (cart.getCartObject().getTranslateX() > 1025) {
+                        iterator.remove();
+                        cart.explode();
+                        cartNumber--;
+                    }
+                }}
+
             if (newRound != null){
                 if(cartNumber <= 0){
                     if(fail){
@@ -353,22 +350,52 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
+        roundNumber++;
         collisionTimer.start();
         roundState = true;
-        if (round > totalRounds) {
+        if (roundNumber > totalRounds) {
             roundButton.setDisable(true);
             //Should switch view to win screen.
         } else {
-            newRound = new LoadRound(round, difficulty, cartDefault, levelGrid, path,10);
+            roundButton.setDisable(true);
+            ArrayList<Integer>cartTypeList = getCartNumber(roundNumber);
+            newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path,getCartNumber(roundNumber));
+            for(int num: cartTypeList){
+                cartNumber += num;
+            }
             cartList = newRound.getCartList();
-            cartNumber = newRound.getCartNumber();
-            roundButton.setText((round + "/" + String.valueOf(totalRounds)));
-            round++;
+            roundButton.setText((roundNumber + "/" + String.valueOf(totalRounds)));
             boolean roundState = true;
-            roundButton.setDisable(roundState);
-
         }
     }
+
+    private ArrayList<Integer> getCartNumber(int round) {
+        ArrayList<Integer> cartTypeNumbers= new ArrayList<>();
+        if(roundNumber < 3){
+            cartTypeNumbers.add(roundNumber + 1); //Bronze carts
+            cartTypeNumbers.add(0);               //Silver carts
+            cartTypeNumbers.add(0);               //Gold carts
+            return(cartTypeNumbers);
+        }
+        if(roundNumber >= 3 && roundNumber < 6){
+            cartTypeNumbers.add(roundNumber + 1);
+            cartTypeNumbers.add(roundNumber / 2 + 1);
+            cartTypeNumbers.add(0);
+            return(cartTypeNumbers);
+        }
+        if(roundNumber >= 6 && roundNumber <= 10){
+            cartTypeNumbers.add(roundNumber + 1);
+            cartTypeNumbers.add(roundNumber / 2);
+            cartTypeNumbers.add(roundNumber / 4);
+            return(cartTypeNumbers);
+        }
+        cartTypeNumbers.add(roundNumber);
+        cartTypeNumbers.add(roundNumber / 2);
+        cartTypeNumbers.add(roundNumber / 3);
+        return(cartTypeNumbers);
+
+    }
+
     private void stopRound(boolean state) {
         if(state){
             roundButton.setDisable(false);

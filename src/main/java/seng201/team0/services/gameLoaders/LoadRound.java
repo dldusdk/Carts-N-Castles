@@ -13,46 +13,61 @@ import java.util.Random;
 public class LoadRound {
 
     private String difficulty;
-    private int cartNumber;
     private ArrayList<ArrayList<Integer>>cartPath;
     private ArrayList<ArrayList<Integer>>rotatePath;
-    private int roundNumber;
     private ImageView cartImage;
     private ArrayList<CartBasic> cartList;
+    private int lowerSpawnBound = -4000; //Scale based on difficutly
+    private int upperSpawnBound = -100;
+    private int lowSpeedBound = 50; //Scale based on difficulty
+    private int upperSpeedBound = 200;
+    private int bronzeCartNum;
+    private int silverCartNum;
+    private int goldCartNum;
 
 
 
-    public LoadRound(int round,String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath,int cartAmount){
+    public LoadRound(int round, String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath,
+                     ArrayList<Integer> cartNum){
 
-        roundNumber = round;
+        bronzeCartNum = cartNum.get(0);
+        silverCartNum = cartNum.get(1);
+        goldCartNum = cartNum.get(2);
+
         cartImage = cartDefault;
         cartPath = gridPath.getPath();
         rotatePath = gridPath.getRotatePath();
-        cartNumber = 2;
+
         difficulty = difficultySetting;
         cartList = new ArrayList<>();
 
-        startRound();
+        loadCarts("bronze",bronzeCartNum,"Art/Asset Pack/Carts/bronzeCarts/bronzeEmpty.png");
+        loadCarts("silver",silverCartNum, "Art/Asset Pack/Carts/silverCarts/silverEmpty.png");
+        loadCarts("gold",goldCartNum,"Art/Asset Pack/Carts/goldCarts/goldEmpty.png");
+
     }
 
-    public void startRound(){
-        int lowerBound = getSpawnLowerBound();
-        int upperBound = getSpawnUpperBound();
+    public void loadCarts(String type, int cartNumber, String imageSource){
         Random random = new Random();
-        for (int i=0;i < 2; i++){
-            int cartSpawnX = random.ints(lowerBound,upperBound).findFirst().getAsInt();
-            double cartSpeed = Math.random();
-            CartBasic cart = new CartBasic(cartImage,0,"bronze",300,cartPath,rotatePath,cartSpawnX);
+        double sizeDouble = 1;
+        for (int i=0;i < cartNumber; i++){
+            int sizeFactor = random.ints(1,4).findFirst().getAsInt();
+            if(sizeFactor == 1){
+                sizeDouble = 0.75;
+            }
+            if(sizeFactor == 2){
+                sizeDouble = 1;
+            }
+            if(sizeFactor == 1){
+                sizeDouble = 1.25;
+            }
+            int cartSpawnX = random.ints(lowerSpawnBound,upperSpawnBound).findFirst().getAsInt();
+            int cartSpeed = random.ints(lowSpeedBound,upperSpeedBound).findFirst().getAsInt();
+            CartBasic cart = new CartBasic(cartImage,sizeDouble,"bronze",cartSpeed,cartPath,rotatePath,cartSpawnX,imageSource);
             cartList.add(cart);
         }
 
 
-    }
-
-    public int getSpawnLowerBound(){return(-4000);}
-    public int getSpawnUpperBound(){return(-100);}
-    public int getCartNumber() {
-        return(2);
     }
 
     public ArrayList<CartBasic> getCartList(){return(cartList);}

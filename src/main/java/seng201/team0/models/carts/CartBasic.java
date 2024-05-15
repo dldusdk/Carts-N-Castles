@@ -19,7 +19,8 @@ public class CartBasic {
     private double speed ;
     private ArrayList<TranslateTransition> transitionList;
     private ArrayList<RotateTransition> rotationList;
-    private boolean movement = true;
+    private String cartSource;
+    private double cartSize;
 
     //Move to LoadRound
 
@@ -27,11 +28,14 @@ public class CartBasic {
 
 
 
-    public CartBasic(ImageView cartImageImport, int cartSize, String cartType, double cartSpeed,
+    public CartBasic(ImageView cartImageImport, double cartSizeScale, String cartType, double cartSpeed,
                      ArrayList<ArrayList<Integer>>rotatePath,
-                     ArrayList<ArrayList<Integer>>cartPath,int cartX) {
-        cartSpawnLocationX = cartX;
+                     ArrayList<ArrayList<Integer>>cartPath,int cartX,
+                     String cartSourcePath) {
 
+        cartSize = cartSizeScale;
+        cartSource = cartSourcePath;
+        cartSpawnLocationX = cartX;
         speed = cartSpeed;
         cartImageSource = cartImageImport;
 
@@ -41,11 +45,13 @@ public class CartBasic {
 
 
     public ImageView loadCart(){
-        Image source = new Image("Art/Asset Pack/Carts/SilverEmpty.png");
+        Image source = new Image(cartSource);
         ImageView cartImage = new ImageView(source);
         cartImage.setX(0);
         cartImage.setY(0);
         cartImage.setImage(source);
+        cartImage.setScaleX(cartSize);
+        cartImage.setScaleY(cartSize);
         ((Pane) cartImageSource.getParent()).getChildren().add(cartImage);
         return(cartImage);
     }

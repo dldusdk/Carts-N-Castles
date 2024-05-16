@@ -7,7 +7,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
@@ -73,46 +72,6 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <HBox layoutX="1154.0" layoutY="2.0" prefHeight="99.0" prefWidth="318.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#generalShop" prefHeight="83.0" prefWidth="165.0" text="Shop" textAlignment="CENTER">
-               <font>
-                  <Font name="Minecraft" size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="2.0" top="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#towerUpgrades" prefHeight="83.0" prefWidth="165.0" text="Tower Upgrades" textAlignment="CENTER">
-               <font>
-                  <Font name="Minecraft" size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-      </HBox>
-      <HBox layoutX="1155.0" layoutY="97.0" prefHeight="99.0" prefWidth="318.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#sell" prefHeight="83.0" prefWidth="165.0" text="Sell" textAlignment="CENTER">
-               <font>
-                  <Font name="Minecraft" size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="2.0" top="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#quitGame" prefHeight="83.0" prefWidth="165.0" text="Quit" textAlignment="CENTER">
-               <font>
-                  <Font name="Minecraft" size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-      </HBox>
       <ScrollPane fx:id="generalShop" fitToHeight="true" fitToWidth="true" layoutX="1152.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0">
          <content>
             <VBox prefHeight="830.0" prefWidth="349.0">
@@ -362,21 +321,14 @@
             </VBox>
          </content>
       </ScrollPane>
-      <Button layoutX="52.0" layoutY="38.0" mnemonicParsing="false" text="PAUSE" />
-      <Label layoutX="1014.0" layoutY="93.0" style="-fx-background-color: transparent;" text="ROUNDS ">
+      <Label layoutX="1192.0" layoutY="79.0" style="-fx-background-color: transparent;" text="ROUNDS ">
          <font>
             <Font name="Minecraft" size="22.0" />
          </font>
       </Label>
-      <Button fx:id="roundButton" layoutX="1015.0" layoutY="138.0" mnemonicParsing="false" onAction="#roundButtonClicked" prefHeight="25.0" prefWidth="102.0" text="START" />
       <ImageView fx:id="trackDefault" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="cartDefault" fitHeight="150.0" fitWidth="200.0" layoutX="22.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="47.0" fitWidth="40.0" layoutX="1003.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Art/Shop/coin.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="playerCoins" layoutX="1059.0" layoutY="39.0" prefHeight="17.0" prefWidth="65.0" text="0">
+      <Label fx:id="playerCoins" layoutX="1225.0" layoutY="21.0" prefHeight="17.0" prefWidth="65.0" text="0">
          <font>
             <Font name="Minecraft" size="26.0" />
          </font>
@@ -386,5 +338,106 @@
             <Font name="Minecraft" size="25.0" />
          </font>
       </Label>
+      <AnchorPane fx:id="towerStats" prefHeight="162.0" prefWidth="1152.0" style="-fx-background-color: #C4C1B8;" visible="false">
+         <children>
+            <ImageView fitHeight="156.0" fitWidth="87.0" layoutX="15.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="116.0" layoutY="17.0" text="Tower Name:">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="towerName" layoutX="233.0" layoutY="19.0" text="Amazing Tower 1">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="121.0" layoutY="47.0" text="Resource Type:">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="120.0" layoutY="92.0" text="Resource Load Amount:">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="438.0" layoutY="46.0" text="Current Level:">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="121.0" layoutY="70.0" text="Reload Speed:">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="438.0" layoutY="68.0" text="XP Required for Next Level:">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Button layoutX="950.0" layoutY="22.0" mnemonicParsing="false" onAction="#sell" prefHeight="36.0" prefWidth="173.0" text="Sell" textAlignment="CENTER">
+               <font>
+                  <Font name="Minecraft" size="14.0" />
+               </font>
+            </Button>
+            <Label fx:id="resourceType" layoutX="260.0" layoutY="48.0" text="Silver">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="reloadSpeed" layoutX="244.0" layoutY="70.0" text="Silver">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="loadAmount" layoutX="324.0" layoutY="92.0" text="Silver">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="towerLevel" layoutX="564.0" layoutY="46.0" text="Silver">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="679.0" layoutY="70.0" text="0/100" fx:id="xpRequired">
+               <font>
+                  <Font name="Minecraft" size="17.0" />
+               </font>
+            </Label>
+            <Button layoutX="951.0" layoutY="72.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="173.0" textAlignment="CENTER">
+               <font>
+                  <Font name="Minecraft" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="Inventory" layoutX="-31.0" layoutY="344.0" prefHeight="190.0" prefWidth="1152.0" />
+      <ImageView fitHeight="47.0" fitWidth="40.0" layoutX="1165.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Art/Shop/coin.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="1331.0" layoutY="150.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="39.0" prefWidth="137.0" text="Quit" textAlignment="CENTER">
+         <font>
+            <Font name="Minecraft" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="1332.0" layoutY="60.0" mnemonicParsing="false" onAction="#generalShop" prefHeight="38.0" prefWidth="137.0" text="Shop" textAlignment="CENTER">
+         <font>
+            <Font name="Minecraft" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="1332.0" layoutY="104.0" mnemonicParsing="false" onAction="#towerUpgrades" prefHeight="39.0" prefWidth="136.0" text="Tower Upgrades" textAlignment="CENTER">
+         <font>
+            <Font name="Minecraft" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="roundButton" layoutX="1330.0" layoutY="15.0" mnemonicParsing="false" onAction="#roundButtonClicked" prefHeight="38.0" prefWidth="139.0" text="START" />
    </children>
 </AnchorPane>

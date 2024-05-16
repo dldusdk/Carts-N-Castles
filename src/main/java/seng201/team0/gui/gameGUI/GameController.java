@@ -5,12 +5,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
 
 import seng201.team0.models.Shop;
 import seng201.team0.models.carts.CartBasic;
@@ -19,10 +23,7 @@ import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import java.util.Iterator;
 
 public class GameController {
@@ -48,6 +49,11 @@ public class GameController {
     private ScrollPane upgradeShop;
     @FXML
     private Label instructionLabel;
+
+    @FXML
+    private AnchorPane towerStats;
+    @FXML
+    private ImageView selectedTower;
 
     // Keeping track of placedTowers for inventory and selling purposes
     private List<ImageView> placedTowers = new ArrayList<>();
@@ -129,7 +135,6 @@ public class GameController {
          * Makes Upgrades visible to buy for user
          * @author Michelle Lee
          */
-
         generalShop.setVisible(false);
         upgradeShop.setVisible(true);
         instructionLabel.setText("Select your upgrade and then the tower you would like to apply the upgrade to!");
@@ -144,7 +149,6 @@ public class GameController {
         upgradeShop.setVisible(false);
         generalShop.setVisible(true);
         instructionLabel.setText("Buy Towers and Boosters!");
-
     }
 
     @FXML
@@ -157,7 +161,6 @@ public class GameController {
         Shop Shop = new Shop();
         availableTowers = Shop.towerStock();
         Button pressedButton = (Button) event.getSource();
-
         // If Towers are in stock
         if (availableTowers != 0) {
             // Tower Stock - 1
@@ -209,7 +212,6 @@ public class GameController {
         if ((isPurchaseMode) && selectedTowerType != null) {
             paneX = event.getX();
             paneY = event.getY();
-            //placedTowerPoints.add( new Point((int) paneX, (int) paneY));
         }
         // if the coordinate is a valid point then we can place the tower
         if (canPlaceTower(paneX, paneY)) {
@@ -220,25 +222,12 @@ public class GameController {
         }
     }
 
-    private void invalidTowerPlacement() {
-        /**
-         * Dialog box for any invalid tower placements
-         * @author Michelle Lee
-         */
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Invalid Tower Placement");
-        alert.setHeaderText("You must not place the tower on the cart's track!");
-        alert.setContentText(null);
-        alert.showAndWait();
-    }
-
-
     private boolean canPlaceTower(double x, double y) {
         /**
          * Checks whether the tower is able to be placed on selected tile
          * @author Michelle Lee
          */
-        // If outside of GamePane
+        // If outside GamePane
         if (levelGrid.outsideGamePane(x,y)) {
             instructionLabel.setText("Please place the tower near the track");
             return false;
@@ -276,7 +265,7 @@ public class GameController {
         towerImage.setFitHeight(256);
         towerImage.setX(x - 64);
         towerImage.setY(y - 192);
-        towerImage.setOnMouseClicked(this::selectTowerForSelling);
+        towerImage.setOnMouseClicked(this::checkTowerStats);
         // Add tower to map
         ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
         // Add to placedTowers
@@ -299,35 +288,44 @@ public class GameController {
          * If in sell mode, allow the deletion of towers
          * @author Michelle Lee
          */
-        if (!isSellMode && !isPurchaseMode) {
-            // Enter sell mode and update Cursor
-            instructionLabel.setText("Select one Tower you would like to sell, to sell another tower please click the Sell button after the first tower");
-            isSellMode = true;
-            gamePane.setCursor(new ImageCursor(new Image("Art/Shop/sell.png")));
-        } else {
-            // Exit sell mode if sell button is clicked again
-            //instructionLabel.setText("Sell mode exited.");
-            //isSellMode = false;
-            gamePane.setCursor(null); // Reset cursor to default
-        }
-    }
+        if (selectedTower != null) {
+            // Remove the selected tower from the gamePane
+            gamePane.getChildren().remove(selectedTower);
 
-
-    private void selectTowerForSelling(MouseEvent event) {
-        /**
-         * Delete image where user clicks
-         * @author Michelle Lee
-         */
-        System.out.println("Tower clicked for selling.");
-        if (isSellMode) {
-            ImageView selectedTower = (ImageView) event.getSource();
-            ((Pane) trackDefault.getParent()).getChildren().remove(selectedTower);
+            // Remove the tower from the placedTowers list
             placedTowers.remove(selectedTower);
-            instructionLabel.setText("Tower sold successfully!");
-            isSellMode = false; // Exit sell mode after selling
-            gamePane.setCursor(null); // Reset cursor to default
+
+            // Reset the selected tower reference to null
+            selectedTower = null;
+
+            // Reset the cursor and sell mode
+            gamePane.setCursor(null);
+            isSellMode = false;
+
+            // Reset the tower stats pane visibility
+            towerStats.setVisible(false);
         }
     }
+
+
+@FXML
+    private void checkTowerStats(MouseEvent event) {
+    ImageView newSelectedTower = (ImageView) event.getSource();
+
+    // Check if a tower was previously selected
+    if (selectedTower != null) {
+        // Remove shadow effect from the previously selected tower
+        selectedTower.setEffect(null);
+    }
+    // Apply shadow effect to the newly selected tower
+    DropShadow dropShadow = new DropShadow();
+    dropShadow.setColor(Color.RED);
+    dropShadow.setRadius(20);
+    newSelectedTower.setEffect(dropShadow);
+
+    selectedTower = newSelectedTower;
+    towerStats.setVisible(true);
+}
 
     @FXML
     private void quitGame(ActionEvent actionEvent) {
@@ -335,7 +333,6 @@ public class GameController {
          * A Method that allows the user to quit the application upon clicking a button
          * @author Michelle Lee
          */
-
         // Have a pop-up appear if the user clicks 'Quit' Button
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Quit");

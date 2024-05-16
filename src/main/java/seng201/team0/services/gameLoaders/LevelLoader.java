@@ -148,7 +148,7 @@ public class LevelLoader {
                 int validY = invalidCoordsListY.get(i);
 
                 // if x and y are not within tile range...
-                if ((x >= validX && x <= validX + 128) && y >= validY && y <= validY + 128) {
+                if ((x >= validX && x <= validX + 200) && y >= validY && y <= validY + 200) {
                     return true;
                 }
             }

@@ -6,16 +6,25 @@ import javafx.scene.layout.Pane;
 import seng201.team0.services.settings.Settings;
 import seng201.team0.services.fileReaders.FileReader;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LevelLoader {
     private ArrayList<ArrayList<Integer>>tileList;
     private ArrayList<ArrayList<Integer>>decorationList;
+    // List to store the coordinates (x, y) of the tiles with value -1
+    private ArrayList<Integer> invalidCoordsListX = new ArrayList<>();
+    private ArrayList<Integer> invalidCoordsListY  = new ArrayList<>();
+    private static final double gamePaneWidth = 1152;
+    private static final double gamePaneHeight = 768;
+
     private int levelTilesWidth;
     private int levelTilesHeight;
     private int tileSize;
     private int initialX;
     private ImageView base1Image;
+
 
     public LevelLoader(ImageView image, String level, String decor){
         base1Image = image;
@@ -46,12 +55,16 @@ public class LevelLoader {
         String trackPathTurnUpRight =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-3-column-8.png";
         String trackPathTurnDownLR =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-6.png";
 
+
         //Build tiles using coordinates and images
         int column = 0;
         for(ArrayList<Integer> innerList: tileList){
             int row = 0;
             ArrayList<Integer> arrayList = new ArrayList<>(2);
             for(int num: innerList){
+                int y = column * tileSize + initialX;
+                int x = row * tileSize;
+
                 if (num == 36){
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathRight);
@@ -77,13 +90,12 @@ public class LevelLoader {
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnDownLR);
                 }
                 if (num == -1){
-                    //coordList.add()
-                    //@Michelle
-                    // Make list here that creates a new list of coordinates for valid placement for tower valid placement
-                    //Might have to be a 2D array to store X and Ys
-                    //There are other, easier (although less dynamic) ways to do this though, message
-                    //if you get stuck :)
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                }
+                if (num != -1){
+                    invalidCoordsListX.add(x);
+                    invalidCoordsListY.add(y);
+
                 }
                 row++;
             }
@@ -120,13 +132,42 @@ public class LevelLoader {
         ((Pane) image.getParent()).getChildren().add(trackImage);
     }
 
-    public boolean canPlaceTower(int row, int column) {
-        // Check if the given tile coordinates are valid for tower placement
-        // X,Y coordinates of the clicked tile
-        int tileValue = tileList.get(row).get(column);
+    public boolean invalidCoordChecker(double x, double y) {
+        /**
+         * Checks if the user clicked coordinates are valid tile to place towers
+         * If the coordinates are within the range of any valid coordinate and it's value + 64
+         * It will return TRUE if the condition above is true meaning the
+         * @param x: The x coordinate to check.
+         * @param y: The y coordinate to check
+         * @return True if the coordinates are invalid
+         * @author Michelle Lee
+         */
+        if (x < gamePaneWidth | y < gamePaneHeight) {
+            for (int i = 0; i < invalidCoordsListX.size(); i++) {
+                int validX = invalidCoordsListX.get(i);
+                int validY = invalidCoordsListY.get(i);
 
-        // Example: If tile value is -1, it's grass and tower can be placed
-        return tileValue == -1;
+                // if x and y are not within tile range...
+                if ((x >= validX && x <= validX + 128) && y >= validY && y <= validY + 128) {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
+    public boolean outsideGamePane(double x, double y) {
+        /**
+         * Checks if the user clicked coordinates are valid tile to place towers
+         * If the coordinates are within the range of any valid coordinate and it's value + 64
+         * It will return TRUE if the condition above is true meaning the
+         * @param x: The x coordinate to check.
+         * @param y: The y coordinate to check
+         * @return True if the coordinates are invalid
+         * @author Michelle Lee
+         */
+        return x < 0 || x > gamePaneWidth || y < 200 || y > 1024;
     }
 
     public String getTileType(int id){

@@ -2,6 +2,7 @@ package seng201.team0.services.gameLoaders;
 
 import javafx.scene.image.ImageView;
 import seng201.team0.models.carts.CartBasic;
+import seng201.team0.models.towers.Projectile;
 
 
 import java.util.ArrayList;
@@ -17,18 +18,20 @@ public class LoadRound {
     private ArrayList<ArrayList<Integer>>rotatePath;
     private ImageView cartImage;
     private ArrayList<CartBasic> cartList;
-    private int lowerSpawnBound = -4000; //Scale based on difficutly
+    private int lowerSpawnBound = -1000; //Scale based on difficutly
     private int upperSpawnBound = -100;
     private int lowSpeedBound = 50; //Scale based on difficulty
     private int upperSpeedBound = 200;
     private int bronzeCartNum;
     private int silverCartNum;
     private int goldCartNum;
+    private Projectile projectile;
 
 
 
     public LoadRound(int round, String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath,
                      ArrayList<Integer> cartNum){
+
 
         bronzeCartNum = cartNum.get(0);
         silverCartNum = cartNum.get(1);
@@ -44,6 +47,8 @@ public class LoadRound {
         loadCarts("bronze",bronzeCartNum,"Art/Asset Pack/Carts/bronzeCarts/bronzeEmpty.png");
         loadCarts("silver",silverCartNum, "Art/Asset Pack/Carts/silverCarts/silverEmpty.png");
         loadCarts("gold",goldCartNum,"Art/Asset Pack/Carts/goldCarts/goldEmpty.png");
+
+
 
     }
 
@@ -65,6 +70,8 @@ public class LoadRound {
             int cartSpeed = random.ints(lowSpeedBound,upperSpeedBound).findFirst().getAsInt();
             CartBasic cart = new CartBasic(cartImage,sizeDouble,"bronze",cartSpeed,cartPath,rotatePath,cartSpawnX,imageSource);
             cartList.add(cart);
+            projectile = new Projectile(100,500,"Art/Asset Pack/Deco/01.png",cartImage, cart);
+            projectile.spawn();
         }
 
 

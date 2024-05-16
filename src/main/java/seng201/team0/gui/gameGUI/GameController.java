@@ -86,7 +86,7 @@ public class GameController {
                         cart.explode();
                         cartNumber--;
                     }
-                }}
+                }} //should be possible to move to seperate class if needed
 
             if (newRound != null){
                 if(cartNumber <= 0){
@@ -372,7 +372,7 @@ public class GameController {
     private ArrayList<Integer> getCartNumber(int round) {
         ArrayList<Integer> cartTypeNumbers= new ArrayList<>();
         if(roundNumber < 3){
-            cartTypeNumbers.add(roundNumber + 1); //Bronze carts
+            cartTypeNumbers.add(roundNumber + 20); //Bronze carts
             cartTypeNumbers.add(0);               //Silver carts
             cartTypeNumbers.add(0);               //Gold carts
             return(cartTypeNumbers);

@@ -1,5 +1,7 @@
 package seng201.team0.models;
 
+import javafx.scene.control.Alert;
+
 /**
  * ALLOW THREE TOWERS DEFAULT to buy when round starts after that it will be based on coins and
  */
@@ -14,13 +16,9 @@ public class Tower {
     int towerPrice;
     int towerHealth;
 
-    // TESTING
-    double testCoordinateX;
-    double testCoordinateY;
 
-
-
-
+    public Tower() {
+    }
 }
 
 //public defaultTowers(){

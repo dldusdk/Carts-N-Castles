@@ -19,10 +19,11 @@ import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import java.util.Iterator;
-
 
 public class GameController {
 
@@ -47,7 +48,6 @@ public class GameController {
     private ScrollPane upgradeShop;
     @FXML
     private Label instructionLabel;
-    private ImageView selectedTower = null;
 
     // Keeping track of placedTowers for inventory and selling purposes
     private List<ImageView> placedTowers = new ArrayList<>();
@@ -106,18 +106,13 @@ public class GameController {
          * Initializes the controller with the primary stage
          * @param primaryStage The primary stage of the application
          */
-        
-        //Should put level path in Settings later
-        // Initialize Tower Instance
-        //save = new Save();
-        //save.loadSave(new File("save/player1"));
 
         this.primaryStage = primaryStage;
         String levelPath = "src/main/resources/levelCSV/Level1/Level1Concept_Track.csv";
         String levelDecor = "src/main/resources/levelCSV/Level1/Level1Concept_Decorations.csv";
 
         difficulty = "Normal";
-        
+
         roundButton.setText(String.valueOf("Play: "+ 0));
         levelGrid = new LevelLoader(trackDefault,levelPath,levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath","src/main/resources/levelCSV/Level1/Level1RotatePath");
@@ -214,13 +209,14 @@ public class GameController {
         if ((isPurchaseMode) && selectedTowerType != null) {
             paneX = event.getX();
             paneY = event.getY();
+            //placedTowerPoints.add( new Point((int) paneX, (int) paneY));
         }
         // if the coordinate is a valid point then we can place the tower
         if (canPlaceTower(paneX, paneY)) {
             placeTower(paneX, paneY, selectedTowerType);
             resetPurchaseMode();
         } else {
-            invalidTowerPlacement();
+            resetPurchaseMode();
         }
     }
 
@@ -242,9 +238,19 @@ public class GameController {
          * Checks whether the tower is able to be placed on selected tile
          * @author Michelle Lee
          */
-        // Implement logic to check if the tower can be placed
-        // For now, return true for simplicity
-        return true;
+        // If outside of GamePane
+        if (levelGrid.outsideGamePane(x,y)) {
+            instructionLabel.setText("Please place the tower near the track");
+            return false;
+        }
+        // If invalid tile
+        if (levelGrid.invalidCoordChecker(x,y)){
+            instructionLabel.setText("Please do not place the tower ON the track");
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     private void placeTower(double x, double y, String towerType) {
@@ -269,7 +275,7 @@ public class GameController {
         towerImage.setFitWidth(128);
         towerImage.setFitHeight(256);
         towerImage.setX(x - 64);
-        towerImage.setY(y - 128);
+        towerImage.setY(y - 192);
         towerImage.setOnMouseClicked(this::selectTowerForSelling);
         // Add tower to map
         ((Pane) trackDefault.getParent()).getChildren().add(towerImage);

@@ -381,7 +381,7 @@
             <Font name="Minecraft" size="26.0" />
          </font>
       </Label>
-      <Label fx:id="instructionLabel" alignment="CENTER" layoutX="2.0" layoutY="158.0" prefHeight="29.0" prefWidth="1150.0" textOverrun="CLIP">
+      <Label fx:id="instructionLabel" alignment="CENTER" layoutX="2.0" layoutY="158.0" prefHeight="29.0" prefWidth="1150.0" text="Place towers down, fill up the carts, earn money, buy upgrades, win the game!" textOverrun="CLIP">
          <font>
             <Font name="Minecraft" size="25.0" />
          </font>

@@ -9,8 +9,7 @@ public class Shop {
 
     // Player info
     int currentStock;
-    @FXML
-    Label playerCoins;
+
 
     // Items
     String itemName;

@@ -80,7 +80,7 @@ public class Projectile {
         //produces a smooth animation (only adjusts or)
         //angle = (9 * angle + newAngle) / 10;
 
-        if ((distance < velocity+40) || lock) {
+        if ((distance < velocity + 40) || lock) {
             lock = true;
             xCoord = (int)getTargetX();
             yCoord = (int)getTargetY();

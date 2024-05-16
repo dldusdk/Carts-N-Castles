@@ -49,7 +49,8 @@ public class GameController {
     private ScrollPane upgradeShop;
     @FXML
     private Label instructionLabel;
-
+    @FXML
+    private Label playerCoins;
     @FXML
     private AnchorPane towerStats;
     @FXML
@@ -72,7 +73,7 @@ public class GameController {
     private Stage primaryStage;
     private int roundNumber = 0;
     private String difficulty;
-    private int totalRounds = 10; //need to scale this on player choice
+    private int totalRounds = 15; //need to scale this on player choice
     private LevelLoader levelGrid;
     private PathLoader path;
     private boolean roundState = false;
@@ -80,6 +81,7 @@ public class GameController {
     private ArrayList<CartBasic> cartList;
     private int cartNumber;
     private boolean fail=false;
+    private int coinBalance = 0;
 
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
@@ -100,6 +102,7 @@ public class GameController {
                         stopRound(false);
                     }
                     if(!fail){
+                        newRound = null;
                         stopRound(true);
                     }
                 }
@@ -117,6 +120,7 @@ public class GameController {
         String levelPath = "src/main/resources/levelCSV/Level1/Level1Concept_Track.csv";
         String levelDecor = "src/main/resources/levelCSV/Level1/Level1Concept_Decorations.csv";
 
+        playerCoins.setText(String.valueOf(coinBalance));
         difficulty = "Normal";
 
         roundButton.setText(String.valueOf("Play: "+ 0));
@@ -353,6 +357,9 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
+        //Dialog userNameDialog = new Dialog<>();
+        //userNameDialog.show();
+        //userNameDialog.q
         roundNumber++;
         collisionTimer.start();
         roundState = true;
@@ -375,7 +382,7 @@ public class GameController {
     private ArrayList<Integer> getCartNumber(int round) {
         ArrayList<Integer> cartTypeNumbers= new ArrayList<>();
         if(roundNumber < 3){
-            cartTypeNumbers.add(roundNumber + 20); //Bronze carts
+            cartTypeNumbers.add(roundNumber + 1); //Bronze carts
             cartTypeNumbers.add(0);               //Silver carts
             cartTypeNumbers.add(0);               //Gold carts
             return(cartTypeNumbers);
@@ -402,6 +409,8 @@ public class GameController {
     private void stopRound(boolean state) {
         if(state){
             roundButton.setDisable(false);
+            coinBalance += roundNumber * 50;
+            playerCoins.setText(String.valueOf(coinBalance));
         }
         else{
             roundButton.setDisable(true);

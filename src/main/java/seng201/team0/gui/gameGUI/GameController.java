@@ -13,11 +13,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
+import javafx.stage.Window;
 import seng201.team0.models.Shop;
 import seng201.team0.models.carts.CartBasic;
+import seng201.team0.models.towers.GoldMine;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
@@ -25,6 +25,7 @@ import seng201.team0.services.gameLoaders.PathLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
+import java.util.Optional;
 
 public class GameController {
 
@@ -82,6 +83,7 @@ public class GameController {
     private int cartNumber;
     private boolean fail=false;
     private int coinBalance = 0;
+    private GoldMine goldMine;
 
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
@@ -89,25 +91,39 @@ public class GameController {
                 Iterator<CartBasic> iterator = cartList.iterator(); //So carts can safely be removed in loop
                 while (iterator.hasNext()) {
                     CartBasic cart = iterator.next();
-                    if (cart.getCartObject().getTranslateX() > 1025) {
+                    if(cart.getLoadPercent() >= 1 ){
+                        iterator.remove();
+                        cart.despawn();
+                        cartNumber--;
+                    }
+                    if (cart.getCartObject().getTranslateX() > 1025 && cart.getLoadPercent() < 1) {
                         iterator.remove();
                         cart.explode();
+                        cart.explode();
                         cartNumber--;
+                        goldMine.decreaseHealth();
+                        if(goldMine.getHealth() <= 0 ){
+                            stopRound(false);
+                            }
+                        }
+                        if(cartNumber <=0 && !(goldMine.getHealth() <=0 )){
+                            stopRound(true);
+                        }
                     }
                 }} //should be possible to move to seperate class if needed
 
-            if (newRound != null){
-                if(cartNumber <= 0){
-                    if(fail){
-                        stopRound(false);
-                    }
-                    if(!fail){
-                        newRound = null;
-                        stopRound(true);
-                    }
-                }
-            }
-        }
+            //if (newRound != null){
+               //if(cartNumber <= 0){
+                    //if(fail){
+                        //stopRound(false);
+                    //}
+                    //if(!fail){
+                       //newRound = null;
+                        //stopRound(true);
+                    //}
+                //}
+            //}
+
     };
 
     public void init(Stage primaryStage) {
@@ -123,15 +139,14 @@ public class GameController {
         playerCoins.setText(String.valueOf(coinBalance));
         difficulty = "Normal";
 
-        roundButton.setText(String.valueOf("Play: "+ 0));
+        roundButton.setText(String.valueOf("Start First Round!"));
         levelGrid = new LevelLoader(trackDefault,levelPath,levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath","src/main/resources/levelCSV/Level1/Level1RotatePath");
 
         //move this to own class
-        ImageView goldMine = new ImageView("Art/Asset Pack/Resources/Gold Mine/GoldMine_Active.png");
-        goldMine.setX(970);
-        goldMine.setY(340);
-        ((Pane) trackDefault.getParent()).getChildren().add(goldMine);
+
+        goldMine = new GoldMine(trackDefault,2);
+
     }
     @FXML
     public void towerUpgrades(ActionEvent actionEvent) {
@@ -357,29 +372,74 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
-        //Dialog userNameDialog = new Dialog<>();
-        //userNameDialog.show();
-        //userNameDialog.q
+
+
+        Dialog<ButtonType> userNameDialog = new Dialog<>();
+        userNameDialog.setTitle("Choose Round Difficulty");
+        int nextRound = roundNumber + 1;
+        userNameDialog.setHeaderText("Round " + nextRound + " is about to start.");
+        userNameDialog.setContentText("Select difficulty:\n\n" +
+                "Easy Difficulty:\n" +
+                "   50% of carts spawn at half full\n" +
+                "   5 Lives\n" +
+                "   5% chance for tower destroyed\n" +
+                "   50% money awarded, 50% points\n\n" +
+                "Normal Difficulty:\n" +
+                "   25% of carts spawn at half full\n" +
+                "   3 Lives\n" +
+                "   10% chance for tower destroyed\n" +
+                "   50% money awarded, 75% points\n\n" +
+                "Hard Difficulty:\n" +
+                "   0% of carts spawn full\n" +
+                "   1 Life\n" +
+                "   15% chance for tower destroyed\n" +
+                "   100% money awarded, 100% points\n");
+
+        ButtonType easyButton = new ButtonType("Easy", ButtonBar.ButtonData.OK_DONE);
+        ButtonType mediumButton = new ButtonType("Normal", ButtonBar.ButtonData.OK_DONE);
+        ButtonType hardButton = new ButtonType("Hard", ButtonBar.ButtonData.OK_DONE);
+        ButtonType quitButton = new ButtonType("I'm Not Ready!", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        userNameDialog.getDialogPane().getButtonTypes().addAll(easyButton, mediumButton, hardButton,quitButton);
+
+        Optional<ButtonType> result = userNameDialog.showAndWait();
+
+        if (result.isPresent()) {
+            if (result.get() == easyButton) {
+                difficulty = "Easy";
+                launchRound();
+            } else if (result.get() == mediumButton) {
+                difficulty = "Normal";
+                launchRound();
+            } else if (result.get() == hardButton) {
+                difficulty = "Hard";
+                launchRound();
+        }}
+
+    }
+
+    private void launchRound(){
+        roundButton.setDisable(true);
         roundNumber++;
         collisionTimer.start();
         roundState = true;
+
         if (roundNumber > totalRounds) {
             roundButton.setDisable(true);
-            //Should switch view to win screen.
+            // Should switch view to win screen.
         } else {
-            roundButton.setDisable(true);
-            ArrayList<Integer>cartTypeList = getCartNumber(roundNumber);
-            newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path,getCartNumber(roundNumber));
-            for(int num: cartTypeList){
+            ArrayList<Integer> cartTypeList = getCartNumber();
+            newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
+            for (int num : cartTypeList) {
                 cartNumber += num;
             }
             cartList = newRound.getCartList();
-            roundButton.setText((roundNumber + "/" + String.valueOf(totalRounds)));
-            boolean roundState = true;
+            roundButton.setText(roundNumber + "/" + totalRounds);
+            roundState = true;
         }
     }
 
-    private ArrayList<Integer> getCartNumber(int round) {
+    private ArrayList<Integer> getCartNumber() {
         ArrayList<Integer> cartTypeNumbers= new ArrayList<>();
         if(roundNumber < 3){
             cartTypeNumbers.add(roundNumber + 1); //Bronze carts
@@ -387,13 +447,13 @@ public class GameController {
             cartTypeNumbers.add(0);               //Gold carts
             return(cartTypeNumbers);
         }
-        if(roundNumber >= 3 && roundNumber < 6){
+        if(roundNumber < 6){
             cartTypeNumbers.add(roundNumber + 1);
             cartTypeNumbers.add(roundNumber / 2 + 1);
             cartTypeNumbers.add(0);
             return(cartTypeNumbers);
         }
-        if(roundNumber >= 6 && roundNumber <= 10){
+        if(roundNumber <= 10){
             cartTypeNumbers.add(roundNumber + 1);
             cartTypeNumbers.add(roundNumber / 2);
             cartTypeNumbers.add(roundNumber / 4);

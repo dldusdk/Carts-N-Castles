@@ -82,6 +82,8 @@ public class Projectile {
 
         if ((distance < velocity + 40) || lock) {
             lock = true;
+            projectileObject.setImage(null);
+            target.setLoad(3);
             xCoord = (int)getTargetX();
             yCoord = (int)getTargetY();
         }

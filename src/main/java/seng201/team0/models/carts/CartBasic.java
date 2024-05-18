@@ -10,6 +10,7 @@ import seng201.team0.services.animation.GeneralAnimationKeyframing;
 import seng201.team0.services.settings.Settings;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class CartBasic {
@@ -21,18 +22,19 @@ public class CartBasic {
     private ArrayList<RotateTransition> rotationList;
     private String cartSource;
     private double cartSize;
-
-    //Move to LoadRound
-
-
-
-
+    private double capacity;
+    private double currentLoad=0;
+    private String resourceType;
+    private boolean destroyed = false;
 
     public CartBasic(ImageView cartImageImport, double cartSizeScale, String cartType, double cartSpeed,
                      ArrayList<ArrayList<Integer>>rotatePath,
                      ArrayList<ArrayList<Integer>>cartPath,int cartX,
                      String cartSourcePath) {
 
+        resourceType = cartType;
+
+        initializeCapacity();
         cartSize = cartSizeScale;
         cartSource = cartSourcePath;
         cartSpawnLocationX = cartX;
@@ -43,6 +45,37 @@ public class CartBasic {
         animateCart(cartPath,rotatePath,speed);
     }
 
+    private void initializeCapacity() {
+        if(cartSize == 0.75){
+            capacity = 1;
+        }
+        if(cartSize == 1){
+            capacity = 2;
+        }
+        if(cartSize == 1.25){
+            capacity = 3;
+        }
+    }
+
+    public void setLoad(double damage){
+        currentLoad += damage;
+        updateImage();
+        //checkStatus();
+    }
+
+    public double getLoadPercent() {
+        return(currentLoad /capacity);
+    }
+
+    public void updateImage(){
+        if(getLoadPercent() >= 0.5 && getLoadPercent() < 1){
+            if(Objects.equals(resourceType, "bronze")){
+            cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeHalf.png")));}
+        }
+        if(getLoadPercent() >= 1){
+            if(Objects.equals(resourceType, "bronze")){
+                cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeFull.png")));}}
+    }
 
     public ImageView loadCart(){
         Image source = new Image(cartSource);
@@ -69,6 +102,19 @@ public class CartBasic {
             }
         sequentialTransition.play();
         }
+    public void despawn(){
+        cartObject.setVisible(false);
+        setDestroyed();
+
+    }
+
+    public void setDestroyed() {
+        destroyed = true;
+    }
+
+    public boolean getDestroyed(){
+        return(destroyed);
+    }
 
     public void explode() {
         //Code is ugly, needs to be converted to a loop

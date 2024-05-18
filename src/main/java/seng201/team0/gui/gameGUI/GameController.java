@@ -16,16 +16,14 @@ import javafx.stage.Stage;
 
 import javafx.stage.Window;
 import seng201.team0.models.Shop;
+import seng201.team0.models.Tower;
 import seng201.team0.models.carts.CartBasic;
 import seng201.team0.models.towers.GoldMine;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
 
 public class GameController {
 
@@ -35,6 +33,8 @@ public class GameController {
     private Button roundButton;
     @FXML
     private ImageView cartDefault;
+    @FXML
+    private ImageView selectedTowerImage;
 
     @FXML
     private Button silverTower;
@@ -53,12 +53,27 @@ public class GameController {
     @FXML
     private Label playerCoins;
     @FXML
+    private Label towerNameLabel;
+    @FXML
+    private Label resourceTypeLabel;
+    @FXML
+    private Label reloadSpeedLabel;
+    @FXML
+    private Label loadAmountLabel;
+    @FXML
+    private Label levelLabel;
+    @FXML
+    private Label xpLabel;
+
+
+    @FXML
     private AnchorPane towerStats;
     @FXML
     private ImageView selectedTower;
 
     // Keeping track of placedTowers for inventory and selling purposes
     private List<ImageView> placedTowers = new ArrayList<>();
+    private Map<ImageView, Tower> towersMap = new HashMap<>();
 
     // 0 Means not clicked
     private int purchasedTowers = 0;
@@ -69,6 +84,7 @@ public class GameController {
     private boolean isPurchaseMode = false;
     private boolean isSellMode = false;
     private String selectedTowerType;
+    private String userInputTowerName;
 
     private Stage stage;
     private Stage primaryStage;
@@ -84,6 +100,7 @@ public class GameController {
     private boolean fail=false;
     private int coinBalance = 0;
     private GoldMine goldMine;
+
 
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
@@ -174,11 +191,11 @@ public class GameController {
     public void buyTower(MouseEvent event) {
         /**
          * Method for buying Towers based on mouseClick!
-         * @author Michelle Lee
+         * @authoor Michelle Lee
          */
         // Initialize stock levels of tower
-        Shop Shop = new Shop();
-        availableTowers = Shop.towerStock();
+        Shop shop = new Shop();
+        availableTowers = shop.towerStock();
         Button pressedButton = (Button) event.getSource();
         // If Towers are in stock
         if (availableTowers != 0) {
@@ -190,19 +207,27 @@ public class GameController {
                 isPurchaseMode = true;
                 //bronzeTower stock - 1
                 setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Red.png");
-            }
-            // if silverTower
-            if (pressedButton == silverTower) {
+            } else if (pressedButton == silverTower) {
                 selectedTowerType = "Silver";
                 isPurchaseMode = true;
                 setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png");
-            }
-            // if goldTower
-            if (pressedButton == goldTower) {
+            } else if (pressedButton == goldTower) {
                 selectedTowerType = "Gold";
                 isPurchaseMode = true;
                 setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png");
-            } else if (availableTowers == 0) {
+            }
+
+            if (selectedTowerType != null) {
+                TextInputDialog dialog = new TextInputDialog("Tower Name");
+                dialog.setTitle("Enter Tower Name");
+                dialog.setHeaderText("Enter a name for your " + selectedTowerType + " tower:");
+                dialog.setContentText("Tower Name:");
+
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(name -> userInputTowerName = name); // Store the entered name
+            }
+
+            if (availableTowers == 0) {
                 // Tower stock is 0, therefore sold out!!!
                 pressedButton.setGraphic(new ImageView("Art/Shop/sold.png"));
             }
@@ -231,13 +256,16 @@ public class GameController {
         if ((isPurchaseMode) && selectedTowerType != null) {
             paneX = event.getX();
             paneY = event.getY();
-        }
-        // if the coordinate is a valid point then we can place the tower
-        if (canPlaceTower(paneX, paneY)) {
-            placeTower(paneX, paneY, selectedTowerType);
-            resetPurchaseMode();
+
+            // if the coordinate is a valid point then we can place the tower
+            if (canPlaceTower(paneX, paneY)) {
+                placeTower(paneX, paneY, selectedTowerType);
+                resetPurchaseMode();
+            } else {
+                resetPurchaseMode();
+            }
         } else {
-            resetPurchaseMode();
+            instructionLabel.setText("Please select a tower to place.");
         }
     }
 
@@ -267,15 +295,20 @@ public class GameController {
          * @author Michelle Lee
          */
         String imagePath = "";
+        Tower tower = null;
+
         switch (towerType) {
             case "Bronze":
                 imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Red.png";
+                tower = new Tower(userInputTowerName, "Bronze", 1.0, 1.0,1,10, 100);
                 break;
             case "Silver":
                 imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png";
+                tower = new Tower(userInputTowerName, "Silver", 2.0, 1.5,1,25, 100);
                 break;
             case "Gold":
                 imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png";
+                tower = new Tower(userInputTowerName, "Gold", 3.0, 2.0,1,45, 100);
                 break;
         }
         // Tower image properties
@@ -289,6 +322,7 @@ public class GameController {
         ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
         // Add to placedTowers
         placedTowers.add(towerImage);
+        towersMap.put(towerImage, tower);
     }
 
     private void resetPurchaseMode() {
@@ -344,27 +378,31 @@ public class GameController {
 
     selectedTower = newSelectedTower;
     towerStats.setVisible(true);
-}
 
-    @FXML
-    private void quitGame(ActionEvent actionEvent) {
-        /**
-         * A Method that allows the user to quit the application upon clicking a button
-         * @author Michelle Lee
-         */
-        // Have a pop-up appear if the user clicks 'Quit' Button
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Quit");
-        alert.setHeaderText("You are about to quit. Please be advised this game DOES NOT support saves! ");
-        alert.setContentText("Are you sure you want to quit?");
+    Tower tower = towersMap.get(newSelectedTower);
 
-        // If User clicks 'Confirm', Quit game
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            stage = (Stage) gamePane.getScene().getWindow();
-            System.out.println("You Successfully quit the game!");
-            stage.close();
-        }
+    if (tower != null) {
+        towerNameLabel.setText(tower.getName());
+        resourceTypeLabel.setText(tower.getResourceType());
+        reloadSpeedLabel.setText(String.valueOf(tower.getReloadSpeed()));
+        loadAmountLabel.setText(String.valueOf(tower.getLoadAmount()));
+        levelLabel.setText(String.valueOf(tower.getTowerLevel()));
+        // RANGE?
+        xpLabel.setText(String.valueOf(tower.getXp()));
+
     }
+    switch (tower.getResourceType()) {
+        case "Bronze":
+            selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Red.png"));
+            break;
+        case "Silver":
+            selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png"));
+            break;
+        case "Gold":
+            selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png"));
+            break;
+    }
+}
 
     @FXML
     public void roundButtonClicked(ActionEvent event) {
@@ -372,7 +410,6 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
-
 
         Dialog<ButtonType> userNameDialog = new Dialog<>();
         userNameDialog.setTitle("Choose Round Difficulty");
@@ -489,6 +526,26 @@ public class GameController {
         //this whole thing to new screen
     }
 
+
+    @FXML
+    private void quitGame(ActionEvent actionEvent) {
+        /**
+         * A Method that allows the user to quit the application upon clicking a button
+         * @author Michelle Lee
+         */
+        // Have a pop-up appear if the user clicks 'Quit' Button
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Quit");
+        alert.setHeaderText("You are about to quit. Please be advised this game DOES NOT support saves! ");
+        alert.setContentText("Are you sure you want to quit?");
+
+        // If User clicks 'Confirm', Quit game
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            stage = (Stage) gamePane.getScene().getWindow();
+            System.out.println("You Successfully quit the game!");
+            stage.close();
+        }
+    }
 
 }
     // Add other methods and properties as needed

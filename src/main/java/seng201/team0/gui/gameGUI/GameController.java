@@ -425,7 +425,7 @@ public class GameController {
             break;
         case "Gold":
             selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/goldTower.png"));
-            brea
+            break;
     }
 }
 

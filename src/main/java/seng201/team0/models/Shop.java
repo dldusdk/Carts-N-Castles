@@ -1,11 +1,18 @@
 package seng201.team0.models;
 
+import java.util.Random;
+
 public class Shop {
 
     // Towers
     private int bronzeTowerStock = 5;
     private int silverTowerStock = 3;
     private int goldTowerStock = 2;
+    private Random random;
+
+    public Shop() {
+        random = new Random();
+    }
 
     public int getBronzeTowerStock() {
         return bronzeTowerStock;
@@ -50,5 +57,18 @@ public class Shop {
             default:
                 return 0;
         }
+    }
+
+
+    public void randomizeStock() {
+        int totalStock = 10;
+
+        bronzeTowerStock = random.nextInt(totalStock + 1); // Random stock between 0 and totalStock
+        int remainingStock = totalStock - bronzeTowerStock;
+
+        silverTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock
+        remainingStock -= silverTowerStock;
+
+        goldTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock
     }
 }

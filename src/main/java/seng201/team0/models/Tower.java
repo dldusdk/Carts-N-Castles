@@ -7,30 +7,39 @@ import seng201.team0.models.carts.CartBasic;
 import java.util.ArrayList;
 
 public class Tower {
-    private long projectileTime;
-    double x;
-    double y;
+
+    // Tower Stats
     String towerName;
     String resourceType;
-    String towerDescription;
     double reloadSpeed;
     double loadAmount;
+    int towerHealth;
     int towerLevel;
     int range;
     int xp;
     private ImageView towerImage;
+
+    // Tower Projectiles
+    private long projectileTime;
+    double x;
+    double y;
     private long fireRate = 500000000L;
 
-    // Constructor
+
     public Tower(String towerName, String resourceType, double reloadSpeed, double loadAmount, int towerLevel, int range, int xp) {
+        /**
+         * @author Michelle Lee
+         */
         this.towerName = towerName;
         this.resourceType = resourceType;
         this.reloadSpeed = reloadSpeed;
         this.loadAmount = loadAmount;
+        this.towerHealth = towerHealth;
         this.towerLevel = towerLevel;
         this.range = range;
         this.xp = xp;
     }
+
     //Setters
     public void setX(double xCoord){x = xCoord;}
     public void setY(double yCoord){y = yCoord;}
@@ -46,12 +55,12 @@ public class Tower {
     public int getRange() { return range; }
     public int getXp() { return xp; }
 
+    // For projectiles
     public double getX(){return x;}
     public double getY(){return y;}
     public long getProjectileTime(){
         return(projectileTime);
     }
-
 
 
     // Upgrade methods

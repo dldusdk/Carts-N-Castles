@@ -26,6 +26,9 @@ import seng201.team0.services.gameLoaders.PathLoader;
 
 import java.util.*;
 
+
+// CHANGE
+
 public class GameController {
 
     // Main Pane and different Views
@@ -75,6 +78,16 @@ public class GameController {
     private ScrollPane upgradeShop;
     @FXML
     private Label playerCoins;
+    @FXML
+    private Button upgradeshootSpeed;
+    @FXML
+    private Button upgradeRange;
+    @FXML
+    private Button instantXP;
+    @FXML
+    private Button repairTower;
+
+
 
     // GUI variables
     private Stage stage;
@@ -96,8 +109,8 @@ public class GameController {
     private int purchasedTowers = 0;
     private int maxTowersOnmap = 5;
     private int maxTowersPerRound = 10;
-    private int availableTowers = 10;
     private int coinBalance = 200;
+    private boolean upgradePurchased = false;
 
 
     // Round and Animation Variables
@@ -195,7 +208,7 @@ public class GameController {
                     resetPurchaseMode();
                 }
             } else {
-                instructionLabel.setText("This tower type is sold out!");
+                instructionLabel.setText("Sorry! Currently SOLD OUT! Check again next round.");
             }
         }
     }
@@ -362,7 +375,29 @@ public class GameController {
             }
         }
     }
+    @FXML
+    private void upgradeShootSpeed(ActionEvent event) {
+        if (selectedTower != null && !upgradePurchased) {
+            Tower tower = towersMap.get(selectedTower);
+            if (tower != null) {
+                tower.upgradeReloadSpeed(); // Use the existing method in Tower class to upgrade reload speed
+                upgradePurchased = true;
+                upgradeshootSpeed.setDisable(true); // Disable the button to prevent multiple purchases in the same round
+            }
+        }
+    }
 
+    @FXML
+    private void upgradeRange(ActionEvent event) {
+        if (selectedTower != null && !upgradePurchased) {
+            Tower tower = towersMap.get(selectedTower);
+            if (tower != null) {
+                tower.upgradeRange(); // Use the existing method in Tower class to upgrade range
+                upgradePurchased = true;
+                upgradeRange.setDisable(true); // Disable the button to prevent multiple purchases in the same round
+            }
+        }
+    }
 
     private void resetPurchaseMode() {
         /**
@@ -487,7 +522,9 @@ public class GameController {
             } else if (result.get() == hardButton) {
                 difficulty = "Hard";
                 launchRound();
-        }}
+        }
+            shop.randomizeStock(); // Resets stock and randomizes it
+        }
 
     }
 
@@ -552,6 +589,8 @@ public class GameController {
         roundNumber++;
         collisionTimer.start();
         roundState = true;
+
+
         if (roundNumber > totalRounds) {
             roundButton.setDisable(true);
             // Should switch view to win screen.

@@ -30,6 +30,7 @@ public class Shop {
         switch (towerType) {
             case "Bronze":
                 if (bronzeTowerStock > 0) {
+                    System.out.println(bronzeTowerStock);
                     bronzeTowerStock--;
                 }
                 break;
@@ -62,8 +63,9 @@ public class Shop {
 
     public void randomizeStock() {
         int totalStock = 10;
+        int max_stock = 5;
 
-        bronzeTowerStock = random.nextInt(totalStock + 1); // Random stock between 0 and totalStock
+        bronzeTowerStock = random.nextInt(max_stock); // Random stock between 0 and totalStock
         int remainingStock = totalStock - bronzeTowerStock;
 
         silverTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock

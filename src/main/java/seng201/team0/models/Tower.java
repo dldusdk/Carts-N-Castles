@@ -2,44 +2,49 @@ package seng201.team0.models;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import seng201.team0.models.carts.CartBasic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Tower {
-
-    // Tower Stats
+    private long projectileTime;
+    double x;
+    double y;
     String towerName;
     String resourceType;
+    String towerDescription;
     double reloadSpeed;
     double loadAmount;
-    int towerHealth;
     int towerLevel;
     int range;
     int xp;
     private ImageView towerImage;
 
-    // Tower Projectiles
-    private long projectileTime;
-    double x;
-    double y;
+
     private long fireRate = 500000000L;
 
+    private double radius;
 
-    public Tower(String towerName, String resourceType, double reloadSpeed, double loadAmount, int towerLevel, int range, int xp) {
-        /**
-         * @author Michelle Lee
-         */
+    // Constructor
+    public Tower(String towerName, String resourceType,
+                 double reloadSpeed, double loadAmount,
+                 int towerLevel, int range, int xp, double radius) {
+        this.radius = radius;
         this.towerName = towerName;
         this.resourceType = resourceType;
         this.reloadSpeed = reloadSpeed;
         this.loadAmount = loadAmount;
-        this.towerHealth = towerHealth;
         this.towerLevel = towerLevel;
         this.range = range;
         this.xp = xp;
-    }
 
+
+
+    }
     //Setters
     public void setX(double xCoord){x = xCoord;}
     public void setY(double yCoord){y = yCoord;}
@@ -61,6 +66,13 @@ public class Tower {
     public long getProjectileTime(){
         return(projectileTime);
     }
+    public double getRadius(){return(radius);}
+
+    public double getDistance(double targetX, double targetY){
+        return (Math.sqrt(Math.pow(this.x - targetX, 2) + Math.pow(this.y - targetY, 2)));
+    }
+
+
 
 
     // Upgrade methods
@@ -99,6 +111,7 @@ public class Tower {
         */
     {return(towerImage);}
 
+
     public void delete(){
         towerImage = null;
     }
@@ -109,6 +122,13 @@ public class Tower {
 
 
     public CartBasic targetAcquisition(ArrayList<CartBasic> cartList) {
-        return(cartList.get(0));
+        Collections.sort(cartList, new Comparator<CartBasic>() {
+            @Override
+            public int compare(CartBasic o1, CartBasic o2) {
+                return Double.compare(o1.getDistance(), o2.getDistance());
+
+            }
+        });
+        return(cartList.getLast());
     }
 }

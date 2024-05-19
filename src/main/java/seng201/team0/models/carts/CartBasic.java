@@ -12,6 +12,8 @@ import seng201.team0.services.settings.Settings;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static java.lang.Math.abs;
+
 
 public class CartBasic {
     private int cartSpawnLocationX;
@@ -26,6 +28,10 @@ public class CartBasic {
     private double currentLoad=0;
     private String resourceType;
     private boolean destroyed = false;
+    private double distanceTravelled;
+
+    private double currentX=0;
+    private double currentY=0;
 
     public CartBasic(ImageView cartImageImport, double cartSizeScale, String cartType, double cartSpeed,
                      ArrayList<ArrayList<Integer>>rotatePath,
@@ -161,5 +167,26 @@ public class CartBasic {
 
     public ImageView getCartObject(){return(cartObject);}
 
+    public void incrementDistance(double distance){
+        distanceTravelled += Math.abs(distance);
+    }
 
+    public double getDistance(){
+        return(distanceTravelled);
+    }
+
+
+    public double getCurrentX(){
+        return(currentX);
+    }
+    public double getCurrentY(){
+        return(currentY);
+    }
+
+    public void setCurrentX(double x){
+        currentX = x;
+    }
+    public void setCurrentY(double y){
+        currentY = y;
+    }
 }

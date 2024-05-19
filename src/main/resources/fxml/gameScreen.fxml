@@ -74,7 +74,7 @@
       </Rectangle>
       <ScrollPane fx:id="generalShop" fitToHeight="true" fitToWidth="true" layoutX="1152.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0">
          <content>
-            <VBox prefHeight="830.0" prefWidth="349.0" visible="false">
+            <VBox prefHeight="830.0" prefWidth="349.0">
                <padding>
                   <Insets bottom="50.0" left="5.0" right="5.0" />
                </padding>
@@ -159,7 +159,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <ScrollPane fx:id="upgradeShop" fitToHeight="true" fitToWidth="true" layoutX="1155.0" layoutY="203.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="831.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0">
+      <ScrollPane fx:id="upgradeShop" fitToHeight="true" fitToWidth="true" layoutX="1155.0" layoutY="203.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="831.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0" visible="false">
          <content>
             <VBox prefHeight="830.0" prefWidth="320.0">
                <padding>

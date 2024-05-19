@@ -1,6 +1,15 @@
 package seng201.team0.models;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import seng201.team0.models.carts.CartBasic;
+
+import java.util.ArrayList;
+
 public class Tower {
+    private long projectileTime;
+    double x;
+    double y;
     String towerName;
     String resourceType;
     String towerDescription;
@@ -9,6 +18,8 @@ public class Tower {
     int towerLevel;
     int range;
     int xp;
+    private ImageView towerImage;
+    private long fireRate = 500000000L;
 
     // Constructor
     public Tower(String towerName, String resourceType, double reloadSpeed, double loadAmount, int towerLevel, int range, int xp) {
@@ -20,6 +31,11 @@ public class Tower {
         this.range = range;
         this.xp = xp;
     }
+    //Setters
+    public void setX(double xCoord){x = xCoord;}
+    public void setY(double yCoord){y = yCoord;}
+    public void setProjectileTime (long time){projectileTime = time;}
+
 
     // Getters
     public String getName() { return towerName; }
@@ -29,6 +45,14 @@ public class Tower {
     public int getTowerLevel() { return towerLevel; }
     public int getRange() { return range; }
     public int getXp() { return xp; }
+
+    public double getX(){return x;}
+    public double getY(){return y;}
+    public long getProjectileTime(){
+        return(projectileTime);
+    }
+
+
 
     // Upgrade methods
     public void upgradeReloadSpeed() {
@@ -45,5 +69,37 @@ public class Tower {
 
     public void upgradeRange() {
         this.range += 10; // Example: Increase range by 10
+    }
+
+    public void draw(double x, double y, String path) {
+        /**
+         * Creates image of tower based on parameters
+         * Held in class, so it can be accessed if needed
+         * @Author Gordon Homewood
+        */
+        towerImage = new ImageView(new Image(path));
+        towerImage.setFitWidth(128);
+        towerImage.setFitHeight(256);
+        towerImage.setX(x - 64);
+        towerImage.setY(y - 192);
+    }
+    public ImageView getImage()
+        /**
+        * Returns ImageView of tower
+        * @Author Gordon Homewood
+        */
+    {return(towerImage);}
+
+    public void delete(){
+        towerImage = null;
+    }
+
+    public long getFireRate(){
+        return(fireRate);
+    }
+
+
+    public CartBasic targetAcquisition(ArrayList<CartBasic> cartList) {
+        return(cartList.get(0));
     }
 }

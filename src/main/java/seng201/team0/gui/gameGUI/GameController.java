@@ -19,6 +19,7 @@ import seng201.team0.models.Shop;
 import seng201.team0.models.Tower;
 import seng201.team0.models.carts.CartBasic;
 import seng201.team0.models.towers.GoldMine;
+import seng201.team0.models.towers.Projectile;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
@@ -72,7 +73,7 @@ public class GameController {
     private ImageView selectedTower;
 
     // Keeping track of placedTowers for inventory and selling purposes
-    private List<ImageView> placedTowers = new ArrayList<>();
+    private List<Tower> placedTowers = new ArrayList<>();
     private Map<ImageView, Tower> towersMap = new HashMap<>();
 
     // 0 Means not clicked
@@ -98,17 +99,40 @@ public class GameController {
     private ArrayList<CartBasic> cartList;
     private int cartNumber;
     private boolean fail=false;
-    private int coinBalance = 0;
+    private int coinBalance = 200;
     private GoldMine goldMine;
+
+    private long lastProjectileTime = 0;
+    private static final long interval = 500000000L; // Fire every 0.5 seconds (500ms)
+
+    private List<Projectile> projectiles = new ArrayList<>(); // Add this line to keep track of projectiles
 
 
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
-            if(!cartList.isEmpty()){
+            System.out.println(placedTowers);
+                if (!cartList.isEmpty()) {
+                    for(Tower tower:placedTowers){
+                        double fireRate = tower.getFireRate(); //need to implement this
+                        CartBasic towerTarget = tower.targetAcquisition(cartList);
+                        if (timestamp - tower.getProjectileTime() >= interval && towerTarget.getCartObject().getTranslateX() > 0){
+
+                            double damage = tower.getLoadAmount();
+                            String type = tower.getResourceType();
+                            int spawnX = (int) (tower.getX() - 30);
+                            int spawnY = (int) (tower.getY() - 30);
+
+                            Projectile projectile = new Projectile(spawnX, spawnY, type, trackDefault, towerTarget, damage);
+                            projectile.spawn();
+                            projectiles.add(projectile);
+                            tower.setProjectileTime(timestamp);
+                        }
+
+                    }
                 Iterator<CartBasic> iterator = cartList.iterator(); //So carts can safely be removed in loop
                 while (iterator.hasNext()) {
                     CartBasic cart = iterator.next();
-                    if(cart.getLoadPercent() >= 1 ){
+                    if(cart.getLoadPercent() >= 1){
                         iterator.remove();
                         cart.despawn();
                         cartNumber--;
@@ -127,19 +151,7 @@ public class GameController {
                             stopRound(true);
                         }
                     }
-                }} //should be possible to move to seperate class if needed
-
-            //if (newRound != null){
-               //if(cartNumber <= 0){
-                    //if(fail){
-                        //stopRound(false);
-                    //}
-                    //if(!fail){
-                       //newRound = null;
-                        //stopRound(true);
-                    //}
-                //}
-            //}
+                }}
 
     };
 
@@ -206,15 +218,15 @@ public class GameController {
                 selectedTowerType = "Bronze";
                 isPurchaseMode = true;
                 //bronzeTower stock - 1
-                setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Red.png");
+                setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/bronzeTower.png");
             } else if (pressedButton == silverTower) {
                 selectedTowerType = "Silver";
                 isPurchaseMode = true;
-                setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png");
+                setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/silverTower.png");
             } else if (pressedButton == goldTower) {
                 selectedTowerType = "Gold";
                 isPurchaseMode = true;
-                setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png");
+                setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/goldTower.png");
             }
 
             if (selectedTowerType != null) {
@@ -299,29 +311,28 @@ public class GameController {
 
         switch (towerType) {
             case "Bronze":
-                imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Red.png";
+                imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/bronzeTower.png";
                 tower = new Tower(userInputTowerName, "Bronze", 1.0, 1.0,1,10, 100);
                 break;
             case "Silver":
-                imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png";
+                imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/silverTower.png";
                 tower = new Tower(userInputTowerName, "Silver", 2.0, 1.5,1,25, 100);
                 break;
             case "Gold":
-                imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png";
+                imagePath = "Art/Asset Pack/Factions/Knights/Buildings/Tower/goldTower.png";
                 tower = new Tower(userInputTowerName, "Gold", 3.0, 2.0,1,45, 100);
                 break;
         }
         // Tower image properties
-        ImageView towerImage = new ImageView(new Image(imagePath));
-        towerImage.setFitWidth(128);
-        towerImage.setFitHeight(256);
-        towerImage.setX(x - 64);
-        towerImage.setY(y - 192);
+        tower.setX(x);
+        tower.setY(y);
+        tower.draw(x,y,imagePath);          //New method here (delete this comment)
+        ImageView towerImage = tower.getImage();
         towerImage.setOnMouseClicked(this::checkTowerStats);
         // Add tower to map
         ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
         // Add to placedTowers
-        placedTowers.add(towerImage);
+        placedTowers.add(tower);
         towersMap.put(towerImage, tower);
     }
 
@@ -346,7 +357,7 @@ public class GameController {
             gamePane.getChildren().remove(selectedTower);
 
             // Remove the tower from the placedTowers list
-            placedTowers.remove(selectedTower);
+            placedTowers.remove(towersMap.get(selectedTower));
 
             // Reset the selected tower reference to null
             selectedTower = null;
@@ -460,7 +471,6 @@ public class GameController {
         roundNumber++;
         collisionTimer.start();
         roundState = true;
-
         if (roundNumber > totalRounds) {
             roundButton.setDisable(true);
             // Should switch view to win screen.
@@ -504,6 +514,7 @@ public class GameController {
     }
 
     private void stopRound(boolean state) {
+        collisionTimer.stop();
         if(state){
             roundButton.setDisable(false);
             coinBalance += roundNumber * 50;

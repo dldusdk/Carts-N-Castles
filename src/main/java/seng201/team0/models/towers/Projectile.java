@@ -24,30 +24,53 @@ public class Projectile {
     private CartBasic target;
     private double angle=0;
     private boolean lock = false;
+    private double damage;
+    private boolean state = true;
 
-    public Projectile(int xCoordStart, int yCoordStart, String path, ImageView projectileDefaultLoad, CartBasic cart){
+    public Projectile(int xCoordStart, int yCoordStart, String type, ImageView projectileDefaultLoad, CartBasic cart,double inputDamage){
+        String path = initType(type);
+
+
+
         target = cart;
         projectileDefault = projectileDefaultLoad;
         projectileObject = new ImageView(path);
         ((Pane) projectileDefault.getParent()).getChildren().add(projectileObject);
 
-
+        damage = inputDamage;
 
         xCoord = xCoordStart;
         yCoord = yCoordStart;
         timeline = new Timeline(
                 new KeyFrame(Duration.seconds((double) 1 /framesPerSecond), event -> {
                     updateTime();
-                    if (getTargetX() > 0){
+                    if (!lock && !cart.getDestroyed()){
                         updateProjectile();
+                        spawn();
                     }
-                    spawn();
+                    else{
+                        destroy();
+                    }
+
 
                 }
                 )
         );
        timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+    }
+
+    private String initType(String type) {
+        if(type.equals("Bronze")){
+            return("Art/Asset Pack/projectiles/bronze1.png");
+        }
+        if(type.equals("Silver")){
+            return("Art/Asset Pack/projectiles/silver1.png");
+        }
+        if(type.equals("Gold")){
+            return("Art/Asset Pack/projectiles/gold1.png");
+        }
+        return("Art/Asset Pack/projectiles/bronze1.png");
     }
 
     public void updateTime(){
@@ -68,6 +91,21 @@ public class Projectile {
 
     private double getTargetY(){return(target.getCartObject().getTranslateY());}
 
+    public ImageView getProjectileImage(){
+        return(projectileDefault);
+    }
+
+    public boolean getState(){return(state);}
+
+    public void destroy() {
+        if (projectileObject != null && projectileObject.getParent() != null) {
+            ((Pane) projectileObject.getParent()).getChildren().remove(projectileObject);
+        }
+        projectileDefault = null;
+        projectileObject = null;
+        target = null;
+        timeline = null;
+    }
     private void updateProjectile() {
         double velocity = 5;
         double changeX = getTargetX() - getCurrentX();
@@ -82,20 +120,24 @@ public class Projectile {
 
         if ((distance < velocity + 40) || lock) {
             lock = true;
-            projectileObject.setImage(null);
-            target.setLoad(3);
-            xCoord = (int)getTargetX();
-            yCoord = (int)getTargetY();
+            projectileObject.setVisible(false);
+            target.setLoad(damage);
+            damage = 0;
+            state = false;
+            destroy();
         }
         else{
+            if (projectileObject != null){
         // Update the position based on velocity and angle
         xCoord += (int) (velocity * Math.cos(newAngle));
         yCoord += (int) (velocity * Math.sin(newAngle));}
+        else destroy();}
 
     }
 
     public void spawn() {
+        if(projectileObject != null){
         projectileObject.setX(xCoord);
-        projectileObject.setY(yCoord);
+        projectileObject.setY(yCoord);}
     }
 }

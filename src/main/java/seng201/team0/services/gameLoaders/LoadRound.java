@@ -70,8 +70,7 @@ public class LoadRound {
             int cartSpeed = random.ints(lowSpeedBound,upperSpeedBound).findFirst().getAsInt();
             CartBasic cart = new CartBasic(cartImage,sizeDouble,type,cartSpeed,cartPath,rotatePath,cartSpawnX,imageSource);
             cartList.add(cart);
-            projectile = new Projectile(100,500,"Art/Asset Pack/Deco/01.png",cartImage, cart);
-            projectile.spawn();
+
         }
 
 

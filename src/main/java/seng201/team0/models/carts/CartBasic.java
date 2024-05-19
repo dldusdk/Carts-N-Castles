@@ -34,7 +34,7 @@ public class CartBasic {
 
         resourceType = cartType;
 
-        initializeCapacity();
+        capacity = initializeCapacity();
         cartSize = cartSizeScale;
         cartSource = cartSourcePath;
         cartSpawnLocationX = cartX;
@@ -45,25 +45,29 @@ public class CartBasic {
         animateCart(cartPath,rotatePath,speed);
     }
 
-    private void initializeCapacity() {
+    private double initializeCapacity() {
         if(cartSize == 0.75){
-            capacity = 1;
+            return(1);
         }
         if(cartSize == 1){
-            capacity = 2;
+            return(2);
         }
         if(cartSize == 1.25){
-            capacity = 3;
+            return(3);
         }
+        return(1);
     }
 
     public void setLoad(double damage){
         currentLoad += damage;
+        setDestroyed(true);
         updateImage();
+        setDestroyed(false);
         //checkStatus();
     }
 
     public double getLoadPercent() {
+        //System.out.println(capacity);
         return(currentLoad /capacity);
     }
 
@@ -104,12 +108,12 @@ public class CartBasic {
         }
     public void despawn(){
         cartObject.setVisible(false);
-        setDestroyed();
+        setDestroyed(true);
 
     }
 
-    public void setDestroyed() {
-        destroyed = true;
+    public void setDestroyed(boolean hit) {
+        destroyed = hit;
     }
 
     public boolean getDestroyed(){

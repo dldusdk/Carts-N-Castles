@@ -80,7 +80,7 @@ public class CartBasic {
     public void updateImage(){
         if(getLoadPercent() >= 0.5 && getLoadPercent() < 1){
             if(Objects.equals(resourceType, "bronze")){
-            cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeHalf.png")));}
+                cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeHalf.png")));}
         }
         if(getLoadPercent() >= 1){
             if(Objects.equals(resourceType, "bronze")){
@@ -108,10 +108,10 @@ public class CartBasic {
             sequentialTransition.getChildren().add(transitionList.get(i));
             if(i < rotationList.size()-1){
                 sequentialTransition.getChildren().add(rotationList.get(i));
-                }
             }
-        sequentialTransition.play();
         }
+        sequentialTransition.play();
+    }
     public void despawn(){
         cartObject.setVisible(false);
         setDestroyed(true);

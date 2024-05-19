@@ -65,7 +65,7 @@ public class Shop {
         int totalStock = 10;
         int max_stock = 5;
 
-        bronzeTowerStock = random.nextInt(max_stock); // Random stock between 0 and totalStock
+        bronzeTowerStock = random.nextInt(totalStock + 1); // Random stock between 0 and totalStock
         int remainingStock = totalStock - bronzeTowerStock;
 
         silverTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock

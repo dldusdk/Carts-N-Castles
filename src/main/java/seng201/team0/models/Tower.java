@@ -2,8 +2,6 @@ package seng201.team0.models;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import seng201.team0.models.carts.CartBasic;
 
 import java.util.ArrayList;
@@ -11,21 +9,22 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Tower {
+    //Tower
     private long projectileTime;
     double x;
     double y;
     String towerName;
     String resourceType;
-    String towerDescription;
     double reloadSpeed;
     double loadAmount;
+    int towerHealth;
     int towerLevel;
     int range;
     int xp;
     private ImageView towerImage;
 
 
-    private long fireRate = 500000000L;
+    //private long fireRate = 500000000L;
 
     private double radius;
 
@@ -38,13 +37,12 @@ public class Tower {
         this.resourceType = resourceType;
         this.reloadSpeed = reloadSpeed;
         this.loadAmount = loadAmount;
+        this.towerHealth = towerHealth;
         this.towerLevel = towerLevel;
         this.range = range;
         this.xp = xp;
-
-
-
     }
+
     //Setters
     public void setX(double xCoord){x = xCoord;}
     public void setY(double yCoord){y = yCoord;}
@@ -111,13 +109,12 @@ public class Tower {
         */
     {return(towerImage);}
 
-
     public void delete(){
         towerImage = null;
     }
 
     public long getFireRate(){
-        return(fireRate);
+        return((long)reloadSpeed);
     }
 
 

@@ -72,7 +72,7 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <ScrollPane fx:id="generalShop" fitToHeight="true" fitToWidth="true" layoutX="1152.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0" visible="false">
+      <ScrollPane fx:id="generalShop" fitToHeight="true" fitToWidth="true" layoutX="1152.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0">
          <content>
             <VBox prefHeight="830.0" prefWidth="349.0">
                <padding>
@@ -85,7 +85,7 @@
                            <graphic>
                               <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Red.png" />
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/bronzeTower.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -106,7 +106,7 @@
                            <graphic>
                               <ImageView fx:id="towerImageView" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/silverTower.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -129,7 +129,7 @@
                            <graphic>
                               <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png" />
+                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/goldTower.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -215,7 +215,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <ScrollPane fx:id="upgradeShop" fitToHeight="true" fitToWidth="true" layoutX="1155.0" layoutY="203.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="831.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0">
+      <ScrollPane fx:id="upgradeShop" fitToHeight="true" fitToWidth="true" layoutX="1155.0" layoutY="203.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="831.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0" visible="false">
          <content>
             <VBox prefHeight="830.0" prefWidth="320.0">
                <padding>
@@ -397,7 +397,7 @@
             <Font name="Minecraft" size="25.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="Inventory" prefHeight="190.0" prefWidth="1152.0" style="-fx-background-color: #C4C1B8;">
+      <AnchorPane fx:id="Inventory" layoutX="45.0" layoutY="193.0" prefHeight="156.0" prefWidth="1152.0" style="-fx-background-color: #C4C1B8;" visible="false">
          <children>
             <Label layoutX="183.0" layoutY="6.0" text="Main Towers">
                <font>

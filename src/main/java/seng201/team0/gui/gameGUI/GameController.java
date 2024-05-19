@@ -66,7 +66,6 @@ public class GameController {
     @FXML
     private Label xpLabel;
 
-
     @FXML
     private AnchorPane towerStats;
     @FXML
@@ -74,10 +73,14 @@ public class GameController {
 
     // Keeping track of placedTowers for inventory and selling purposes
     private List<Tower> placedTowers = new ArrayList<>();
+    private List<Tower> reserveTowers = new ArrayList<>();
     private Map<ImageView, Tower> towersMap = new HashMap<>();
+
 
     // 0 Means not clicked
     private int purchasedTowers = 0;
+    private int maxTowersOnmap = 5;
+    private int maxTowersPerRound = 10;
     private int availableTowers = 10;
     private double paneX;
     private double paneY;
@@ -205,28 +208,33 @@ public class GameController {
          * Method for buying Towers based on mouseClick!
          * @authoor Michelle Lee
          */
-        // Initialize stock levels of tower
+
         Shop shop = new Shop();
-        availableTowers = shop.towerStock();
+
         Button pressedButton = (Button) event.getSource();
-        // If Towers are in stock
-        if (availableTowers != 0) {
-            // Tower Stock - 1
-            availableTowers--;
+        if (purchasedTowers <= maxTowersPerRound) {
+            purchasedTowers++;
+
             // if fx:id = bronzeTower
-            if (pressedButton == bronzeTower) {
+            if (pressedButton == bronzeTower && shop.getStock("Bronze") > 0) {
                 selectedTowerType = "Bronze";
                 isPurchaseMode = true;
-                //bronzeTower stock - 1
+                shop.decreaseStock("Bronze");
                 setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/bronzeTower.png");
-            } else if (pressedButton == silverTower) {
+            } else if (pressedButton == silverTower && shop.getStock("Silver") > 0) {
                 selectedTowerType = "Silver";
                 isPurchaseMode = true;
+                shop.decreaseStock("Silver");
                 setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/silverTower.png");
-            } else if (pressedButton == goldTower) {
+            } else if (pressedButton == goldTower && shop.getStock("Gold") > 0) {
                 selectedTowerType = "Gold";
                 isPurchaseMode = true;
+                shop.decreaseStock("Gold");
                 setupCursorForTower("Art/Asset Pack/Factions/Knights/Buildings/Tower/goldTower.png");
+            } else {
+                instructionLabel.setText("This tower type is sold out!");
+                pressedButton.setGraphic(new ImageView("Art/Shop/sold.png"));
+
             }
 
             if (selectedTowerType != null) {
@@ -239,8 +247,7 @@ public class GameController {
                 result.ifPresent(name -> userInputTowerName = name); // Store the entered name
             }
 
-            if (availableTowers == 0) {
-                // Tower stock is 0, therefore sold out!!!
+            if (purchasedTowers >= maxTowersPerRound) {
                 pressedButton.setGraphic(new ImageView("Art/Shop/sold.png"));
             }
         }
@@ -323,17 +330,24 @@ public class GameController {
                 tower = new Tower(userInputTowerName, "Gold", 3.0, 2.0,1,45, 100);
                 break;
         }
-        // Tower image properties
-        tower.setX(x);
-        tower.setY(y);
-        tower.draw(x,y,imagePath);          //New method here (delete this comment)
-        ImageView towerImage = tower.getImage();
-        towerImage.setOnMouseClicked(this::checkTowerStats);
-        // Add tower to map
-        ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
-        // Add to placedTowers
-        placedTowers.add(tower);
-        towersMap.put(towerImage, tower);
+
+        if (placedTowers.size() < maxTowersOnmap){
+            // Tower image properties
+            tower.setX(x);
+            tower.setY(y);
+            tower.draw(x, y, imagePath);          //New method here (delete this comment)
+            ImageView towerImage = tower.getImage();
+            towerImage.setOnMouseClicked(this::checkTowerStats);
+            // Add tower to map
+            ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
+            // Add to placedTowers
+            placedTowers.add(tower);
+            towersMap.put(towerImage, tower);
+        }
+        else {
+            reserveTowers.add(tower);
+            instructionLabel.setText("You cannot add more than 5 towers on the map. The Tower has been added to the reserve inventory");
+        }
     }
 
     private void resetPurchaseMode() {
@@ -404,14 +418,14 @@ public class GameController {
     }
     switch (tower.getResourceType()) {
         case "Bronze":
-            selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Red.png"));
+            selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/bronzeTower.png"));
             break;
         case "Silver":
-            selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png"));
+            selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/silverTower.png"));
             break;
         case "Gold":
-            selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Yellow.png"));
-            break;
+            selectedTowerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/goldTower.png"));
+            brea
     }
 }
 
@@ -533,7 +547,7 @@ public class GameController {
 
         ((Pane) trackDefault.getParent()).getChildren().add(image);
 
-        //Spawn New Button that resets Quits to mainScreen or reloads gamecontroller or just switch
+        //Spawn New Button that resets Quits to mainScreen or reloads game controller or just switch
         //this whole thing to new screen
     }
 

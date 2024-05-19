@@ -1,65 +1,54 @@
 package seng201.team0.models;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-
 public class Shop {
 
-    // Player info
-    int currentStock;
-
-
-    // Items
-    String itemName;
-    String itemDescription;
-    int itemCost;
-
     // Towers
-    String towerName;
-    String towerDescription;
-    int towerCost;
-    int silvertowerStock;
-    int bronzetowerStock;
-    int goldtowerStock;
+    private int bronzeTowerStock = 5;
+    private int silverTowerStock = 3;
+    private int goldTowerStock = 2;
 
-    // Upgrades
-    String upgradeName;
-    String upgradeDescription;
-    int upgradeCost;
-
-    public void items() {
-        /**
-         * Items class
-         * Add any items here and use methods below
-         */
-
+    public int getBronzeTowerStock() {
+        return bronzeTowerStock;
     }
 
-    public int towerStock() {
-        /**
-         * Set tower information here:
-         * RE: TOWER STOCK. Tower stock resets per round??? Check with gordon
-         * RANDOMISE TOWER STOCK???
-         * MAX STOCK is 5
-         * 5 on map
-         * Error if more than 5" YOU CAN ONLY have 5 towers at a time, please purchase after you sell a tower.
-         */
-        silvertowerStock = 2;
-        bronzetowerStock = 2;
-        goldtowerStock = 1;
-
-        return silvertowerStock + bronzetowerStock + goldtowerStock;
+    public int getSilverTowerStock() {
+        return silverTowerStock;
     }
 
-    public void upgrades() {
-        // upgrade tower shoot rate
-        // upgrade tower shoot multiplier shoots twice
-        // projectiles slow carts down
-
-
+    public int getGoldTowerStock() {
+        return goldTowerStock;
     }
 
+    public void decreaseStock(String towerType) {
+        switch (towerType) {
+            case "Bronze":
+                if (bronzeTowerStock > 0) {
+                    bronzeTowerStock--;
+                }
+                break;
+            case "Silver":
+                if (silverTowerStock > 0) {
+                    silverTowerStock--;
+                }
+                break;
+            case "Gold":
+                if (goldTowerStock > 0) {
+                    goldTowerStock--;
+                }
+                break;
+        }
+    }
 
+    public int getStock(String towerType) {
+        switch (towerType) {
+            case "Bronze":
+                return bronzeTowerStock;
+            case "Silver":
+                return silverTowerStock;
+            case "Gold":
+                return goldTowerStock;
+            default:
+                return 0;
+        }
+    }
 }

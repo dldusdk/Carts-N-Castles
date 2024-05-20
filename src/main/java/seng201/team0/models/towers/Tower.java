@@ -1,4 +1,4 @@
-package seng201.team0.models;
+package seng201.team0.models.towers;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,7 +20,9 @@ public class Tower {
     int towerHealth;
     int towerLevel;
     int range;
-    int xp;
+    boolean towerState;
+    String inventoryLocation;
+
     private ImageView towerImage;
 
 
@@ -31,7 +33,7 @@ public class Tower {
     // Constructor
     public Tower(String towerName, String resourceType,
                  double reloadSpeed, double loadAmount,
-                 int towerLevel, int range, int xp, double radius) {
+                 int towerLevel, int range, double radius, boolean towerState, String inventoryLocation) {
         this.radius = radius;
         this.towerName = towerName;
         this.resourceType = resourceType;
@@ -40,38 +42,85 @@ public class Tower {
         this.towerHealth = towerHealth;
         this.towerLevel = towerLevel;
         this.range = range;
-        this.xp = xp;
+        this.towerState = towerState;
+        this.inventoryLocation = inventoryLocation;
     }
 
     //Setters
-    public void setX(double xCoord){x = xCoord;}
-    public void setY(double yCoord){y = yCoord;}
-    public void setProjectileTime (long time){projectileTime = time;}
+    public void setX(double xCoord) {
+        x = xCoord;
+    }
+
+    public void setY(double yCoord) {
+        y = yCoord;
+    }
+
+    public void setProjectileTime(long time) {
+        projectileTime = time;
+    }
+
+    public void setInventoryLocation(String location) {
+        this.inventoryLocation = location;
+    }
+
+    public void setTowerState(boolean state) {
+        this.towerState = state;
+    }
 
 
     // Getters
-    public String getName() { return towerName; }
-    public String getResourceType() { return resourceType; }
-    public double getReloadSpeed() { return reloadSpeed; }
-    public double getLoadAmount() { return loadAmount; }
-    public int getTowerLevel() { return towerLevel; }
-    public int getRange() { return range; }
-    public int getXp() { return xp; }
+    public String getName() {
+        return towerName;
+    }
+
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public double getReloadSpeed() {
+        return reloadSpeed;
+    }
+
+    public double getLoadAmount() {
+        return loadAmount;
+    }
+
+    public int getTowerLevel() {
+        return towerLevel;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public boolean getTowerState() {
+        return towerState;
+    }
+
+    public String getInventoryLocation() {
+        return inventoryLocation;
+    }
 
     // For projectiles
-    public double getX(){return x;}
-    public double getY(){return y;}
-    public long getProjectileTime(){
-        return(projectileTime);
+    public double getX() {
+        return x;
     }
-    public double getRadius(){return(radius);}
 
-    public double getDistance(double targetX, double targetY){
+    public double getY() {
+        return y;
+    }
+
+    public long getProjectileTime() {
+        return projectileTime;
+    }
+
+    public double getRadius() {
+        return (radius);
+    }
+
+    public double getDistance(double targetX, double targetY) {
         return (Math.sqrt(Math.pow(this.x - targetX, 2) + Math.pow(this.y - targetY, 2)));
     }
-
-
-
 
     // Upgrade methods
     public void upgradeReloadSpeed() {
@@ -90,6 +139,11 @@ public class Tower {
         this.range += 10; // Example: Increase range by 10
     }
 
+    // Tower Methods
+
+
+
+    // Projectiles
     public void draw(double x, double y, String path) {
         /**
          * Creates image of tower based on parameters

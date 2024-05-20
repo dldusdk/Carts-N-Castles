@@ -8,12 +8,19 @@ public class Shop {
     private int bronzeTowerStock = 5;
     private int silverTowerStock = 3;
     private int goldTowerStock = 2;
+
+    // Define the cost of each tower type
+    private int bronzeTowerCost = 50;
+    private int silverTowerCost = 100;
+    private int goldTowerCost = 200;
+
     private Random random;
 
     public Shop() {
         random = new Random();
     }
 
+    // GETTERS
     public int getBronzeTowerStock() {
         return bronzeTowerStock;
     }
@@ -24,6 +31,18 @@ public class Shop {
 
     public int getGoldTowerStock() {
         return goldTowerStock;
+    }
+
+    public int getBronzeTowerCost() {
+        return bronzeTowerCost;
+    }
+
+    public int getSilverTowerCost() {
+        return silverTowerCost;
+    }
+
+    public int getGoldTowerCost() {
+        return goldTowerCost;
     }
 
     public void decreaseStock(String towerType) {
@@ -66,11 +85,12 @@ public class Shop {
         int max_stock = 5;
 
         bronzeTowerStock = random.nextInt(totalStock + 1); // Random stock between 0 and totalStock
-        int remainingStock = totalStock - bronzeTowerStock;
+        int remainingStock = max_stock - bronzeTowerStock;
 
         silverTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock
         remainingStock -= silverTowerStock;
 
         goldTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock
     }
+
 }

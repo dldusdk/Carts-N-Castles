@@ -9,6 +9,7 @@ public class GoldMine {
     int y;
     ImageView goldMineObject;
     int health;
+
     public GoldMine(ImageView spawnDefault,int startHealth){
         health = startHealth;
         x = 970;
@@ -34,7 +35,9 @@ public class GoldMine {
             goldMineObject.setImage(destroyed);}
     }
     public int getHealth(){return(health);}
+
     public void setHealth(int lives){health = lives;}
+
     public void decreaseHealth(){
         health--;
         checkHealth();

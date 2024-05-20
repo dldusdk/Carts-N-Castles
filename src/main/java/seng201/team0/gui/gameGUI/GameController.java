@@ -782,17 +782,17 @@ public class GameController {
             //Need to change destoyed change based on difficulty
             //Needs
             if(destroyedChance == 1){
-                if(!mainTower.isEmpty()){
-                    Tower destroyedTower = mainTower.get(0); //needs to be changed here based of round usage
+                if(!mainTowers.isEmpty()){
+                    Tower destroyedTower = mainTowers.get(0); //needs to be changed here based of round usage
                     //if this tower is destroyed, needs to increment
                     //Does destroying a tower, mean it has to wait a round to be repaired
                     destroyedTower.setDestroyed(true);
                 }
             }
             if(buffChance == 1){
-                if(!mainTower.isEmpty()){
+                if(!mainTowers.isEmpty()){
                     //need to check if destroyed or not
-                    Tower buffedTower = mainTower.get(0);
+                    Tower buffedTower = mainTowers.get(0);
             }}
             ArrayList<Integer> cartTypeList = getCartNumber();
             newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);

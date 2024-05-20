@@ -44,7 +44,6 @@ public class Tower {
         this.towerHealth = towerHealth;
         this.towerLevel = towerLevel;
         this.range = range;
-        this.xp = xp;
         this.destroyed = false;
         this.towerState = towerState;
         this.inventoryLocation = inventoryLocation;

@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-import javafx.stage.Window;
 import seng201.team0.models.Shop;
 import seng201.team0.models.Tower;
 import seng201.team0.models.carts.CartBasic;
@@ -95,8 +94,9 @@ public class GameController {
     private Stage primaryStage;
 
     // Tower variables
-    private List<Tower> placedTowers = new ArrayList<>();
+    private List<Tower> mainTower = new ArrayList<>();
     private List<Tower> reserveTowers = new ArrayList<>();
+
     private Map<ImageView, Tower> towersMap = new HashMap<>();
     private double paneX;
     private double paneY;
@@ -138,8 +138,9 @@ public class GameController {
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
             //System.out.println(placedTowers);
+            System.out.println(mainTower);
                 if (!cartList.isEmpty()) {
-                    for(Tower tower:placedTowers){
+                    for(Tower tower: mainTower){
                         double fireRate = tower.getFireRate(); //need to implement this
                         CartBasic towerTarget = tower.targetAcquisition(cartList);
                         if (timestamp - tower.getProjectileTime() >= fireRate && towerTarget.getCartObject().getTranslateX() > 0
@@ -227,6 +228,7 @@ public class GameController {
         //move this to own class
         goldMine = new GoldMine(trackDefault,2);
 
+
     }
     @FXML
     public void towerUpgrades(ActionEvent actionEvent) {
@@ -261,7 +263,7 @@ public class GameController {
 
         Button pressedButton = (Button) event.getSource();
 
-        if (purchasedTowers < maxTowersPerRound) {
+        if (purchasedTowers < 11) {
             String towerType = getTowerTypeFromButton(pressedButton);
             if (towerType != null && shop.getStock(towerType) > 0) {
                 selectedTowerType = towerType;
@@ -415,7 +417,7 @@ public class GameController {
 
         switch (towerType) {
             case "Bronze":
-                tower = new Tower(userInputTowerName, "Bronze", 1.0, 1.0, 1, 10, 100,
+                tower = new Tower(userInputTowerName, "Bronze", 1000000000, 1.0, 1, 10, 100,
                 100);
                 break;
             case "Silver":
@@ -435,9 +437,11 @@ public class GameController {
             ImageView towerImage = tower.getImage();
             towerImage.setOnMouseClicked(this::checkTowerStats);
 
-            if (placedTowers.size() < maxTowersOnmap) {
+            // If total towers on map (incl reserve) < 9 then place tower
+
+            if (mainTower.size()+1  <= 5) {
                 ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
-                placedTowers.add(tower);
+                mainTower.add(tower);
                 towersMap.put(towerImage, tower);
 
                 // Decrease stock and update button graphic
@@ -445,9 +449,22 @@ public class GameController {
                 soldOut(getButtonForTowerType(towerType), shop, towerType);
 
                 purchasedTowers++;
-            } else {
-                reserveTowers.add(tower);
-                instructionLabel.setText("You cannot add more than 5 towers on the map. The Tower has been added to the reserve inventory");
+            } else if (mainTower.size() > 5 && mainTower.size() <= 8) {
+                ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
+                mainTower.add(tower);
+                towersMap.put(towerImage, tower);
+
+                DropShadow dropShadow = new DropShadow();
+                dropShadow.setColor(Color.GREY);
+                dropShadow.setRadius(20);
+                towerImage.setEffect(dropShadow);
+
+
+                // make tower inactive
+                // tower.inactive(true), gives tower image drop shadow, set radius to 0
+                // tower.inactive(false), removes drop shadow, radius set to previous value
+                instructionLabel.setText("testetest");
+                //set instruction to say no more towers, please sell
             }
         }
     }
@@ -498,7 +515,7 @@ public class GameController {
             gamePane.getChildren().remove(selectedTower);
 
             // Remove the tower from the placedTowers list
-            placedTowers.remove(towersMap.get(selectedTower));
+            mainTower.remove(towersMap.get(selectedTower));
 
             // Reset the selected tower reference to null
             selectedTower = null;

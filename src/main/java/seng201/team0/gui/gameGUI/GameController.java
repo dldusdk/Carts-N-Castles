@@ -3,7 +3,10 @@ package seng201.team0.gui.gameGUI;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -15,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import seng201.team0.gui.mainGUI.MainController;
 import seng201.team0.models.Shop;
 import seng201.team0.models.Tower;
 import seng201.team0.models.carts.CartBasic;
@@ -24,6 +28,7 @@ import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -585,22 +590,24 @@ public class GameController {
         userNameDialog.setTitle("Choose Round Difficulty");
         int nextRound = roundNumber + 1;
         userNameDialog.setHeaderText("Round " + nextRound + " is about to start.");
-        userNameDialog.setContentText("Select difficulty:\n\n" +
-                "Easy Difficulty:\n" +
-                "   50% of carts spawn at half full\n" +
-                "   5 Lives\n" +
-                "   5% chance for tower destroyed\n" +
-                "   50% money awarded, 50% points\n\n" +
-                "Normal Difficulty:\n" +
-                "   25% of carts spawn at half full\n" +
-                "   3 Lives\n" +
-                "   10% chance for tower destroyed\n" +
-                "   50% money awarded, 75% points\n\n" +
-                "Hard Difficulty:\n" +
-                "   0% of carts spawn full\n" +
-                "   1 Life\n" +
-                "   15% chance for tower destroyed\n" +
-                "   100% money awarded, 100% points\n");
+        userNameDialog.setContentText("""
+                Select difficulty:
+
+                Easy Difficulty:
+                   5 Lives
+                   5% chance for tower destroyed
+                   50% money awarded, 50% points
+
+                Normal Difficulty:
+                   3 Lives
+                   10% chance for tower destroyed
+                   50% money awarded, 75% points
+
+                Hard Difficulty:
+                   1 Life
+                   15% chance for tower destroyed
+                   100% money awarded, 100% points
+                """);
 
         ButtonType easyButton = new ButtonType("Easy", ButtonBar.ButtonData.OK_DONE);
         ButtonType mediumButton = new ButtonType("Normal", ButtonBar.ButtonData.OK_DONE);
@@ -718,7 +725,7 @@ public class GameController {
         collisionTimer.stop();
         if(state){
             roundButton.setDisable(false);
-            coinBalance += roundNumber * 50;
+            calculateIncome();
             playerCoins.setText(String.valueOf(coinBalance));
         }
         else{
@@ -727,22 +734,80 @@ public class GameController {
         }
     }
 
-    private void gameOver() {
+    private void calculateIncome(){
+        if(difficulty.equals("Easy")){
+            coinBalance += (int) ((roundNumber * 50) * 0.5);
+        }
+        if(difficulty.equals("Normal")){
+            coinBalance += (int) ((roundNumber * 50) * 0.75);
+        }
+        if(difficulty.equals("Hard")){
+            coinBalance += (roundNumber * 50);
+        }
+    }
+
+
+    public void gameOver() {
         /**
          *
          * @author Gordon Homewood
+         *
          */
         ImageView image = new ImageView("Art/Asset Pack/Factions/Knights/Troops/Dead/Dead.png");
         image.setX(250);
         image.setY(250);
+        for(CartBasic cart: cartList){
+            cart.despawn();
+        }
 
         ((Pane) trackDefault.getParent()).getChildren().add(image);
 
+        Dialog<ButtonType> gameOverDialogue = new Dialog<>();
+        gameOverDialogue.setTitle("Game Over");
+        gameOverDialogue.setHeaderText("Game Over");
+        gameOverDialogue.setContentText("Failed");
+
+
+        ButtonType easyButton = new ButtonType("Retry", ButtonBar.ButtonData.OK_DONE);
+        ButtonType mediumButton = new ButtonType("Quit to Main Menu", ButtonBar.ButtonData.OK_DONE);
+        ButtonType quitButton = new ButtonType("I'm Not Ready!", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        gameOverDialogue.getDialogPane().getButtonTypes().addAll(easyButton, mediumButton,quitButton);
+
+        Optional<ButtonType> result = gameOverDialogue.showAndWait();
+
+        if (result.isPresent()) {
+            if (result.get() == easyButton) {
+                launchMain();
+            } else if (result.get() == mediumButton) {
+                launchMain();
+            }
+
+
         //Spawn New Button that resets Quits to mainScreen or reloads game controller or just switch
         //this whole thing to new screen
+    }}
+
+    private void launchMain(){
+        stage = (Stage) gamePane.getScene().getWindow();
+        stage.close();
+
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+        Parent root = null;
+        try {
+            root = baseLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        MainController baseController = baseLoader.getController();
+        baseController.init(primaryStage);
+
+        Scene scene = new Scene(root,1472,1024);
+        primaryStage.setResizable(false);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
-
-
     @FXML
     private void quitGame(ActionEvent actionEvent) {
         /**

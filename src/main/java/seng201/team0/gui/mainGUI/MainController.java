@@ -1,6 +1,5 @@
 package seng201.team0.gui.mainGUI;
 
-import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,13 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-//import javafx.scene.media.Media;
-//import javafx.scene.media.MediaPlayer;
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -33,17 +31,32 @@ public class MainController {
     private Button hardButton;
     @FXML
     private Text headerText;
-
     @FXML
     private AnchorPane mainscreenPane;
 
     Stage stage;
+    String musicpath = "src/main/java/seng201/team0/gui/mainGUI/mainscreenbgm.mp3";
+    private static MediaPlayer mediaPlayer;
 
+    public void init(Stage primaryStage) {
+        playMusic(musicpath);
+
+    }
+
+    public void playMusic(String musicPath) {
+        /**
+         * Play the BGM for the Main Screen
+         * @author Michelle Lee
+         */
+
+        Media media = new Media(new File(musicpath).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+    }
     public void play(ActionEvent actionEvent) {
         /**
          * Method for when the Play button is clicked.
          * Asks for the Username (must meet certain criteria
-         * Asks for difficulty level
          * Asks to choose map leve
          * @author Michelle Lee
          */
@@ -74,21 +87,9 @@ public class MainController {
                     headerText.setText("Welcome " + name + "!\nChoose your difficulty!");
                     headerText.setTextAlignment(TextAlignment.CENTER);
 
-                    // Hide quit and play button
-                    playButton.setVisible(false);
-                    quitButton.setVisible(false);
-
-                    // make difficulty buttons visible
-                    normalButton.setVisible(true);
-                    hardButton.setVisible(true);
-
-                    // If Hard is chosen, pass 'HARD' to confirmDifficulty method
-                    hardButton.setOnAction(e -> confirmDifficulty("HARD"));
-                    // If Normal is chosen, pass 'NORMAL' to confirmDifficulty method
-                    normalButton.setOnAction(e -> confirmDifficulty("NORMAL"));
-
                     // Correct output, so stop showing the input dialog for name
                     validNameEntered = true;
+                    mapSelect();
 
                 } else {
                     // Shows a POP-UP error message for all invalid inputs
@@ -102,31 +103,6 @@ public class MainController {
                 // When user cancels the input dialog box, does not request for the name
                 validNameEntered = true;
             }
-        }
-    }
-
-    private void confirmDifficulty(String difficulty) {
-        /**
-         * Method for confirming the Difficulty level and then opening up the mapSelector to allow the user to choose
-         * their level
-         * @author Michelle Lee
-         */
-        // Show confirmation dialog
-        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Difficulty Selection");
-        alert.setHeaderText(null);
-        alert.setContentText("You've chosen " + difficulty + " difficulty.\nAre you sure?\n(Click 'OK' to continue)");
-
-        // Wait for user response and store it in a variable named chosenDifficulty
-        Optional<ButtonType> chosenDifficulty = alert.showAndWait();
-
-        // If user confirms the difficulty
-        if (chosenDifficulty.isPresent() && chosenDifficulty.get() == ButtonType.OK) {
-            // Close main window
-            Stage mainWindow = (Stage) headerText.getScene().getWindow();
-            mainWindow.close();
-            // Run the mapSelect method to initialize mapSelection
-            mapSelect();
         }
     }
 
@@ -158,24 +134,6 @@ public class MainController {
     }
 
     @FXML
-    public void normal(ActionEvent actionEvent) {
-        /**
-         * When Normal Button is clicked...
-         * Does nothing at the moment
-         * @author Michelle Lee
-         */
-    }
-    @FXML
-    public void hard(ActionEvent actionEvent) {
-        /**
-         * When Hard Button is clicked...
-         * Does nothing at the moment
-         * @author Michelle Lee
-         */
-
-    }
-
-    @FXML
     public void quit(ActionEvent actionEvent) {
         /**
          * A Method that allows the user to quit the application upon clicking a button
@@ -197,8 +155,6 @@ public class MainController {
         }
     }
 
-    public void init(Stage primaryStage) {
-    }
 
 }
 

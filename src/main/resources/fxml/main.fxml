@@ -33,15 +33,5 @@
             <Font name="Minecraft" size="28.0" />
          </font>
       </Button>
-      <Button fx:id="normalButton" layoutX="76.0" layoutY="318.0" mnemonicParsing="false" onAction="#normal" prefHeight="53.0" prefWidth="300.0" style="-fx-background-color: transparent;" text="NORMAL" textAlignment="CENTER" visible="false">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
-      <Button fx:id="hardButton" layoutX="75.0" layoutY="446.0" mnemonicParsing="false" onAction="#hard" prefHeight="53.0" prefWidth="304.0" style="-fx-background-color: transparent;" text="HARD" textAlignment="CENTER" visible="false">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

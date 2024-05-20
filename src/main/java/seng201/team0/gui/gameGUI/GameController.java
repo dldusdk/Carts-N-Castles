@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -24,6 +26,7 @@ import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
 
+import java.io.File;
 import java.util.*;
 
 
@@ -86,10 +89,19 @@ public class GameController {
     private Button upgradeshootSpeed;
     @FXML
     private Button upgradeRange;
+    @FXML
+    private Label bronzeStockLabel;
+    @FXML
+    private Label silverStockLabel;
+    @FXML
+    private Label goldStockLabel;
+
 
     // GUI variables
     private Stage stage;
     private Stage primaryStage;
+    String musicpath = "src/main/java/seng201/team0/gui/gameGUI/bgmMain.mp3";
+    private static MediaPlayer mediaPlayer;
 
     // Tower variables
     private List<Tower> mainTowers = new ArrayList<>();
@@ -105,7 +117,6 @@ public class GameController {
 
     // Shop Variables
     private Shop shop;
-    private int purchasedTowers = 0;
     private int coinBalance = 200;
     private boolean upgradePurchased = false;
 
@@ -136,7 +147,7 @@ public class GameController {
             System.out.println(mainTowers);
             if (!cartList.isEmpty()) {
                 for (Tower tower : mainTowers) {
-                    // Only if tower is active
+                    // If tower is inactive skip the code, else continue if active
                     if (!tower.getTowerState()) {
                         continue;
                     }
@@ -219,6 +230,7 @@ public class GameController {
 
         //Initialize shop and player currency
         shop = new Shop();
+        updateStockDisplay();
         playerCoins.setText(String.valueOf(coinBalance));
         difficulty = "Normal";
 
@@ -226,11 +238,23 @@ public class GameController {
         roundButton.setText(String.valueOf("Start First Round!"));
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath", "src/main/resources/levelCSV/Level1/Level1RotatePath");
+        playMusic(musicpath);
 
         //move this to own class
         goldMine = new GoldMine(trackDefault, 2);
     }
 
+    public void playMusic(String musicPath) {
+        /**
+         * Play the BGM for the Main Screen
+         * @author Michelle Lee
+         */
+
+        Media media = new Media(new File(musicpath).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        mediaPlayer.setCycleCount(1000);
+    }
 
     private void updatePlayerLives() {
         /**
@@ -240,7 +264,13 @@ public class GameController {
         playerLives.setText(String.valueOf(goldMine.getHealth()));
     }
 
-
+    private void updatePlayerCoins() {
+        /**
+         * Updates the Player Coins
+         * @author Michelle Lee
+         */
+        playerCoins.setText(String.valueOf(coinBalance));
+    }
     @FXML
     public void towerUpgrades(ActionEvent actionEvent) {
         /**
@@ -261,6 +291,11 @@ public class GameController {
         upgradeShop.setVisible(false);
         generalShop.setVisible(true);
         instructionLabel.setText("Buy Towers and Boosters!");
+    }
+    private void updateStockDisplay() {
+        bronzeStockLabel.setText("Stock: " + shop.getStock("Bronze"));
+        silverStockLabel.setText("Stock: " + shop.getStock("Silver"));
+        goldStockLabel.setText("Stock: " + shop.getStock("Gold"));
     }
 
     @FXML
@@ -311,31 +346,46 @@ public class GameController {
          */
 
         Button pressedButton = (Button) event.getSource();
+        int towerCost = 0;
+        String towerType = getTowerTypeFromButton(pressedButton);
 
-        if (purchasedTowers < 10) {
-            String towerType = getTowerTypeFromButton(pressedButton);
             if (towerType != null && shop.getStock(towerType) > 0) {
-                selectedTowerType = towerType;
-                isPurchaseMode = true;
-                setupCursorForTower(getTowerImagePath(towerType));
-
-                // User inputs the tower name
-                TextInputDialog dialog = new TextInputDialog("Tower Name");
-                dialog.setTitle("Enter Tower Name");
-                dialog.setHeaderText("Enter a name for your " + selectedTowerType + " tower:");
-                dialog.setContentText("Tower Name:");
-                Optional<String> result = dialog.showAndWait();
-                // If 'Cancel' is clicked, do not take away from stock and reset the purchase mode
-                if (result.isPresent()) {
-                    userInputTowerName = result.get(); // Store the entered name
-                } else {
-                    resetPurchaseMode();
+                switch (towerType) {
+                    case "Bronze":
+                        towerCost = shop.getBronzeTowerCost();
+                        break;
+                    case "Silver":
+                        towerCost = shop.getSilverTowerCost();
+                        break;
+                    case "Gold":
+                        towerCost = shop.getGoldTowerCost();
+                        break;
                 }
-            } else {
-                instructionLabel.setText("Sorry! Currently SOLD OUT! Check again next round.");
+                if (coinBalance > -towerCost) {
+                    selectedTowerType = towerType;
+                    isPurchaseMode = true;
+                    setupCursorForTower(getTowerImagePath(towerType));
+
+                    // User inputs the tower name
+                    TextInputDialog dialog = new TextInputDialog("Tower Name");
+                    dialog.setTitle("Enter Tower Name");
+                    dialog.setHeaderText("Enter a name for your " + selectedTowerType + " tower:");
+                    dialog.setContentText("Tower Name:");
+                    Optional<String> result = dialog.showAndWait();
+                    updateStockDisplay();
+                    // If 'Cancel' is clicked, do not take away from stock and reset the purchase mode
+                    if (result.isPresent()) {
+                        userInputTowerName = result.get(); // Store the entered name
+                        coinBalance -= towerCost;
+                    } else {
+                        resetPurchaseMode();
+                    }
+                } else {
+                    instructionLabel.setText("Sorry! Currently SOLD OUT! Check again next round.");
+                }
             }
         }
-    }
+
 
     private void setupCursorForTower(String imagePath) {
         /**
@@ -506,7 +556,7 @@ public class GameController {
                 // Decrease stock and update button graphic increase total tower counter by 1
                 shop.decreaseStock(towerType);
                 soldOut(getButtonForTowerType(towerType), shop, towerType);
-                purchasedTowers++;
+                updateStockDisplay();
                 // in the reserve tower
             } else if (reserveTowers.size() < 3) {
                 ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
@@ -526,6 +576,7 @@ public class GameController {
                 tower.setInventoryLocation("Reserve");
                 tower.setTowerState(false);
                 // Decrease Stock and update the Instruction Label
+                updateStockDisplay();
                 shop.decreaseStock(towerType);
                 soldOut(getButtonForTowerType(towerType), shop, towerType);
                 instructionLabel.setText("No more active towers allowed, please either sell or move a tower to the Reserve Inventory.");
@@ -650,14 +701,6 @@ public class GameController {
     }
 
 
-    public void makeInactive(boolean b) {
-        /**
-         * Makes the tower inactive (hence grescalyed)
-         * Can't shoot and make radius 0
-         * @author Michelle Lee
-         */
-    }
-
     @FXML
     public void roundButtonClicked(ActionEvent event) {
         /**
@@ -710,7 +753,6 @@ public class GameController {
         }
 
     }
-
 
     private void launchRound(){
         /**

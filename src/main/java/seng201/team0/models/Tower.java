@@ -22,11 +22,13 @@ public class Tower {
     int range;
     int xp;
     private ImageView towerImage;
+    private boolean destroyed;
 
 
     //private long fireRate = 500000000L;
 
     private double radius;
+    private double previousRadius = 0;
 
     // Constructor
     public Tower(String towerName, String resourceType,
@@ -41,6 +43,7 @@ public class Tower {
         this.towerLevel = towerLevel;
         this.range = range;
         this.xp = xp;
+        this.destroyed = false;
     }
 
     //Setters
@@ -127,5 +130,18 @@ public class Tower {
             }
         });
         return(cartList.getLast());
+    }
+
+    public boolean getDestroyed(){
+        return(this.destroyed);
+    }
+
+    public void setDestroyed(boolean destroyed){
+        this.destroyed = destroyed;
+        if(this.destroyed){
+            this.previousRadius = this.radius;
+            this.radius = 0;
+            this.towerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Destroyed.png"));
+        }
     }
 }

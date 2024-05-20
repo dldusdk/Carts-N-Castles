@@ -132,13 +132,15 @@ public class GameController {
     //private boolean fail=false;
     //private int coinBalance = 200;
     private GoldMine goldMine;
+    private double destroyedChance = 1;
+    private double buffChance;
 
     private List<Projectile> projectiles = new ArrayList<>(); // Add this line to keep track of projectiles
 
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
             //System.out.println(placedTowers);
-            System.out.println(mainTower);
+            //System.out.println(mainTower);
                 if (!cartList.isEmpty()) {
                     for(Tower tower: mainTower){
                         double fireRate = tower.getFireRate(); //need to implement this
@@ -173,14 +175,12 @@ public class GameController {
                         double deltaX = currentX - previousX;
                         double deltaY = currentY - previousY;
 
+                        // Update the current position in the cart
                         cart.incrementDistance(deltaX);
                         cart.incrementDistance(deltaY);
-                        System.out.println(cart.getDistance());
 
-                        // Update the current position in the cart
                         cart.setCurrentX(currentX);
                         cart.setCurrentY(currentY);
-                        System.out.println(cart.getDistance());
                     }
                     if(cart.getLoadPercent() >= 1){
                         iterator.remove();
@@ -637,13 +637,26 @@ public class GameController {
         roundButton.setDisable(true);
         roundNumber++;
         collisionTimer.start();
-        roundState = true;
-
 
         if (roundNumber > totalRounds) {
             roundButton.setDisable(true);
             // Should switch view to win screen.
         } else {
+            //Need to change destoyed change based on difficulty
+            //Needs
+            if(destroyedChance == 1){
+                if(!mainTower.isEmpty()){
+                    Tower destroyedTower = mainTower.get(0); //needs to be changed here based of round usage
+                    //if this tower is destroyed, needs to increment
+                    //Does destroying a tower, mean it has to wait a round to be repaired
+                    destroyedTower.setDestroyed(true);
+                }
+            }
+            if(buffChance == 1){
+                if(!mainTower.isEmpty()){
+                    //need to check if destroyed or not
+                    Tower buffedTower = mainTower.get(0);
+            }}
             ArrayList<Integer> cartTypeList = getCartNumber();
             newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
             for (int num : cartTypeList) {
@@ -660,6 +673,17 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
+        if(difficulty.equals("Easy")){
+            goldMine.setHealth(5);
+        }
+        if(difficulty.equals("Medium")){
+            goldMine.setHealth(3);
+        }
+        if(difficulty.equals("Hard")){
+            goldMine.setHealth(1);
+        }
+        goldMine.checkHealth();
+
         ArrayList<Integer> cartTypeNumbers= new ArrayList<>();
         if(roundNumber < 3){
             cartTypeNumbers.add(roundNumber + 1); //Bronze carts

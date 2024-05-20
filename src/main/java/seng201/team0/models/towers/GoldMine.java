@@ -23,6 +23,9 @@ public class GoldMine {
         ((Pane) spawnDefault.getParent()).getChildren().add(goldMineObject);
     }
     public void checkHealth(){
+        if(health > 1){
+            Image damaged = new Image("Art/Asset Pack/Resources/Gold Mine/GoldMine_Active.png");
+            goldMineObject.setImage(damaged);}
         if(health == 1){
         Image damaged = new Image("Art/Asset Pack/Resources/Gold Mine/GoldMine_Inactive.png");
         goldMineObject.setImage(damaged);}
@@ -31,6 +34,7 @@ public class GoldMine {
             goldMineObject.setImage(destroyed);}
     }
     public int getHealth(){return(health);}
+    public void setHealth(int lives){health = lives;}
     public void decreaseHealth(){
         health--;
         checkHealth();

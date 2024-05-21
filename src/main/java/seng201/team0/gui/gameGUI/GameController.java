@@ -1,6 +1,7 @@
 package seng201.team0.gui.gameGUI;
 
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -152,19 +153,20 @@ public class GameController {
     private AnimationTimer collisionTimer = new AnimationTimer() {
         public void handle(long timestamp) {
             //System.out.println(placedTowers);
-            System.out.println(mainTowers);
+            //System.out.println(mainTowers);
             if (!cartList.isEmpty()) {
                 for (Tower tower : mainTowers) {
                     // If tower is inactive skip the code, else continue if active
                     if (!tower.getTowerState()) {
                         continue;
                     }
-                    double fireRate = tower.getFireRate(); //need to implement this
                     CartBasic towerTarget = tower.targetAcquisition(cartList);
+                    if (towerTarget == null) {
+                        continue;
+                    }
+                    double fireRate = tower.getFireRate();
                     if (timestamp - tower.getProjectileTime() >= fireRate && towerTarget.getCartObject().getTranslateX() > 0
                             && tower.getRadius() > tower.getDistance(towerTarget.getCartObject().getTranslateX(), towerTarget.getCartObject().getTranslateY())) {
-                        //.out.println(tower.getDistance(towerTarget.getCartObject().getTranslateX(),towerTarget.getCartObject().getTranslateY()));
-                        //System.out.println(tower.getRadius());
 
                         double damage = tower.getLoadAmount();
                         String type = tower.getResourceType();
@@ -176,13 +178,13 @@ public class GameController {
                         projectiles.add(projectile);
                         tower.setProjectileTime(timestamp);
                     }
-
                 }
                 Iterator<CartBasic> iterator = cartList.iterator(); //So carts can safely be removed in loop
                 while (iterator.hasNext()) {
                     CartBasic cart = iterator.next();
 
                     if (cart.getCartObject().getTranslateX() >= 0) {
+                        //Sets carts distance through track so towers prioritize the furthest cart
                         double previousX = cart.getCurrentX();
                         double previousY = cart.getCurrentY();
                         double currentX = cart.getCartObject().getTranslateX();
@@ -193,22 +195,21 @@ public class GameController {
 
                         cart.incrementDistance(deltaX);
                         cart.incrementDistance(deltaY);
-                        System.out.println(cart.getDistance());
 
-                        // Update the current position in the cart
                         cart.setCurrentX(currentX);
                         cart.setCurrentY(currentY);
-                        System.out.println(cart.getDistance());
                     }
                     if (cart.getLoadPercent() >= 1) {
+                        //Carts get destroyed if at max load (explosion different color)
+                        cart.explode((int) cart.getCartObject().getTranslateX() - 60, (int) cart.getCartObject().getTranslateY() - 60, false);
                         iterator.remove();
                         cart.despawn();
                         cartNumber--;
                     }
                     if (cart.getCartObject().getTranslateX() > 1025 && cart.getLoadPercent() < 1) {
+                        //Carts damage gold mine if reach end of track
                         iterator.remove();
-                        cart.explode();
-                        cart.explode();
+                        cart.explode(965, 380, true);
                         cartNumber--;
                         goldMine.decreaseHealth();
                         playerLives.setText(String.valueOf(goldMine.getHealth()));
@@ -218,6 +219,7 @@ public class GameController {
                         }
                     }
                     if (cartNumber <= 0 && !(goldMine.getHealth() <= 0)) {
+                        collisionTimer.stop();
                         stopRound(true);
                     }
                 }
@@ -279,6 +281,7 @@ public class GameController {
          */
         playerCoins.setText(String.valueOf(coinBalance));
     }
+
     @FXML
     public void towerUpgrades(ActionEvent actionEvent) {
         /**
@@ -300,6 +303,7 @@ public class GameController {
         generalShop.setVisible(true);
         instructionLabel.setText("Buy Towers and Boosters!");
     }
+
     private void updateStockDisplay() {
         bronzeStockLabel.setText("Stock: " + shop.getStock("Bronze"));
         silverStockLabel.setText("Stock: " + shop.getStock("Silver"));
@@ -340,7 +344,8 @@ public class GameController {
                         instructionLabel.setText("Main Inventory is full, you will need to sell a tower to move into the Reserve Inventory");
                     }
                 }
-            } updateTowerStats(tower);
+            }
+            updateTowerStats(tower);
         }
     }
 
@@ -357,42 +362,42 @@ public class GameController {
         int towerCost = 0;
         String towerType = getTowerTypeFromButton(pressedButton);
 
-            if (towerType != null && shop.getStock(towerType) > 0) {
-                switch (towerType) {
-                    case "Bronze":
-                        towerCost = shop.getBronzeTowerCost();
-                        break;
-                    case "Silver":
-                        towerCost = shop.getSilverTowerCost();
-                        break;
-                    case "Gold":
-                        towerCost = shop.getGoldTowerCost();
-                        break;
-                }
-                if (coinBalance > -towerCost) {
-                    selectedTowerType = towerType;
-                    isPurchaseMode = true;
-                    setupCursorForTower(getTowerImagePath(towerType));
+        if (towerType != null && shop.getStock(towerType) > 0) {
+            switch (towerType) {
+                case "Bronze":
+                    towerCost = shop.getBronzeTowerCost();
+                    break;
+                case "Silver":
+                    towerCost = shop.getSilverTowerCost();
+                    break;
+                case "Gold":
+                    towerCost = shop.getGoldTowerCost();
+                    break;
+            }
+            if (coinBalance > -towerCost) {
+                selectedTowerType = towerType;
+                isPurchaseMode = true;
+                setupCursorForTower(getTowerImagePath(towerType));
 
-                    // User inputs the tower name
-                    TextInputDialog dialog = new TextInputDialog("Tower Name");
-                    dialog.setTitle("Enter Tower Name");
-                    dialog.setHeaderText("Enter a name for your " + selectedTowerType + " tower:");
-                    dialog.setContentText("Tower Name:");
-                    Optional<String> result = dialog.showAndWait();
-                    updateStockDisplay();
-                    // If 'Cancel' is clicked, do not take away from stock and reset the purchase mode
-                    if (result.isPresent()) {
-                        userInputTowerName = result.get(); // Store the entered name
-                        coinBalance -= towerCost;
-                    } else {
-                        resetPurchaseMode();
-                    }
+                // User inputs the tower name
+                TextInputDialog dialog = new TextInputDialog("Tower Name");
+                dialog.setTitle("Enter Tower Name");
+                dialog.setHeaderText("Enter a name for your " + selectedTowerType + " tower:");
+                dialog.setContentText("Tower Name:");
+                Optional<String> result = dialog.showAndWait();
+                updateStockDisplay();
+                // If 'Cancel' is clicked, do not take away from stock and reset the purchase mode
+                if (result.isPresent()) {
+                    userInputTowerName = result.get(); // Store the entered name
+                    coinBalance -= towerCost;
                 } else {
-                    instructionLabel.setText("Sorry! Currently SOLD OUT! Check again next round.");
+                    resetPurchaseMode();
                 }
+            } else {
+                instructionLabel.setText("Sorry! Currently SOLD OUT! Check again next round.");
             }
         }
+    }
 
 
     private void setupCursorForTower(String imagePath) {
@@ -501,6 +506,7 @@ public class GameController {
         activeLabel.setText(tower.getTowerState() ? "Active" : "Inactive");
         inventoryLocationLabel.setText(tower.getInventoryLocation());
     }
+
     private boolean canPlaceTower(double x, double y) {
         /**
          * Checks whether the tower is able to be placed on selected tile by passing the values through to an external method
@@ -536,16 +542,16 @@ public class GameController {
 
         switch (towerType) {
             case "Bronze":
-                tower = new Tower(userInputTowerName, "Bronze", 1000000000, 1.0, 1, 10,
-                        100, true, "Main");
+                tower = new Tower(userInputTowerName, "Bronze", 1000000000, 0.25, 1, 10,
+                        130, true, "Main");
                 break;
             case "Silver":
-                tower = new Tower(userInputTowerName, "Silver", 2.0, 1.5, 1, 25,
-                        100, true, "Main");
+                tower = new Tower(userInputTowerName, "Silver", 1000000000, 0.25, 1, 25,
+                        130, true, "Main");
                 break;
             case "Gold":
-                tower = new Tower(userInputTowerName, "Gold", 3.0, 2.0, 1, 45,
-                        100, true, "Main");
+                tower = new Tower(userInputTowerName, "Gold", 1000000000, 0.25, 1, 45,
+                        130, true, "Main");
                 break;
         }
 
@@ -744,7 +750,7 @@ public class GameController {
         ButtonType hardButton = new ButtonType("Hard", ButtonBar.ButtonData.OK_DONE);
         ButtonType quitButton = new ButtonType("I'm Not Ready!", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        userNameDialog.getDialogPane().getButtonTypes().addAll(easyButton, mediumButton, hardButton,quitButton);
+        userNameDialog.getDialogPane().getButtonTypes().addAll(easyButton, mediumButton, hardButton, quitButton);
 
         Optional<ButtonType> result = userNameDialog.showAndWait();
 
@@ -758,17 +764,18 @@ public class GameController {
             } else if (result.get() == hardButton) {
                 difficulty = "Hard";
                 launchRound();
-        }
+            }
             shop.randomizeStock(); // Resets stock and randomizes it
         }
 
     }
 
-    private void launchRound(){
+    private void launchRound() {
         /**
          *
          * @author Gordom Homewood
          */
+        instructionLabel.setText("Don't let the carts destroy your goldmine!");
         roundButton.setDisable(true);
         roundNumber++;
         collisionTimer.start();
@@ -781,19 +788,20 @@ public class GameController {
         } else {
             //Need to change destoyed change based on difficulty
             //Needs
-            if(destroyedChance == 1){
-                if(!mainTowers.isEmpty()){
+            if (destroyedChance == 1) {
+                if (!mainTowers.isEmpty()) {
                     Tower destroyedTower = mainTowers.get(0); //needs to be changed here based of round usage
                     //if this tower is destroyed, needs to increment
                     //Does destroying a tower, mean it has to wait a round to be repaired
                     destroyedTower.setDestroyed(true);
                 }
             }
-            if(buffChance == 1){
-                if(!mainTowers.isEmpty()){
+            if (buffChance == 1) {
+                if (!mainTowers.isEmpty()) {
                     //need to check if destroyed or not
                     Tower buffedTower = mainTowers.get(0);
-            }}
+                }
+            }
             ArrayList<Integer> cartTypeList = getCartNumber();
             newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
             for (int num : cartTypeList) {
@@ -810,40 +818,40 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
-        if(difficulty.equals("Easy")){
+        if (difficulty.equals("Easy")) {
             goldMine.setHealth(5);
         }
-        if(difficulty.equals("Medium")){
+        if (difficulty.equals("Medium")) {
             goldMine.setHealth(3);
         }
-        if(difficulty.equals("Hard")){
+        if (difficulty.equals("Hard")) {
             goldMine.setHealth(1);
         }
         goldMine.checkHealth();
 
-        ArrayList<Integer> cartTypeNumbers= new ArrayList<>();
-        if(roundNumber < 3){
+        ArrayList<Integer> cartTypeNumbers = new ArrayList<>();
+        if (roundNumber < 3) {
             cartTypeNumbers.add(roundNumber + 1); //Bronze carts
             cartTypeNumbers.add(0);               //Silver carts
             cartTypeNumbers.add(0);               //Gold carts
-            return(cartTypeNumbers);
+            return (cartTypeNumbers);
         }
-        if(roundNumber < 6){
+        if (roundNumber < 6) {
             cartTypeNumbers.add(roundNumber + 1);
             cartTypeNumbers.add(roundNumber / 2 + 1);
             cartTypeNumbers.add(0);
-            return(cartTypeNumbers);
+            return (cartTypeNumbers);
         }
-        if(roundNumber <= 10){
+        if (roundNumber <= 10) {
             cartTypeNumbers.add(roundNumber + 1);
             cartTypeNumbers.add(roundNumber / 2);
             cartTypeNumbers.add(roundNumber / 4);
-            return(cartTypeNumbers);
+            return (cartTypeNumbers);
         }
         cartTypeNumbers.add(roundNumber);
         cartTypeNumbers.add(roundNumber / 2);
         cartTypeNumbers.add(roundNumber / 3);
-        return(cartTypeNumbers);
+        return (cartTypeNumbers);
 
     }
 
@@ -852,26 +860,26 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
+        instructionLabel.setText("Round " + roundNumber + " complete!");
         collisionTimer.stop();
-        if(state){
+        if (state) {
             roundButton.setDisable(false);
             calculateIncome();
             playerCoins.setText(String.valueOf(coinBalance));
-        }
-        else{
+        } else {
             roundButton.setDisable(true);
             gameOver();
         }
     }
 
-    private void calculateIncome(){
-        if(difficulty.equals("Easy")){
+    private void calculateIncome() {
+        if (difficulty.equals("Easy")) {
             coinBalance += (int) ((roundNumber * 50) * 0.5);
         }
-        if(difficulty.equals("Normal")){
+        if (difficulty.equals("Normal")) {
             coinBalance += (int) ((roundNumber * 50) * 0.75);
         }
-        if(difficulty.equals("Hard")){
+        if (difficulty.equals("Hard")) {
             coinBalance += (roundNumber * 50);
         }
     }
@@ -883,10 +891,12 @@ public class GameController {
          * @author Gordon Homewood
          *
          */
+
+        collisionTimer = null;
         ImageView image = new ImageView("Art/Asset Pack/Factions/Knights/Troops/Dead/Dead.png");
         image.setX(250);
         image.setY(250);
-        for(CartBasic cart: cartList){
+        for (CartBasic cart : cartList) {
             cart.despawn();
         }
 
@@ -898,25 +908,32 @@ public class GameController {
         gameOverDialogue.setContentText("Failed");
 
 
-        ButtonType easyButton = new ButtonType("Retry", ButtonBar.ButtonData.OK_DONE);
-        ButtonType mediumButton = new ButtonType("Quit to Main Menu", ButtonBar.ButtonData.OK_DONE);
-        ButtonType quitButton = new ButtonType("I'm Not Ready!", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType retryButton = new ButtonType("Retry", ButtonBar.ButtonData.OK_DONE);
+        ButtonType mainButton = new ButtonType("Quit to Main Menu", ButtonBar.ButtonData.OK_DONE);
+        ButtonType quitButton = new ButtonType("Quit Game", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        gameOverDialogue.getDialogPane().getButtonTypes().addAll(easyButton, mediumButton,quitButton);
+        gameOverDialogue.getDialogPane().getButtonTypes().addAll(retryButton, mainButton, quitButton);
 
-        Optional<ButtonType> result = gameOverDialogue.showAndWait();
-
-        if (result.isPresent()) {
-            if (result.get() == easyButton) {
-                launchMain();
-            } else if (result.get() == mediumButton) {
-                launchMain();
+        Platform.runLater(() -> {
+            Optional<ButtonType> result = gameOverDialogue.showAndWait();
+            if(result.isPresent()){
+                if(result.get() == mainButton){
+                    //Music doesn't stop, needs to be fixed
+                    launchMain();
+                }
+                if(result.get() == quitButton){
+                    stage = (Stage) gamePane.getScene().getWindow();
+                    System.out.println("You Successfully quit the game!");
+                    stage.close();
+                }
+                if(result.get() == retryButton){
+                    launchRetry();
+                }
             }
+        });
 
 
-        //Spawn New Button that resets Quits to mainScreen or reloads game controller or just switch
-        //this whole thing to new screen
-    }}
+    }
 
     private void launchMain(){
         stage = (Stage) gamePane.getScene().getWindow();
@@ -938,6 +955,28 @@ public class GameController {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    private void launchRetry(){
+        stage = (Stage) gamePane.getScene().getWindow();
+        stage.close();
+
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
+        Parent root = null;
+        try {
+            root = baseLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        GameController baseController = baseLoader.getController();
+        baseController.init(primaryStage);
+
+        Scene scene = new Scene(root,1472,1024);
+        primaryStage.setResizable(false);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
     @FXML
     private void quitGame(ActionEvent actionEvent) {
         /**
@@ -959,5 +998,6 @@ public class GameController {
     }
 
 }
+
     // Add other methods and properties as needed
 

@@ -1,6 +1,7 @@
 package seng201.team0.models.carts;
 
 import javafx.animation.*;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -82,7 +83,7 @@ public class CartBasic {
             if(Objects.equals(resourceType, "bronze")){
                 cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeHalf.png")));}
         }
-        if(getLoadPercent() >= 1){
+        if(getLoadPercent() >= 0.85){
             if(Objects.equals(resourceType, "bronze")){
                 cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeFull.png")));}}
     }
@@ -126,42 +127,44 @@ public class CartBasic {
         return(destroyed);
     }
 
-    public void explode() {
-        //Code is ugly, needs to be converted to a loop
+    public void explode(int x, int y, boolean reachedEnd) {
         ImageView image = new ImageView();
-        image.setX(965);
-        image.setY(380);
-
+        image.setX(x);
+        image.setY(y);
         double scaleFactor = 1.25;
         image.setScaleX(scaleFactor);
         image.setScaleY(scaleFactor);
-
         ((Pane) cartImageSource.getParent()).getChildren().add(image);
 
-        Image newImage1 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-1.png");
-        Image newImage2 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-2.png");
-        Image newImage3 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-3.png");
-        Image newImage4 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-4.png");
-        Image newImage5 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-5.png");
-        Image newImage6 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-6.png");
-        Image newImage7 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-7.png");
-        Image newImage8 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-8.png");
-        Image newImage9 = new Image("Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-9.png");
+        String[] imagePaths = {
+                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-1.png",
+                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-2.png",
+                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-3.png",
+                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-4.png",
+                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-5.png",
+                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-6.png",
+                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-7.png",
+                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-8.png",
+                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-9.png"
+        };
+
         Duration delay = Duration.seconds(0.1);
 
-        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage1, delay);
-        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage2, delay.multiply(2));
-        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage3, delay.multiply(3));
-        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage4, delay.multiply(4));
-        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage5, delay.multiply(5));
-        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage6, delay.multiply(5));
-        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage7, delay.multiply(5));
-        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage8, delay.multiply(5));
-        GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage9, delay.multiply(5));
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(1);
+        colorAdjust.setSaturation(0.5);
+        colorAdjust.setBrightness(0.5);
+        colorAdjust.setContrast(0.5);
 
-        GeneralAnimationKeyframing.addHideAnimation(image, delay.multiply(5).add(Duration.seconds(0.1)));
+        for (int i = 0; i < imagePaths.length; i++) {
+            Image newImage = new Image(imagePaths[i]);
+            if (!reachedEnd) {
+                image.setEffect(colorAdjust);
+            }
+            GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage, delay.multiply(i + 1));
+        }
 
-
+        GeneralAnimationKeyframing.addHideAnimation(image, delay.multiply(imagePaths.length).add(Duration.seconds(0.1)));
         cartObject.setVisible(false);
     }
 

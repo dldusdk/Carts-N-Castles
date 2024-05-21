@@ -176,16 +176,30 @@ public class Tower {
 
 
     public CartBasic targetAcquisition(ArrayList<CartBasic> cartList) {
-        Collections.sort(cartList, new Comparator<CartBasic>() {
+        ArrayList<CartBasic> targetsInRange = new ArrayList<>();
+
+        for (CartBasic cart : cartList) {
+            double distanceToCart = this.getDistance(cart.getCartObject().getTranslateX(), cart.getCartObject().getTranslateY());
+            if (distanceToCart <= this.getRadius()) {
+                targetsInRange.add(cart);
+            }
+        }
+
+        if (targetsInRange.isEmpty()) {
+            return null;
+        }
+
+        Collections.sort(targetsInRange, new Comparator<CartBasic>() {
             @Override
             public int compare(CartBasic o1, CartBasic o2) {
-                return Double.compare(o1.getDistance(), o2.getDistance());
-
+                double distance1 = getDistance(o1.getCartObject().getTranslateX(), o1.getCartObject().getTranslateY());
+                double distance2 = getDistance(o2.getCartObject().getTranslateX(), o2.getCartObject().getTranslateY());
+                return Double.compare(distance1, distance2);
             }
         });
-        return(cartList.getLast());
-    }
 
+        return targetsInRange.get(0); // Return the closest target in range
+    }
     public boolean getDestroyed(){
         return(this.destroyed);
     }

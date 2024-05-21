@@ -45,6 +45,29 @@ public class Shop {
         return goldTowerCost;
     }
 
+    public int getSellValue(String towerType, int roundNumber) {
+        int initialCost;
+        switch (towerType) {
+            case "Bronze":
+                initialCost = bronzeTowerCost;
+                break;
+            case "Silver":
+                initialCost = silverTowerCost;
+                break;
+            case "Gold":
+                initialCost = goldTowerCost;
+                break;
+
+            default:
+                return 0;
+        }
+        // Depreciate 10% per round
+        double depreciationRate = 0.10;
+        double depreciationFactor = Math.pow((1-depreciationRate), roundNumber);
+        return (int) (initialCost * depreciationFactor);
+    }
+    // OTHER METHODS
+
     public void decreaseStock(String towerType) {
         switch (towerType) {
             case "Bronze":

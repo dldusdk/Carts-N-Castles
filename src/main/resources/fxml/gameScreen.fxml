@@ -429,6 +429,12 @@
                   <Font name="Minecraft" size="14.0" />
                </font>
             </Button>
+            <ImageView fitHeight="36.0" fitWidth="27.0" layoutX="879.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Art/Shop/coin.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="sellLabel" layoutX="919.0" layoutY="23.0" text="0" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="47.0" fitWidth="40.0" layoutX="1165.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">

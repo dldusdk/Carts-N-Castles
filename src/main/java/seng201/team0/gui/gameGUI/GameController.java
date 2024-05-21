@@ -100,6 +100,8 @@ public class GameController {
     private Label silverStockLabel;
     @FXML
     private Label goldStockLabel;
+    @FXML
+    private Label sellLabel;
 
 
     // GUI variables
@@ -122,7 +124,7 @@ public class GameController {
 
     // Shop Variables
     private Shop shop;
-    private int coinBalance = 200;
+    private int coinBalance;
     private boolean upgradePurchased = false;
 
 
@@ -238,8 +240,9 @@ public class GameController {
 
         //Initialize shop and player currency
         shop = new Shop();
+        coinBalance = 200;
         updateStockDisplay();
-        playerCoins.setText(String.valueOf(coinBalance));
+        updatePlayerCoins();
         difficulty = "Normal";
 
         // Round initialization
@@ -369,7 +372,7 @@ public class GameController {
                         towerCost = shop.getGoldTowerCost();
                         break;
                 }
-                if (coinBalance > -towerCost) {
+                if (coinBalance >= towerCost) {
                     selectedTowerType = towerType;
                     isPurchaseMode = true;
                     setupCursorForTower(getTowerImagePath(towerType));
@@ -381,15 +384,16 @@ public class GameController {
                     dialog.setContentText("Tower Name:");
                     Optional<String> result = dialog.showAndWait();
                     updateStockDisplay();
-                    // If 'Cancel' is clicked, do not take away from stock and reset the purchase mode
+                    // If Name entered, deduct the appropriate coin amount and update coin display
                     if (result.isPresent()) {
                         userInputTowerName = result.get(); // Store the entered name
                         coinBalance -= towerCost;
-                    } else {
+                        updatePlayerCoins();
+                    } else { // If 'Cancel' is clicked, do not take away from stock and reset the purchase mode
                         resetPurchaseMode();
                     }
                 } else {
-                    instructionLabel.setText("Sorry! Currently SOLD OUT! Check again next round.");
+                    instructionLabel.setText("You don't have enough coins to buy this tower. Try again next round!");
                 }
             }
         }
@@ -629,33 +633,41 @@ public class GameController {
         gamePane.setCursor(null);  // Reset cursor to default
     }
 
-    @FXML
     public void sell(ActionEvent actionEvent) {
         /**
-         * Allows deletion of the tower
+         * Allows deletion of the tower and refunds the money at a depreciated cost
          * @author Michelle Lee
          */
+
         if (selectedTower != null) {
-            ((Pane) trackDefault.getParent()).getChildren().remove(radiusCircle);
-            // Remove the selected tower from the gamePane
-            gamePane.getChildren().remove(selectedTower);
-
+            // Refund the tower sell value to the player
             Tower tower = towersMap.get(selectedTower);
+            if (tower != null) {
+                String towerType = tower.getResourceType();
+                int refund = shop.getSellValue(towerType, roundNumber);
+                coinBalance += refund;
+                updatePlayerCoins();
 
-            // Checks if it is a Main or Reserve tower and removes it from respective Array
-            if (mainTowers.contains(tower)) {
-                mainTowers.remove(tower);
-            } else if (reserveTowers.contains(tower)) {
-                reserveTowers.remove(tower);
+                // Remove the selected tower from the gamePane
+                ((Pane) trackDefault.getParent()).getChildren().remove(radiusCircle);
+                gamePane.getChildren().remove(selectedTower);
+
+                // Checks if it is a Main or Reserve tower and removes it from respective Array
+                if (mainTowers.contains(tower)) {
+                    mainTowers.remove(tower);
+                } else if (reserveTowers.contains(tower)) {
+                    reserveTowers.remove(tower);
+                }
+
+                towersMap.remove(selectedTower);
+                selectedTower = null;
+                gamePane.setCursor(null);
+                isSellMode = false;
+                towerStats.setVisible(false);
             }
-
-            towersMap.remove(selectedTower);
-            selectedTower = null;
-            gamePane.setCursor(null);
-            isSellMode = false;
-            towerStats.setVisible(false);
         }
     }
+
 
 
     @FXML
@@ -693,6 +705,11 @@ public class GameController {
             levelLabel.setText(String.valueOf(tower.getTowerLevel()));
             activeLabel.setText(tower.getTowerState() ? "Active" : "Inactive");
             inventoryLocationLabel.setText(tower.getInventoryLocation());
+
+            //Get and display sell value
+            String towerType = tower.getResourceType();
+            int sellPrice = shop.getSellValue(towerType, roundNumber);
+            sellLabel.setText(String.valueOf(sellPrice));
 
             // RANGE?
             radiusCircle = new Circle(tower.getX(), tower.getY(), tower.getRadius());
@@ -865,6 +882,10 @@ public class GameController {
     }
 
     private void calculateIncome(){
+        /**
+         *
+         * @author Gordon Homewood
+         */
         if(difficulty.equals("Easy")){
             coinBalance += (int) ((roundNumber * 50) * 0.5);
         }
@@ -874,6 +895,7 @@ public class GameController {
         if(difficulty.equals("Hard")){
             coinBalance += (roundNumber * 50);
         }
+        updatePlayerCoins();
     }
 
 

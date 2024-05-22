@@ -5,7 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import seng201.team0.models.carts.CartBasic;
+import seng201.team0.models.carts.Cart;
 
 public class Projectile {
     private int speed;
@@ -19,13 +19,13 @@ public class Projectile {
     private ImageView projectileObject;
     private Timeline timeline;
     private int framesPerSecond = 60;
-    private CartBasic target;
+    private Cart target;
     private double angle=0;
     private boolean lock = false;
     private double damage;
     private boolean state = true;
 
-    public Projectile(int xCoordStart, int yCoordStart, String type, ImageView projectileDefaultLoad, CartBasic cart,double inputDamage){
+    public Projectile(int xCoordStart, int yCoordStart, String type, ImageView projectileDefaultLoad, Cart cart, double inputDamage){
         String path = initType(type);
 
 

@@ -4,7 +4,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import seng201.team0.models.carts.CartBasic;
+import seng201.team0.models.carts.Cart;
 
 import java.util.*;
 
@@ -209,10 +209,10 @@ public class Tower {
     }
 
 
-    public CartBasic targetAcquisition(ArrayList<CartBasic> cartList) {
-        ArrayList<CartBasic> targetsInRange = new ArrayList<>();
+    public Cart targetAcquisition(ArrayList<Cart> cartList) {
+        ArrayList<Cart> targetsInRange = new ArrayList<>();
 
-        for (CartBasic cart : cartList) {
+        for (Cart cart : cartList) {
             double distanceToCart = this.getDistance(cart.getCartObject().getTranslateX(), cart.getCartObject().getTranslateY());
             if (distanceToCart <= this.getRadius()) {
                 targetsInRange.add(cart);
@@ -223,16 +223,16 @@ public class Tower {
             return null;
         }
 
-        Collections.sort(targetsInRange, new Comparator<CartBasic>() {
+        Collections.sort(targetsInRange, new Comparator<Cart>() {
             @Override
-            public int compare(CartBasic o1, CartBasic o2) {
+            public int compare(Cart o1, Cart o2) {
                 double distance1 = getDistance(o1.getCartObject().getTranslateX(), o1.getCartObject().getTranslateY());
                 double distance2 = getDistance(o2.getCartObject().getTranslateX(), o2.getCartObject().getTranslateY());
                 return Double.compare(distance1, distance2);
             }
         });
 
-        return targetsInRange.get(0); // Return the closest target in range
+        return targetsInRange.getFirst(); // Return the closest target in range
     }
 
     public void setBuff(boolean buff){

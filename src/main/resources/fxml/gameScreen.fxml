@@ -199,15 +199,15 @@
                <children>
                   <AnchorPane prefHeight="126.0" prefWidth="308.0">
                      <children>
-                        <Button fx:id="upgradeshootSpeed" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
+                        <Button fx:id="upgradeSpeed" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
                            <graphic>
                               <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../Downloads/sr2b01a7f1030aws3.png" />
+                                    <Image url="@../Art/Shop/speedPotion.png" />
                                  </image></ImageView>
                            </graphic>
                         </Button>
-                        <Label layoutX="255.0" layoutY="73.0" prefHeight="44.0" prefWidth="54.0" text="40">
+                        <Label layoutX="255.0" layoutY="73.0" prefHeight="44.0" prefWidth="54.0" text="200">
                            <font>
                               <Font name="Minecraft" size="18.0" />
                            </font>
@@ -237,16 +237,20 @@
                               <Image url="@../Art/Shop/coin.png" />
                            </image>
                         </ImageView>
+                        <Label fx:id="speedLevel" layoutX="169.0" layoutY="100.0" text="Label" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="15.0" layoutY="10.0" prefHeight="126.0" prefWidth="308.0">
                      <children>
                         <Button fx:id="upgradeRange" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
                            <graphic>
-                              <ImageView fx:id="towerImageView11" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="towerImageView11" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Shop/rangePotion.png" />
+                                 </image></ImageView>
                            </graphic>
                         </Button>
-                        <Label layoutX="259.0" layoutY="79.0" prefHeight="44.0" prefWidth="47.0" text="30">
+                        <Label layoutX="259.0" layoutY="79.0" prefHeight="44.0" prefWidth="47.0" text="250">
                            <font>
                               <Font name="Minecraft" size="18.0" />
                            </font>
@@ -276,13 +280,17 @@
                               <Image url="@../Art/Shop/coin.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="165.0" layoutY="108.0" text="Label" />
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="r" layoutX="15.0" layoutY="270.0" prefHeight="126.0" prefWidth="308.0">
                      <children>
-                        <Button mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
+                        <Button fx:id="upgradeFill" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
                            <graphic>
-                              <ImageView fx:id="towerImageView1111" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="towerImageView1111" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Art/Shop/fillPotion.png" />
+                                 </image></ImageView>
                            </graphic>
                         </Button>
                         <ImageView fx:id="silvertowerImage1111" fitHeight="129.0" fitWidth="77.0" layoutX="7.0" layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true" visible="false">
@@ -310,11 +318,12 @@
                               <Image url="@../Art/Shop/coin.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="262.0" layoutY="83.0" prefHeight="44.0" prefWidth="47.0" text="30">
+                        <Label layoutX="262.0" layoutY="83.0" prefHeight="44.0" prefWidth="47.0" text="300">
                            <font>
                               <Font name="Minecraft" size="18.0" />
                            </font>
                         </Label>
+                        <Label layoutX="172.0" layoutY="96.0" text="Label" />
                      </children>
                   </AnchorPane>
                </children>
@@ -429,6 +438,12 @@
                   <Font name="Minecraft" size="14.0" />
                </font>
             </Button>
+            <ImageView fitHeight="36.0" fitWidth="27.0" layoutX="879.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Art/Shop/coin.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="sellLabel" layoutX="919.0" layoutY="23.0" text="0" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="47.0" fitWidth="40.0" layoutX="1165.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">

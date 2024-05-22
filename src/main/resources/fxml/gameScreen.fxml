@@ -72,7 +72,7 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <ScrollPane fx:id="generalShop" fitToHeight="true" fitToWidth="true" layoutX="1152.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0">
+      <ScrollPane fx:id="generalShop" fitToHeight="true" fitToWidth="true" layoutX="1152.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0" visible="false">
          <content>
             <VBox prefHeight="830.0" prefWidth="349.0">
                <padding>
@@ -190,7 +190,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <ScrollPane fx:id="upgradeShop" fitToHeight="true" fitToWidth="true" layoutX="1155.0" layoutY="203.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="831.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0" visible="false">
+      <ScrollPane fx:id="upgradeShop" fitToHeight="true" fitToWidth="true" layoutX="1155.0" layoutY="203.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="831.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0">
          <content>
             <VBox prefHeight="830.0" prefWidth="320.0">
                <padding>
@@ -199,7 +199,7 @@
                <children>
                   <AnchorPane prefHeight="126.0" prefWidth="308.0">
                      <children>
-                        <Button fx:id="upgradeshootSpeed" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
+                        <Button fx:id="upgradeSpeed" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
                            <graphic>
                               <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -207,7 +207,7 @@
                                  </image></ImageView>
                            </graphic>
                         </Button>
-                        <Label layoutX="255.0" layoutY="73.0" prefHeight="44.0" prefWidth="54.0" text="40">
+                        <Label layoutX="255.0" layoutY="73.0" prefHeight="44.0" prefWidth="54.0" text="200">
                            <font>
                               <Font name="Minecraft" size="18.0" />
                            </font>
@@ -237,6 +237,7 @@
                               <Image url="@../Art/Shop/coin.png" />
                            </image>
                         </ImageView>
+                        <Label fx:id="speedLevel" layoutX="169.0" layoutY="100.0" text="Label" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="15.0" layoutY="10.0" prefHeight="126.0" prefWidth="308.0">
@@ -246,7 +247,7 @@
                               <ImageView fx:id="towerImageView11" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
                            </graphic>
                         </Button>
-                        <Label layoutX="259.0" layoutY="79.0" prefHeight="44.0" prefWidth="47.0" text="30">
+                        <Label layoutX="259.0" layoutY="79.0" prefHeight="44.0" prefWidth="47.0" text="250">
                            <font>
                               <Font name="Minecraft" size="18.0" />
                            </font>
@@ -276,11 +277,12 @@
                               <Image url="@../Art/Shop/coin.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="165.0" layoutY="108.0" text="Label" />
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="r" layoutX="15.0" layoutY="270.0" prefHeight="126.0" prefWidth="308.0">
                      <children>
-                        <Button mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
+                        <Button fx:id="upgradeFill" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
                            <graphic>
                               <ImageView fx:id="towerImageView1111" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
                            </graphic>
@@ -310,11 +312,12 @@
                               <Image url="@../Art/Shop/coin.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="262.0" layoutY="83.0" prefHeight="44.0" prefWidth="47.0" text="30">
+                        <Label layoutX="262.0" layoutY="83.0" prefHeight="44.0" prefWidth="47.0" text="300">
                            <font>
                               <Font name="Minecraft" size="18.0" />
                            </font>
                         </Label>
+                        <Label layoutX="172.0" layoutY="96.0" text="Label" />
                      </children>
                   </AnchorPane>
                </children>

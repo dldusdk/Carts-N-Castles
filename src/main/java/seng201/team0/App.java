@@ -24,8 +24,8 @@ public class App {
 
     public static void main(String[] args) {
 
-        MainWindow.launchWrapper(args);
-        //GameWindow.launchWrapper(args);
+        //MainWindow.launchWrapper(args);
+        GameWindow.launchWrapper(args);
 
 
     }

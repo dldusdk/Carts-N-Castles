@@ -4,15 +4,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import seng201.team0.models.carts.CartBasic;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class Tower {
-    //Tower
+    // Projectiles
     private long projectileTime;
     double x;
     double y;
+
+    // Tower
     String towerName;
     String resourceType;
     double reloadSpeed;
@@ -21,14 +21,18 @@ public class Tower {
     int towerLevel;
     int range;
     boolean towerState;
-    String inventoryLocation;
-
     private ImageView towerImage;
     private boolean destroyed;
 
+    // Tower Upgrades
+    private static final double SPEED_UPGRADE_FACTOR = 0.9;  // 10% faster
+    private static final double RANGE_UPGRADE_INCREMENT = 10.0;  // Increase range by 10 units
+    private static final double LOAD_AMOUNT_INCREMENT = 5.0;  // Increase load amount by 5 units
 
+
+    // Other
+    String inventoryLocation;
     //private long fireRate = 500000000L;
-
     private double radius;
     private double previousRadius = 0;
 
@@ -47,6 +51,7 @@ public class Tower {
         this.destroyed = false;
         this.towerState = towerState;
         this.inventoryLocation = inventoryLocation;
+
     }
 
     //Setters
@@ -108,43 +113,41 @@ public class Tower {
     public double getX() {
         return x;
     }
-
-    public double getY() {
-        return y;
-    }
-
+    public double getY() { return y; }
     public long getProjectileTime() {
         return projectileTime;
     }
-
     public double getRadius() {
         return (radius);
     }
-
     public double getDistance(double targetX, double targetY) {
         return (Math.sqrt(Math.pow(this.x - targetX, 2) + Math.pow(this.y - targetY, 2)));
     }
 
     // Upgrade methods
-    public void upgradeReloadSpeed() {
-        this.reloadSpeed *= 0.9; // Example: Decrease reload speed by 10%
-    }
-
-    public void upgradeLoadAmount() {
-        this.loadAmount += 1; // Example: Increase load amount by 1
-    }
-
-    public void upgradeTowerLevel() {
-        this.towerLevel += 1; // Example: Increase tower level
+    public void upgradeSpeed() {
+        /**
+         * Updates the reload speed by constant
+         * @author Michelle Lee
+         */
+        reloadSpeed *= SPEED_UPGRADE_FACTOR;
     }
 
     public void upgradeRange() {
-        this.range += 10; // Example: Increase range by 10
+        /**
+         * Updates the range by constant
+         * @author Michelle Lee
+         */
+        radius += RANGE_UPGRADE_INCREMENT;
     }
 
-    // Tower Methods
-
-
+    public void upgradeFill() {
+        /**
+         * Updates the load amount by constant
+         * @author Michelle Lee
+         */
+        loadAmount += LOAD_AMOUNT_INCREMENT;
+    }
 
     // Projectiles
     public void draw(double x, double y, String path) {
@@ -152,28 +155,29 @@ public class Tower {
          * Creates image of tower based on parameters
          * Held in class, so it can be accessed if needed
          * @Author Gordon Homewood
-        */
+         */
         towerImage = new ImageView(new Image(path));
         towerImage.setFitWidth(128);
         towerImage.setFitHeight(256);
         towerImage.setX(x - 64);
         towerImage.setY(y - 192);
     }
-    public ImageView getImage()
-        /**
-        * Returns ImageView of tower
-        * @Author Gordon Homewood
-        */
-    {return(towerImage);}
 
-    public void delete(){
+    public ImageView getImage()
+    /**
+     * Returns ImageView of tower
+     * @Author Gordon Homewood
+     */
+    {
+        return (towerImage);
+    }
+
+    public void delete() {
         towerImage = null;
     }
-
-    public long getFireRate(){
-        return((long)reloadSpeed);
+    public long getFireRate() {
+        return ((long) reloadSpeed);
     }
-
 
     public CartBasic targetAcquisition(ArrayList<CartBasic> cartList) {
         ArrayList<CartBasic> targetsInRange = new ArrayList<>();
@@ -200,13 +204,13 @@ public class Tower {
 
         return targetsInRange.get(0); // Return the closest target in range
     }
-    public boolean getDestroyed(){
-        return(this.destroyed);
-    }
 
-    public void setDestroyed(boolean destroyed){
+    public boolean getDestroyed() {
+        return (this.destroyed);
+    }
+    public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
-        if(this.destroyed){
+        if (this.destroyed) {
             this.previousRadius = this.radius;
             this.radius = 0;
             this.towerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Destroyed.png"));

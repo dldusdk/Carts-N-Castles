@@ -9,10 +9,19 @@ public class Shop {
     private int silverTowerStock = 3;
     private int goldTowerStock = 2;
 
-    // Define the cost of each tower type
+    // Upgrades might not need this though...
+    private int speedUpgradeStock = 500;
+    private int rangeUpgradeStock = 500;
+    private int fillingUpgradeStock = 500;
+
+    // Define the cost of each shop item
     private int bronzeTowerCost = 50;
     private int silverTowerCost = 100;
     private int goldTowerCost = 200;
+
+    private int speedUpgradeCost = 200;
+    private int rangeUpgradeCost = 250;
+    private int fillingUpgradeCost = 300;
 
     private Random random;
 
@@ -24,26 +33,18 @@ public class Shop {
     public int getBronzeTowerStock() {
         return bronzeTowerStock;
     }
-
     public int getSilverTowerStock() {
         return silverTowerStock;
     }
-
     public int getGoldTowerStock() {
         return goldTowerStock;
     }
-
-    public int getBronzeTowerCost() {
-        return bronzeTowerCost;
-    }
-
-    public int getSilverTowerCost() {
-        return silverTowerCost;
-    }
-
-    public int getGoldTowerCost() {
-        return goldTowerCost;
-    }
+    public int getBronzeTowerCost() { return bronzeTowerCost; }
+    public int getSilverTowerCost() { return silverTowerCost; }
+    public int getGoldTowerCost() { return goldTowerCost; }
+    public int getSpeedUpgradeCost() { return speedUpgradeCost; }
+    public int getRangeUpgradeCost() { return rangeUpgradeCost; }
+    public int getFillingUpgradeCost() { return fillingUpgradeCost; }
 
     public int getSellValue(String towerType, int roundNumber) {
         int initialCost;
@@ -57,7 +58,6 @@ public class Shop {
             case "Gold":
                 initialCost = goldTowerCost;
                 break;
-
             default:
                 return 0;
         }
@@ -66,9 +66,14 @@ public class Shop {
         double depreciationFactor = Math.pow((1-depreciationRate), roundNumber);
         return (int) (initialCost * depreciationFactor);
     }
+
     // OTHER METHODS
 
     public void decreaseStock(String towerType) {
+        /**
+         * Decrease the stock
+         * @author Michelle Lee
+         */
         switch (towerType) {
             case "Bronze":
                 if (bronzeTowerStock > 0) {
@@ -90,6 +95,10 @@ public class Shop {
     }
 
     public int getStock(String towerType) {
+        /**
+         * Depending on the passed String return the Stock
+         * @author Michelle Lee
+         */
         switch (towerType) {
             case "Bronze":
                 return bronzeTowerStock;
@@ -102,18 +111,21 @@ public class Shop {
         }
     }
 
-
     public void randomizeStock() {
+        /**
+         * After the first round the stock is randomized
+         * The bronze tower will always be between 0 - 5
+         * @uthor Michelle Lee
+         */
         int totalStock = 10;
-        int max_stock = 5;
+        int bronze_max_stock = 5;
 
-        bronzeTowerStock = random.nextInt(totalStock + 1); // Random stock between 0 and totalStock
-        int remainingStock = max_stock - bronzeTowerStock;
+        bronzeTowerStock = random.nextInt(totalStock + 1); // Random stock between 0 and bronze_max_stock
+        int remainingStock = bronze_max_stock - bronzeTowerStock;
 
         silverTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock
         remainingStock -= silverTowerStock;
 
         goldTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock
     }
-
 }

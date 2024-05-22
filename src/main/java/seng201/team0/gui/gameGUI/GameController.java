@@ -92,9 +92,11 @@ public class GameController {
     @FXML
     private Label playerLives;
     @FXML
-    private Button upgradeshootSpeed;
+    private Button upgradeSpeed;
     @FXML
     private Button upgradeRange;
+    @FXML
+    private Button upgradeFill;
     @FXML
     private Label bronzeStockLabel;
     @FXML
@@ -148,88 +150,8 @@ public class GameController {
     private GoldMine goldMine;
     private double destroyedChance = 1;
     private double buffChance;
-
     private List<Projectile> projectiles = new ArrayList<>(); // Add this line to keep track of projectiles
 
-
-    private AnimationTimer collisionTimer = new AnimationTimer() {
-        public void handle(long timestamp) {
-            //System.out.println(placedTowers);
-            //System.out.println(mainTowers);
-            if (!cartList.isEmpty()) {
-                for (Tower tower : mainTowers) {
-                    // If tower is inactive skip the code, else continue if active
-                    if (!tower.getTowerState()) {
-                        continue;
-                    }
-                    CartBasic towerTarget = tower.targetAcquisition(cartList);
-                    if (towerTarget == null) {
-                        continue;
-                    }
-                    double fireRate = tower.getFireRate();
-                    if (timestamp - tower.getProjectileTime() >= fireRate && towerTarget.getCartObject().getTranslateX() > 0
-                            && tower.getRadius() > tower.getDistance(towerTarget.getCartObject().getTranslateX(), towerTarget.getCartObject().getTranslateY())) {
-
-                        double damage = tower.getLoadAmount();
-                        String type = tower.getResourceType();
-                        int spawnX = (int) (tower.getX() - 30);
-                        int spawnY = (int) (tower.getY() - 30);
-
-                        Projectile projectile = new Projectile(spawnX, spawnY, type, trackDefault, towerTarget, damage);
-                        projectile.spawn();
-                        projectiles.add(projectile);
-                        tower.setProjectileTime(timestamp);
-                    }
-                }
-                Iterator<CartBasic> iterator = cartList.iterator(); //So carts can safely be removed in loop
-                while (iterator.hasNext()) {
-                    CartBasic cart = iterator.next();
-
-                    if (cart.getCartObject().getTranslateX() >= 0) {
-                        //Sets carts distance through track so towers prioritize the furthest cart
-                        double previousX = cart.getCurrentX();
-                        double previousY = cart.getCurrentY();
-                        double currentX = cart.getCartObject().getTranslateX();
-                        double currentY = cart.getCartObject().getTranslateY();
-
-                        double deltaX = currentX - previousX;
-                        double deltaY = currentY - previousY;
-
-                        cart.incrementDistance(deltaX);
-                        cart.incrementDistance(deltaY);
-
-                        cart.setCurrentX(currentX);
-                        cart.setCurrentY(currentY);
-                        System.out.println(cart.getDistance());
-                    }
-                    if (cart.getLoadPercent() >= 1) {
-                        //Carts get destroyed if at max load (explosion different color)
-                        cart.explode((int) cart.getCartObject().getTranslateX() - 60, (int) cart.getCartObject().getTranslateY() - 60, false);
-                        iterator.remove();
-                        cart.despawn();
-                        cartNumber--;
-                    }
-                    if (cart.getCartObject().getTranslateX() > 1025 && cart.getLoadPercent() < 1) {
-                        //Carts damage gold mine if reach end of track
-                        iterator.remove();
-                        cart.explode(965, 380, true);
-                        cartNumber--;
-                        goldMine.decreaseHealth();
-                        playerLives.setText(String.valueOf(goldMine.getHealth()));
-                        updatePlayerLives();
-                        if (goldMine.getHealth() <= 0) {
-                            stopRound(false);
-                        }
-                    }
-                    if (cartNumber <= 0 && !(goldMine.getHealth() <= 0)) {
-                        collisionTimer.stop();
-                        stopRound(true);
-                    }
-                }
-            }
-        }
-
-    };
 
     public void init(Stage primaryStage) {
         /**
@@ -366,43 +288,119 @@ public class GameController {
         int towerCost = 0;
         String towerType = getTowerTypeFromButton(pressedButton);
 
-            if (towerType != null && shop.getStock(towerType) > 0) {
-                switch (towerType) {
-                    case "Bronze":
-                        towerCost = shop.getBronzeTowerCost();
-                        break;
-                    case "Silver":
-                        towerCost = shop.getSilverTowerCost();
-                        break;
-                    case "Gold":
-                        towerCost = shop.getGoldTowerCost();
-                        break;
-                }
-                if (coinBalance >= towerCost) {
-                    selectedTowerType = towerType;
-                    isPurchaseMode = true;
-                    setupCursorForTower(getTowerImagePath(towerType));
+        if (towerType != null && shop.getStock(towerType) > 0) {
+            switch (towerType) {
+                case "Bronze":
+                    towerCost = shop.getBronzeTowerCost();
+                    break;
+                case "Silver":
+                    towerCost = shop.getSilverTowerCost();
+                    break;
+                case "Gold":
+                    towerCost = shop.getGoldTowerCost();
+                    break;
+            }
+            if (coinBalance >= towerCost) {
+                selectedTowerType = towerType;
+                isPurchaseMode = true;
+                setupCursorForTower(getTowerImagePath(towerType));
 
-                    // User inputs the tower name
-                    TextInputDialog dialog = new TextInputDialog("Tower Name");
-                    dialog.setTitle("Enter Tower Name");
-                    dialog.setHeaderText("Enter a name for your " + selectedTowerType + " tower:");
-                    dialog.setContentText("Tower Name:");
-                    Optional<String> result = dialog.showAndWait();
-                    updateStockDisplay();
-                    // If Name entered, deduct the appropriate coin amount and update coin display
-                    if (result.isPresent()) {
-                        userInputTowerName = result.get(); // Store the entered name
-                        coinBalance -= towerCost;
-                        updatePlayerCoins();
-                    } else { // If 'Cancel' is clicked, do not take away from stock and reset the purchase mode
-                        resetPurchaseMode();
-                    }
-                } else {
-                    instructionLabel.setText("You don't have enough coins to buy this tower. Try again next round!");
+                // User inputs the tower name
+                TextInputDialog dialog = new TextInputDialog("Tower Name");
+                dialog.setTitle("Enter Tower Name");
+                dialog.setHeaderText("Enter a name for your " + selectedTowerType + " tower:");
+                dialog.setContentText("Tower Name:");
+                Optional<String> result = dialog.showAndWait();
+                updateStockDisplay();
+                // If Name entered, deduct the appropriate coin amount and update coin display
+                if (result.isPresent()) {
+                    userInputTowerName = result.get(); // Store the entered name
+                    coinBalance -= towerCost;
+                    updatePlayerCoins();
+                } else { // If 'Cancel' is clicked, do not take away from stock and reset the purchase mode
+                    resetPurchaseMode();
                 }
+            } else {
+                instructionLabel.setText("You don't have enough coins to buy this tower. Try again next round!");
             }
         }
+    }
+
+    public void buyUpgrade(MouseEvent event) {
+        /**
+         * Handles the buying of upgrades for the selected tower.
+         * @author Michelle Lee
+         */
+        Button pressedButton = (Button) event.getSource();
+        System.out.println("Button pressed: " + pressedButton.getId());
+
+        int upgradeCost = 0;
+
+        if (selectedTower != null) {
+            System.out.println("Selected tower is not null.");
+            Tower tower = towersMap.get(selectedTower);
+            System.out.println("Tower retrieved from map: " + tower.getName());
+
+            String upgradeType = getUpgradeType(pressedButton);
+            System.out.println("Upgrade type: " + upgradeType);
+
+            if (upgradeType != null) {
+                switch (upgradeType) {
+                    case "Upgrade Speed":
+                        upgradeCost = shop.getSpeedUpgradeCost();
+                        break;
+                    case "Upgrade Range":
+                        upgradeCost = shop.getRangeUpgradeCost();
+                        break;
+                    case "Upgrade Fill":
+                        upgradeCost = shop.getFillingUpgradeCost();
+                        break;
+                    default:
+                        System.out.println("Unknown upgrade type.");
+                        break;
+                }
+                System.out.println("Upgrade cost: " + upgradeCost);
+
+                // If the player has enough money, take away the coins and then upgrade
+                if (coinBalance >= upgradeCost) {
+                    coinBalance -= upgradeCost;
+                    System.out.println("Coin balance after upgrade: " + coinBalance);
+                    updatePlayerCoins();
+                    // Apply the upgrade to the tower here
+                    applyUpgradeToTower(tower, upgradeType);
+                    updateTowerStats(tower);
+                    System.out.println("Upgrade applied to tower.");
+                } else {
+                    instructionLabel.setText("You don't have enough coins for this upgrade. Try again next round!");
+                    System.out.println("Not enough coins. Current balance: " + coinBalance);
+                }
+            }
+        } else {
+            System.out.println("Selected tower is null.");
+        }
+    }
+
+    private void applyUpgradeToTower(Tower tower, String upgradeType) {
+        /**
+         * Upgrades the tower depending on Upgrade Type input
+         * @author Michelle Lee
+         */
+        switch (upgradeType) {
+            case "Upgrade Speed":
+                tower.upgradeSpeed();
+                updateTowerStats(tower);
+                break;
+            case "Upgrade Range":
+                tower.upgradeRange();
+                updateTowerStats(tower);
+                break;
+            case "Upgrade Fill":
+                tower.upgradeFill();
+                updateTowerStats(tower);
+                break;
+        }
+    }
+
 
 
     private void setupCursorForTower(String imagePath) {
@@ -414,7 +412,22 @@ public class GameController {
         gamePane.setCursor(new ImageCursor(towerImage.getImage()));
     }
 
+    private String getUpgradeType(Button button) {
+        /**
+         * Get the button fx:id from the button clicked
+         * @author Michelle Lee
+         */
 
+        if (button == upgradeSpeed) {
+            return "Upgrade Speed";
+        } else if (button == upgradeRange) {
+            return "Upgrade Range";
+        } else if (button == upgradeFill) {
+            return "Upgrade Fill";
+        } else {
+            return null;
+        }
+    }
     private String getTowerTypeFromButton(Button button) {
         /**
          * returns the fxml:id of the button clicked
@@ -503,6 +516,10 @@ public class GameController {
     }
 
     private void updateTowerStats(Tower tower) {
+        /**
+         * Updates the Tower Stats on the Tower Stats View
+         * @author Michelle Lee
+         */
         towerNameLabel.setText(tower.getName());
         resourceTypeLabel.setText(tower.getResourceType());
         reloadSpeedLabel.setText(String.valueOf(tower.getReloadSpeed()));
@@ -604,29 +621,7 @@ public class GameController {
         }
     }
 
-    @FXML
-    private void upgradeShootSpeed(ActionEvent event) {
-        if (selectedTower != null && !upgradePurchased) {
-            Tower tower = towersMap.get(selectedTower);
-            if (tower != null) {
-                tower.upgradeReloadSpeed(); // Use the existing method in Tower class to upgrade reload speed
-                upgradePurchased = true;
-                upgradeshootSpeed.setDisable(true); // Disable the button to prevent multiple purchases in the same round
-            }
-        }
-    }
 
-    @FXML
-    private void upgradeRange(ActionEvent event) {
-        if (selectedTower != null && !upgradePurchased) {
-            Tower tower = towersMap.get(selectedTower);
-            if (tower != null) {
-                tower.upgradeRange(); // Use the existing method in Tower class to upgrade range
-                upgradePurchased = true;
-                upgradeRange.setDisable(true); // Disable the button to prevent multiple purchases in the same round
-            }
-        }
-    }
 
     private void resetPurchaseMode() {
         /**
@@ -733,6 +728,84 @@ public class GameController {
     }
 
 
+    private AnimationTimer collisionTimer = new AnimationTimer() {
+        public void handle(long timestamp) {
+            //System.out.println(placedTowers);
+            //System.out.println(mainTowers);
+            if (!cartList.isEmpty()) {
+                for (Tower tower : mainTowers) {
+                    // If tower is inactive skip the code, else continue if active
+                    if (!tower.getTowerState()) {
+                        continue;
+                    }
+                    CartBasic towerTarget = tower.targetAcquisition(cartList);
+                    if (towerTarget == null) {
+                        continue;
+                    }
+                    double fireRate = tower.getFireRate();
+                    if (timestamp - tower.getProjectileTime() >= fireRate && towerTarget.getCartObject().getTranslateX() > 0
+                            && tower.getRadius() > tower.getDistance(towerTarget.getCartObject().getTranslateX(), towerTarget.getCartObject().getTranslateY())) {
+
+                        double damage = tower.getLoadAmount();
+                        String type = tower.getResourceType();
+                        int spawnX = (int) (tower.getX() - 30);
+                        int spawnY = (int) (tower.getY() - 30);
+
+                        Projectile projectile = new Projectile(spawnX, spawnY, type, trackDefault, towerTarget, damage);
+                        projectile.spawn();
+                        projectiles.add(projectile);
+                        tower.setProjectileTime(timestamp);
+                    }
+                }
+                Iterator<CartBasic> iterator = cartList.iterator(); //So carts can safely be removed in loop
+                while (iterator.hasNext()) {
+                    CartBasic cart = iterator.next();
+
+                    if (cart.getCartObject().getTranslateX() >= 0) {
+                        //Sets carts distance through track so towers prioritize the furthest cart
+                        double previousX = cart.getCurrentX();
+                        double previousY = cart.getCurrentY();
+                        double currentX = cart.getCartObject().getTranslateX();
+                        double currentY = cart.getCartObject().getTranslateY();
+
+                        double deltaX = currentX - previousX;
+                        double deltaY = currentY - previousY;
+
+                        cart.incrementDistance(deltaX);
+                        cart.incrementDistance(deltaY);
+
+                        cart.setCurrentX(currentX);
+                        cart.setCurrentY(currentY);
+                        System.out.println(cart.getDistance());
+                    }
+                    if (cart.getLoadPercent() >= 1) {
+                        //Carts get destroyed if at max load (explosion different color)
+                        cart.explode((int) cart.getCartObject().getTranslateX() - 60, (int) cart.getCartObject().getTranslateY() - 60, false);
+                        iterator.remove();
+                        cart.despawn();
+                        cartNumber--;
+                    }
+                    if (cart.getCartObject().getTranslateX() > 1025 && cart.getLoadPercent() < 1) {
+                        //Carts damage gold mine if reach end of track
+                        iterator.remove();
+                        cart.explode(965, 380, true);
+                        cartNumber--;
+                        goldMine.decreaseHealth();
+                        playerLives.setText(String.valueOf(goldMine.getHealth()));
+                        updatePlayerLives();
+                        if (goldMine.getHealth() <= 0) {
+                            stopRound(false);
+                        }
+                    }
+                    if (cartNumber <= 0 && !(goldMine.getHealth() <= 0)) {
+                        collisionTimer.stop();
+                        stopRound(true);
+                    }
+                }
+            }
+        }
+
+    };
     @FXML
     public void roundButtonClicked(ActionEvent event) {
         /**
@@ -891,20 +964,15 @@ public class GameController {
     }
 
     private void calculateIncome(){
-        /**
-         *
-         * @author Gordon Homewood
-         */
         if(difficulty.equals("Easy")){
             coinBalance += (int) ((roundNumber * 50) * 0.5);
         }
-        if (difficulty.equals("Normal")) {
+        if(difficulty.equals("Normal")){
             coinBalance += (int) ((roundNumber * 50) * 0.75);
         }
-        if (difficulty.equals("Hard")) {
+        if(difficulty.equals("Hard")){
             coinBalance += (roundNumber * 50);
         }
-        updatePlayerCoins();
     }
 
 
@@ -914,12 +982,10 @@ public class GameController {
          * @author Gordon Homewood
          *
          */
-
-        collisionTimer = null;
         ImageView image = new ImageView("Art/Asset Pack/Factions/Knights/Troops/Dead/Dead.png");
         image.setX(250);
         image.setY(250);
-        for (CartBasic cart : cartList) {
+        for(CartBasic cart: cartList){
             cart.despawn();
         }
 
@@ -931,32 +997,25 @@ public class GameController {
         gameOverDialogue.setContentText("Failed");
 
 
-        ButtonType retryButton = new ButtonType("Retry", ButtonBar.ButtonData.OK_DONE);
-        ButtonType mainButton = new ButtonType("Quit to Main Menu", ButtonBar.ButtonData.OK_DONE);
-        ButtonType quitButton = new ButtonType("Quit Game", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType easyButton = new ButtonType("Retry", ButtonBar.ButtonData.OK_DONE);
+        ButtonType mediumButton = new ButtonType("Quit to Main Menu", ButtonBar.ButtonData.OK_DONE);
+        ButtonType quitButton = new ButtonType("I'm Not Ready!", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        gameOverDialogue.getDialogPane().getButtonTypes().addAll(retryButton, mainButton, quitButton);
+        gameOverDialogue.getDialogPane().getButtonTypes().addAll(easyButton, mediumButton,quitButton);
 
-        Platform.runLater(() -> {
-            Optional<ButtonType> result = gameOverDialogue.showAndWait();
-            if(result.isPresent()){
-                if(result.get() == mainButton){
-                    //Music doesn't stop, needs to be fixed
-                    launchMain();
-                }
-                if(result.get() == quitButton){
-                    stage = (Stage) gamePane.getScene().getWindow();
-                    System.out.println("You Successfully quit the game!");
-                    stage.close();
-                }
-                if(result.get() == retryButton){
-                    launchRetry();
-                }
+        Optional<ButtonType> result = gameOverDialogue.showAndWait();
+
+        if (result.isPresent()) {
+            if (result.get() == easyButton) {
+                launchMain();
+            } else if (result.get() == mediumButton) {
+                launchMain();
             }
-        });
 
 
-    }
+        //Spawn New Button that resets Quits to mainScreen or reloads game controller or just switch
+        //this whole thing to new screen
+    }}
 
     private void launchMain(){
         stage = (Stage) gamePane.getScene().getWindow();
@@ -978,28 +1037,6 @@ public class GameController {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-    private void launchRetry(){
-        stage = (Stage) gamePane.getScene().getWindow();
-        stage.close();
-
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
-        Parent root = null;
-        try {
-            root = baseLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        GameController baseController = baseLoader.getController();
-        baseController.init(primaryStage);
-
-        Scene scene = new Scene(root,1472,1024);
-        primaryStage.setResizable(false);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
     @FXML
     private void quitGame(ActionEvent actionEvent) {
         /**
@@ -1021,6 +1058,5 @@ public class GameController {
     }
 
 }
-
     // Add other methods and properties as needed
 

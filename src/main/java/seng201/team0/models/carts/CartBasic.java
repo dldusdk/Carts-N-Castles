@@ -80,34 +80,34 @@ public class CartBasic {
     public void updateImage(){
         if(getLoadPercent() >= 0.5 && getLoadPercent() < 1){
             if(Objects.equals(resourceType, "Bronze")){
-                cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeHalf.png")));
+                cartObject.setImage((new Image("Art/Carts/bronzeCarts/bronzeHalf.png")));
             }
         }
 
         if(getLoadPercent() >= 0.8){
             if(Objects.equals(resourceType, "Bronze")){
-                cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeFull.png")));
+                cartObject.setImage((new Image("Art/Carts/bronzeCarts/bronzeFull.png")));
             }
         }
 
         if(getLoadPercent() >= 0.5 && getLoadPercent() < 1){
             if(Objects.equals(resourceType, "Silver")){
-                cartObject.setImage((new Image("Art/Asset Pack/Carts/silverCarts/silverHalf.png")));
+                cartObject.setImage((new Image("Art/Carts/silverCarts/silverHalf.png")));
             }
         }
         if(getLoadPercent() >= 0.8){
             if(Objects.equals(resourceType, "Silver")){
-                cartObject.setImage((new Image("Art/Asset Pack/Carts/silverCarts/silverFull.png")));
+                cartObject.setImage((new Image("Art/Carts/silverCarts/silverFull.png")));
             }
         }
 
         if(getLoadPercent() >= 0.5 && getLoadPercent() < 1){
             if(Objects.equals(resourceType, "Gold")){
-                cartObject.setImage((new Image("Art/Asset Pack/Carts/goldCarts/goldHalf.png")));}
+                cartObject.setImage((new Image("Art/Carts/goldCarts/goldHalf.png")));}
         }
         if(getLoadPercent() >= 0.8){
             if(Objects.equals(resourceType, "Gold")){
-                cartObject.setImage((new Image("Art/Asset Pack/Carts/goldCarts/goldFull.png")));}}
+                cartObject.setImage((new Image("Art/Carts/goldCarts/goldFull.png")));}}
     }
 
     public ImageView loadCart(){
@@ -161,15 +161,15 @@ public class CartBasic {
         ((Pane) cartImageSource.getParent()).getChildren().add(image);
 
         String[] imagePaths = {
-                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-1.png",
-                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-2.png",
-                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-3.png",
-                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-4.png",
-                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-5.png",
-                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-6.png",
-                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-7.png",
-                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-8.png",
-                "Art/Asset Pack/Effects/Explosion/explosionSplits/row-1-column-9.png"
+                "Art/Effects/Explosion/explosionSplits/row-1-column-1.png",
+                "Art/Effects/Explosion/explosionSplits/row-1-column-2.png",
+                "Art/Effects/Explosion/explosionSplits/row-1-column-3.png",
+                "Art/Effects/Explosion/explosionSplits/row-1-column-4.png",
+                "Art/Effects/Explosion/explosionSplits/row-1-column-5.png",
+                "Art/Effects/Explosion/explosionSplits/row-1-column-6.png",
+                "Art/Effects/Explosion/explosionSplits/row-1-column-7.png",
+                "Art/Effects/Explosion/explosionSplits/row-1-column-8.png",
+                "Art/Effects/Explosion/explosionSplits/row-1-column-9.png"
         };
 
         Duration delay = Duration.seconds(0.1);

@@ -85,7 +85,7 @@
                            <graphic>
                               <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/bronzeTower.png" />
+                                    <Image url="@../Art/Factions/Knights/Buildings/Tower/bronzeTower.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -121,7 +121,7 @@
                            <graphic>
                               <ImageView fx:id="towerImageView" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/silverTower.png" />
+                                    <Image url="@../Art/Factions/Knights/Buildings/Tower/silverTower.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -133,7 +133,7 @@
                         </Label>
                         <ImageView fx:id="silvertowerImage" fitHeight="129.0" fitWidth="77.0" layoutX="7.0" layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>
-                              <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
+                              <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="238.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
@@ -159,7 +159,7 @@
                            <graphic>
                               <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/goldTower.png" />
+                                    <Image url="@../Art/Factions/Knights/Buildings/Tower/goldTower.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -214,7 +214,7 @@
                         </Label>
                         <ImageView fx:id="silvertowerImage1" fitHeight="129.0" fitWidth="77.0" layoutX="7.0" layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>
-                              <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
+                              <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="163.0" layoutY="8.0" text="Potion of Speed">
@@ -257,7 +257,7 @@
                         </Label>
                         <ImageView fx:id="silvertowerImage11" fitHeight="129.0" fitWidth="77.0" layoutX="7.0" layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>
-                              <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
+                              <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="161.0" layoutY="14.0" text="Potion of Range" textAlignment="JUSTIFY">
@@ -295,7 +295,7 @@
                         </Button>
                         <ImageView fx:id="silvertowerImage1111" fitHeight="129.0" fitWidth="77.0" layoutX="7.0" layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>
-                              <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
+                              <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="160.0" layoutY="2.0" text="Potion of Filling">
@@ -346,7 +346,7 @@
          <children>
             <ImageView fx:id="selectedTowerImage" fitHeight="156.0" fitWidth="87.0" layoutX="15.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Art/Asset%20Pack/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
+                  <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
                </image>
             </ImageView>
             <Label layoutX="116.0" layoutY="17.0" text="Tower Name:">
@@ -433,7 +433,7 @@
             </Button>
             <Label fx:id="activeLabel" layoutX="506.0" layoutY="75.0" prefHeight="17.0" prefWidth="65.0" text="Active!" />
             <Label fx:id="inventoryLocationLabel" layoutX="609.0" layoutY="97.0" prefHeight="17.0" prefWidth="65.0" text="Main" />
-            <Button fx:id="inventorySwitchButton" layoutX="953.0" layoutY="104.0" mnemonicParsing="false" onAction="#switchInventory" prefHeight="39.0" prefWidth="176.0" text="Switch Inventory" textAlignment="CENTER">
+            <Button fx:id="switchInventory" layoutX="953.0" layoutY="104.0" mnemonicParsing="false" onAction="#switchInventory" prefHeight="39.0" prefWidth="176.0" text="Switch Inventory" textAlignment="CENTER">
                <font>
                   <Font name="Minecraft" size="14.0" />
                </font>

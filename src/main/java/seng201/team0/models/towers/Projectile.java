@@ -60,15 +60,15 @@ public class Projectile {
 
     private String initType(String type) {
         if(type.equals("Bronze")){
-            return("Art/Asset Pack/projectiles/bronze1.png");
+            return("Art/projectiles/bronze1.png");
         }
         if(type.equals("Silver")){
-            return("Art/Asset Pack/projectiles/silver1.png");
+            return("Art/projectiles/silver1.png");
         }
         if(type.equals("Gold")){
-            return("Art/Asset Pack/projectiles/gold1.png");
+            return("Art/projectiles/gold1.png");
         }
-        return("Art/Asset Pack/projectiles/bronze1.png");
+        return("Art/projectiles/bronze1.png");
     }
 
     public void updateTime(){

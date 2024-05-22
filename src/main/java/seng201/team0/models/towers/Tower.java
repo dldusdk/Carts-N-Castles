@@ -1,7 +1,9 @@
 package seng201.team0.models.towers;
 
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import seng201.team0.models.carts.CartBasic;
 
 import java.util.*;
@@ -42,6 +44,7 @@ public class Tower {
     private double radius;
     private double previousRadius = 0;
     private double bonusPercent;
+    boolean buffState;
 
     // Constructor
     public Tower(String towerName, String resourceType,
@@ -60,6 +63,7 @@ public class Tower {
         this.towerState = towerState;
         this.inventoryLocation = inventoryLocation;
         this.bonusPercent = 1.25;
+        this.buffState = false;
     }
 
     //Setters
@@ -231,6 +235,34 @@ public class Tower {
         return targetsInRange.get(0); // Return the closest target in range
     }
 
+    public void setBuff(boolean buff){
+        if(buff){
+            this.buffState = true;
+            this.loadAmount = loadAmount * 2;
+            this.radius = radius * 1.5;
+            applyBuffHighlight(true);
+        }
+        if(!buff){
+            this.loadAmount = loadAmount / 2;
+            this.radius = radius / 1.5;
+            applyBuffHighlight(false);
+        }
+
+    }
+
+    public boolean getBuffState(){
+        return(this.buffState);
+    }
+
+    public void applyBuffHighlight(boolean apply){
+        if(apply){
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.CORNFLOWERBLUE);
+        dropShadow.setRadius(60);
+        this.towerImage.setEffect(dropShadow);}
+
+    }
+
     public boolean getDestroyed() {
         return (this.destroyed);
     }
@@ -239,7 +271,7 @@ public class Tower {
         if (this.destroyed) {
             this.previousRadius = this.radius;
             this.radius = 0;
-            this.towerImage.setImage(new Image("Art/Asset Pack/Factions/Knights/Buildings/Tower/Tower_Destroyed.png"));
+            this.towerImage.setImage(new Image("Art/Factions/Knights/Buildings/Tower/Tower_Destroyed.png"));
         }
     }
 }

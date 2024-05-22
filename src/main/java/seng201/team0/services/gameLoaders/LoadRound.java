@@ -44,9 +44,11 @@ public class LoadRound {
         difficulty = difficultySetting;
         cartList = new ArrayList<>();
 
-        loadCarts("Bronze",bronzeCartNum,"Art/Asset Pack/Carts/bronzeCarts/bronzeEmpty.png");
-        loadCarts("Silver",silverCartNum, "Art/Asset Pack/Carts/silverCarts/silverEmpty.png");
-        loadCarts("Gold",goldCartNum,"Art/Asset Pack/Carts/goldCarts/goldEmpty.png");
+
+
+        loadCarts("Bronze",bronzeCartNum, "Art/Carts/bronzeCarts/bronzeEmpty.png");
+        loadCarts("Silver",silverCartNum, "Art/Carts/silverCarts/silverEmpty.png");
+        loadCarts("Gold",goldCartNum, "Art/Carts/goldCarts/goldEmpty.png");
 
 
 

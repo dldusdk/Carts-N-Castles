@@ -6,9 +6,7 @@ import javafx.scene.layout.Pane;
 import seng201.team0.services.settings.Settings;
 import seng201.team0.services.fileReaders.FileReader;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LevelLoader {
     private ArrayList<ArrayList<Integer>>tileList;
@@ -47,13 +45,13 @@ public class LevelLoader {
 
     private void loadLevel() {
         //Set a bunch of image sources
-        String grassPath = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-2.png";
-        String trackPathRight = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-4-column-7.png";
-        String trackPathTurnDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-8.png";
-        String trackPathDown = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-2-column-9.png";
-        String trackPathTurnDownRight = "Art/Asset Pack/Terrain/Ground/splitTerrain/row-3-column-6.png";
-        String trackPathTurnUpRight =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-3-column-8.png";
-        String trackPathTurnDownLR =  "Art/Asset Pack/Terrain/Ground/splitTerrain/row-1-column-6.png";
+        String grassPath = "Art/Terrain/Ground/splitTerrain/row-2-column-2.png";
+        String trackPathRight = "Art/Terrain/Ground/splitTerrain/row-4-column-7.png";
+        String trackPathTurnDown = "Art/Terrain/Ground/splitTerrain/row-1-column-8.png";
+        String trackPathDown = "Art/Terrain/Ground/splitTerrain/row-2-column-9.png";
+        String trackPathTurnDownRight = "Art/Terrain/Ground/splitTerrain/row-3-column-6.png";
+        String trackPathTurnUpRight = "Art/Terrain/Ground/splitTerrain/row-3-column-8.png";
+        String trackPathTurnDownLR = "Art/Terrain/Ground/splitTerrain/row-1-column-6.png";
 
 
         //Build tiles using coordinates and images
@@ -105,7 +103,7 @@ public class LevelLoader {
     }
 
     private void loadDecorations(){
-        String rockWallPath = "Art/Asset Pack/Deco/09.png";
+        String rockWallPath = "Art/Deco/09.png";
 
         int column = 0;
         for(ArrayList<Integer> innerList: decorationList){
@@ -173,7 +171,7 @@ public class LevelLoader {
     public String getTileType(int id){
         //Currently unused but could be useful
         if (id == -1){
-            return("Art/Asset Pack/Terrain/Ground/splitTerrain/row-0-column-4.png");
+            return("Art/Terrain/Ground/splitTerrain/row-0-column-4.png");
         }
         return null;
     }

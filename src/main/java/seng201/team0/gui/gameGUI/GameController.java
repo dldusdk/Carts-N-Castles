@@ -32,6 +32,7 @@ import seng201.team0.models.towers.Projectile;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
+import seng201.team0.services.gameLoaders.RandomEvent;
 
 //Imports for file reading
 import java.io.File;
@@ -119,8 +120,8 @@ public class GameController {
     private static MediaPlayer mediaPlayer;
 
     // Tower variables
-    private List<Tower> mainTowers = new ArrayList<>();
-    private List<Tower> reserveTowers = new ArrayList<>();
+    private ArrayList<Tower> mainTowers = new ArrayList<>();
+    private ArrayList<Tower> reserveTowers = new ArrayList<>();
     private Map<ImageView, Tower> towersMap = new HashMap<>();
     private double paneX;
     private double paneY;
@@ -184,8 +185,8 @@ public class GameController {
                     if (fireTime >= fireRate && cartOnTrack > 0 && tower.getRadius() > targetDistance) {
 
                         double damage = tower.getLoadAmount();
-                        System.out.println(towerTarget.getResourceType());
-                        System.out.println(tower.getResourceType());
+                        //System.out.println(towerTarget.getResourceType());
+                        //System.out.println(tower.getResourceType());
                         if (Objects.equals(towerTarget.getResourceType(), tower.getResourceType())){
                             damage = damage * tower.getBonusPercent();
                             //System.out.println("Damage "+ damage);
@@ -261,12 +262,13 @@ public class GameController {
 
         //Initialize shop and player currency
         shop = new Shop();
-        coinBalance = 200;
+        coinBalance = 1000;
         updateStockDisplay();
         updatePlayerCoins();
         difficulty = "Normal";
 
-        // Round initialization
+        // Game initialization
+        playerLives.setText("n/a");
         roundButton.setText(String.valueOf("Start First Round!"));
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath", "src/main/resources/levelCSV/Level1/Level1RotatePath");
@@ -339,12 +341,12 @@ public class GameController {
          * Will check if the inventory is full first or not.
          * @author Michelle Lee
          */
-         if (roundState) {
-                instructionLabel.setText("Cannot switch inventory during a round.");
-                return;
-            }
+        if (roundState) {
+            instructionLabel.setText("Cannot switch inventory during a round.");
+            return;
+        }
 
-         if (selectedTower != null) {
+        if (selectedTower != null) {
             Tower tower = towersMap.get(selectedTower);
             if (tower != null) {
                 // if tower state is active and reserve inventory is not full, change to inactive
@@ -552,11 +554,11 @@ public class GameController {
          */
         switch (towerType) {
             case "Bronze":
-                return "Art/Asset Pack/Factions/Knights/Buildings/Tower/bronzeTower.png";
+                return "Art/Factions/Knights/Buildings/Tower/bronzeTower.png";
             case "Silver":
-                return "Art/Asset Pack/Factions/Knights/Buildings/Tower/silverTower.png";
+                return "Art/Factions/Knights/Buildings/Tower/silverTower.png";
             case "Gold":
-                return "Art/Asset Pack/Factions/Knights/Buildings/Tower/goldTower.png";
+                return "Art/Factions/Knights/Buildings/Tower/goldTower.png";
             default:
                 return null;
         }
@@ -785,8 +787,14 @@ public class GameController {
         // Check if a tower was previously selected
         if (selectedTower != null) {
             ((Pane) trackDefault.getParent()).getChildren().remove(radiusCircle);
+            Tower buffTowerCheck = towersMap.get(selectedTower);
             // Remove shadow effect from the previously selected tower
             selectedTower.setEffect(null);
+            if(buffTowerCheck.getBuffState()){
+                //Keeps highlight on if buffed by random event
+                buffTowerCheck.applyBuffHighlight(true);
+            }
+
         }
         // Apply shadow effect to the newly selected tower
         DropShadow dropShadow = new DropShadow();
@@ -824,8 +832,6 @@ public class GameController {
         String imagePath = getTowerImagePath(tower.getResourceType());
         selectedTowerImage.setImage(new Image(imagePath));
 
-        System.out.println("Tower clicked: " + tower.getName());
-        System.out.println("Tower Stats Pane visible: " + towerStats.isVisible());
     }
 
 
@@ -905,6 +911,7 @@ public class GameController {
         collisionTimer.start();
         roundState = true;
         updatePlayerLives();
+        runRandomEvents();
 
         if (roundNumber > totalRounds) {
             // Should switch view to win screen.
@@ -912,8 +919,6 @@ public class GameController {
             launchRetry();
 
         } else {
-            //Need to change destoyed change based on difficulty
-            //Needs
             ArrayList<Integer> cartTypeList = getCartNumber();
             newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
             for(Tower tower: mainTowers){
@@ -930,7 +935,21 @@ public class GameController {
             roundButton.setText(roundNumber + "/" + totalRounds);
             roundState = true;
         }
-        switchInventory.setDisable(false); 
+        if(switchInventory != null){
+            switchInventory.setDisable(false);
+        }
+    }
+
+    private void runRandomEvents(){
+        RandomEvent towerBreaks = new RandomEvent(mainTowers,difficulty);
+        Tower brokenTower = towerBreaks.getAffectedTowerBreak();
+        if(brokenTower != null){
+            brokenTower.setDestroyed(true);
+        }
+        Tower bufftower = towerBreaks.getAffectedTowerBuff();
+        if(bufftower != null){
+            bufftower.setBuff(true);
+        }
     }
 
     private ArrayList<Integer> getCartNumber() {
@@ -980,6 +999,12 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
+        for (Tower tower: mainTowers){
+            if(tower.getBuffState()) {
+                //Resets buff state after round
+                tower.setBuff(false);
+            }
+        }
         updatePlayerLives();
         instructionLabel.setText("Round " + roundNumber + " complete!");
         collisionTimer.stop();
@@ -1019,7 +1044,7 @@ public class GameController {
         instructionLabel.setText("Game Over!");
 
         collisionTimer = null;
-        ImageView image = new ImageView("Art/Asset Pack/Factions/Knights/Troops/Dead/Dead.png");
+        ImageView image = new ImageView("Art/Factions/Knights/Troops/Dead/Dead.png");
         image.setX(250);
         image.setY(250);
         for(CartBasic cart: cartList){
@@ -1058,13 +1083,15 @@ public class GameController {
                 }
             }
         });
-    };
+    }
+
+    ;
 
 
-        //Spawn New Button that resets Quits to mainScreen or reloads game controller or just switch
-        //this whole thing to new screen
+    //Spawn New Button that resets Quits to mainScreen or reloads game controller or just switch
+    //this whole thing to new screen
 
-    private void launchMain(){
+    private void launchMain() {
         stage = (Stage) gamePane.getScene().getWindow();
         stage.close();
 
@@ -1079,7 +1106,7 @@ public class GameController {
         MainController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
-        Scene scene = new Scene(root,1472,1024);
+        Scene scene = new Scene(root, 1472, 1024);
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -7,8 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import seng201.team0.services.animation.CartAnimation;
-import seng201.team0.services.animation.GeneralAnimationKeyframing;
-import seng201.team0.services.settings.Settings;
+import seng201.team0.services.animation.AnimationKeyframes;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -54,10 +53,10 @@ public class CartBasic {
 
     private double initializeCapacity() {
         if(cartSize == 0.75){
-            return(1);
+            return(3);
         }
         if(cartSize == 1){
-            return(2);
+            return(3);
         }
         if(cartSize == 1.25){
             return(3);
@@ -80,12 +79,35 @@ public class CartBasic {
 
     public void updateImage(){
         if(getLoadPercent() >= 0.5 && getLoadPercent() < 1){
-            if(Objects.equals(resourceType, "bronze")){
-                cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeHalf.png")));}
+            if(Objects.equals(resourceType, "Bronze")){
+                cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeHalf.png")));
+            }
         }
-        if(getLoadPercent() >= 0.85){
-            if(Objects.equals(resourceType, "bronze")){
-                cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeFull.png")));}}
+
+        if(getLoadPercent() >= 0.8){
+            if(Objects.equals(resourceType, "Bronze")){
+                cartObject.setImage((new Image("Art/Asset Pack/Carts/bronzeCarts/bronzeFull.png")));
+            }
+        }
+
+        if(getLoadPercent() >= 0.5 && getLoadPercent() < 1){
+            if(Objects.equals(resourceType, "Silver")){
+                cartObject.setImage((new Image("Art/Asset Pack/Carts/silverCarts/silverHalf.png")));
+            }
+        }
+        if(getLoadPercent() >= 0.8){
+            if(Objects.equals(resourceType, "Silver")){
+                cartObject.setImage((new Image("Art/Asset Pack/Carts/silverCarts/silverFull.png")));
+            }
+        }
+
+        if(getLoadPercent() >= 0.5 && getLoadPercent() < 1){
+            if(Objects.equals(resourceType, "Gold")){
+                cartObject.setImage((new Image("Art/Asset Pack/Carts/goldCarts/goldHalf.png")));}
+        }
+        if(getLoadPercent() >= 0.8){
+            if(Objects.equals(resourceType, "Gold")){
+                cartObject.setImage((new Image("Art/Asset Pack/Carts/goldCarts/goldFull.png")));}}
     }
 
     public ImageView loadCart(){
@@ -118,6 +140,8 @@ public class CartBasic {
         setDestroyed(true);
 
     }
+
+    public String getResourceType(){return(resourceType);}
 
     public void setDestroyed(boolean hit) {
         destroyed = hit;
@@ -161,10 +185,10 @@ public class CartBasic {
             if (!reachedEnd) {
                 image.setEffect(colorAdjust);
             }
-            GeneralAnimationKeyframing.swapImagesWithDelay(image, newImage, delay.multiply(i + 1));
+            AnimationKeyframes.swapImagesWithDelay(image, newImage, delay.multiply(i + 1));
         }
 
-        GeneralAnimationKeyframing.addHideAnimation(image, delay.multiply(imagePaths.length).add(Duration.seconds(0.1)));
+        AnimationKeyframes.addHideAnimation(image, delay.multiply(imagePaths.length).add(Duration.seconds(0.1)));
         cartObject.setVisible(false);
     }
 

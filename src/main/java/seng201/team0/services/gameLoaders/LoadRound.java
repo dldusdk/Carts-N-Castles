@@ -44,9 +44,9 @@ public class LoadRound {
         difficulty = difficultySetting;
         cartList = new ArrayList<>();
 
-        loadCarts("bronze",bronzeCartNum,"Art/Asset Pack/Carts/bronzeCarts/bronzeEmpty.png");
-        loadCarts("silver",silverCartNum, "Art/Asset Pack/Carts/silverCarts/silverEmpty.png");
-        loadCarts("gold",goldCartNum,"Art/Asset Pack/Carts/goldCarts/goldEmpty.png");
+        loadCarts("Bronze",bronzeCartNum,"Art/Asset Pack/Carts/bronzeCarts/bronzeEmpty.png");
+        loadCarts("Silver",silverCartNum, "Art/Asset Pack/Carts/silverCarts/silverEmpty.png");
+        loadCarts("Gold",goldCartNum,"Art/Asset Pack/Carts/goldCarts/goldEmpty.png");
 
 
 
@@ -55,6 +55,7 @@ public class LoadRound {
     public void loadCarts(String type, int cartNumber, String imageSource){
         Random random = new Random();
         double sizeDouble = 1;
+        System.out.println(cartNumber);
         for (int i=0;i < cartNumber; i++){
             int sizeFactor = random.ints(1,4).findFirst().getAsInt();
             if(sizeFactor == 1){

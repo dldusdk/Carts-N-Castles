@@ -1,5 +1,6 @@
 package seng201.team0.gui.gameGUI;
 
+//JavaFX imports for display
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+//Package imports
 import seng201.team0.gui.mainGUI.MainController;
 import seng201.team0.models.Shop;
 import seng201.team0.models.towers.Tower;
@@ -31,6 +33,7 @@ import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
 
+//Imports for file reading
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -128,7 +131,7 @@ public class GameController {
 
 
     // Round and Animation Variables
-    private int totalRounds = 15; //need to scale this on player choice
+    private int totalRounds = 3; //need to scale this on player choice
     private int roundNumber = 0;
     private LoadRound newRound = null;
     private boolean roundState = false;
@@ -141,19 +144,17 @@ public class GameController {
     private PathLoader path;
     private ArrayList<CartBasic> cartList;
     private int cartNumber;
+
     //private boolean fail=false;
     //private int coinBalance = 200;
     private GoldMine goldMine;
-    private double destroyedChance = 1;
+    private double destroyedChance = 0;
     private double buffChance;
 
-    private List<Projectile> projectiles = new ArrayList<>(); // Add this line to keep track of projectiles
-
-
     private AnimationTimer collisionTimer = new AnimationTimer() {
+        @Override
         public void handle(long timestamp) {
-            //System.out.println(placedTowers);
-            //System.out.println(mainTowers);
+            updatePlayerLives();
             if (!cartList.isEmpty()) {
                 for (Tower tower : mainTowers) {
                     // If tower is inactive skip the code, else continue if active
@@ -164,18 +165,32 @@ public class GameController {
                     if (towerTarget == null) {
                         continue;
                     }
-                    double fireRate = tower.getFireRate();
-                    if (timestamp - tower.getProjectileTime() >= fireRate && towerTarget.getCartObject().getTranslateX() > 0
-                            && tower.getRadius() > tower.getDistance(towerTarget.getCartObject().getTranslateX(), towerTarget.getCartObject().getTranslateY())) {
+
+                    long fireRate =  1000000000L / tower.getFireRate();
+                    long fireTime = timestamp - tower.getProjectileTime();
+
+                    double cartOnTrack = towerTarget.getCartObject().getTranslateX();
+
+                    double targetDistance =
+                            tower.getDistance(towerTarget.getCartObject().getTranslateX(),
+                            towerTarget.getCartObject().getTranslateY());
+
+                    if (fireTime >= fireRate && cartOnTrack > 0 && tower.getRadius() > targetDistance) {
 
                         double damage = tower.getLoadAmount();
+                        System.out.println(towerTarget.getResourceType());
+                        System.out.println(tower.getResourceType());
+                        if (Objects.equals(towerTarget.getResourceType(), tower.getResourceType())){
+                            damage = damage * tower.getBonusPercent();
+                            //System.out.println("Damage "+ damage);
+                            //System.out.println("Load "+towerTarget.getLoadPercent());
+                        }
                         String type = tower.getResourceType();
                         int spawnX = (int) (tower.getX() - 30);
                         int spawnY = (int) (tower.getY() - 30);
 
                         Projectile projectile = new Projectile(spawnX, spawnY, type, trackDefault, towerTarget, damage);
                         projectile.spawn();
-                        projectiles.add(projectile);
                         tower.setProjectileTime(timestamp);
                     }
                 }
@@ -190,11 +205,11 @@ public class GameController {
                         double currentX = cart.getCartObject().getTranslateX();
                         double currentY = cart.getCartObject().getTranslateY();
 
-                        double deltaX = currentX - previousX;
-                        double deltaY = currentY - previousY;
+                        double changeX = Math.abs(currentX - previousX);
+                        double changeY = Math.abs(currentY - previousY);
 
-                        cart.incrementDistance(deltaX);
-                        cart.incrementDistance(deltaY);
+                        cart.incrementDistance(changeX);
+                        cart.incrementDistance(changeY);
 
                         cart.setCurrentX(currentX);
                         cart.setCurrentY(currentY);
@@ -542,15 +557,15 @@ public class GameController {
 
         switch (towerType) {
             case "Bronze":
-                tower = new Tower(userInputTowerName, "Bronze", 1000000000, 0.25, 1, 10,
+                tower = new Tower(userInputTowerName, "Bronze", 2.0, 0.25, 1, 10,
                         130, true, "Main");
                 break;
             case "Silver":
-                tower = new Tower(userInputTowerName, "Silver", 1000000000, 0.25, 1, 25,
+                tower = new Tower(userInputTowerName, "Silver", 1.5, 0.5, 1, 25,
                         130, true, "Main");
                 break;
             case "Gold":
-                tower = new Tower(userInputTowerName, "Gold", 1000000000, 0.25, 1, 45,
+                tower = new Tower(userInputTowerName, "Gold", 1.0, 1, 1, 45,
                         130, true, "Main");
                 break;
         }
@@ -561,7 +576,6 @@ public class GameController {
             tower.draw(x, y, imagePath);
             ImageView towerImage = tower.getImage();
             towerImage.setOnMouseClicked(this::checkTowerStats);
-
             // If total towers on map (incl reserve) < 9 then place tower
             if (mainTowers.size() < 5) {
                 ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
@@ -731,29 +745,40 @@ public class GameController {
 
                 Easy Difficulty:
                    5 Lives
-                   5% chance for tower destroyed
+                   25% chance for tower destroyed
+                   75% chance for tower buff
                    50% money awarded, 50% points
 
                 Normal Difficulty:
                    3 Lives
-                   10% chance for tower destroyed
-                   50% money awarded, 75% points
+                   50% chance for tower destroyed
+                   50% chance for tower buff
+                   75% money awarded, 75% points
 
                 Hard Difficulty:
                    1 Life
-                   15% chance for tower destroyed
+                   75% chance for tower destroyed
+                   25% chance for tower buff
                    100% money awarded, 100% points
                 """);
-
+        //Initailize buttons for difficutuy popup
         ButtonType easyButton = new ButtonType("Easy", ButtonBar.ButtonData.OK_DONE);
         ButtonType mediumButton = new ButtonType("Normal", ButtonBar.ButtonData.OK_DONE);
         ButtonType hardButton = new ButtonType("Hard", ButtonBar.ButtonData.OK_DONE);
         ButtonType quitButton = new ButtonType("I'm Not Ready!", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        userNameDialog.getDialogPane().getButtonTypes().addAll(easyButton, mediumButton, hardButton, quitButton);
+        userNameDialog.setOnShowing(event1 -> {
+            //Sets default button to quitButton, purely for aesthetics, so this appears as default
+            Button button1 = (Button) userNameDialog.getDialogPane().lookupButton(easyButton);
+            button1.setDefaultButton(false);
+            Button button2 = (Button) userNameDialog.getDialogPane().lookupButton(quitButton);
+            button2.setDefaultButton(true);
+        });
 
+        userNameDialog.getDialogPane().getButtonTypes().addAll(easyButton, mediumButton, hardButton, quitButton);
         Optional<ButtonType> result = userNameDialog.showAndWait();
 
+        //Gets difficulty from user button input, launches round
         if (result.isPresent()) {
             if (result.get() == easyButton) {
                 difficulty = "Easy";
@@ -773,7 +798,7 @@ public class GameController {
     private void launchRound() {
         /**
          *
-         * @author Gordom Homewood
+         * @author Gordon Homewood
          */
         instructionLabel.setText("Don't let the carts destroy your goldmine!");
         roundButton.setDisable(true);
@@ -783,27 +808,22 @@ public class GameController {
         updatePlayerLives();
 
         if (roundNumber > totalRounds) {
-            roundButton.setDisable(true);
             // Should switch view to win screen.
+            roundButton.setDisable(true);
+            launchRetry();
+
         } else {
             //Need to change destoyed change based on difficulty
             //Needs
-            if (destroyedChance == 1) {
-                if (!mainTowers.isEmpty()) {
-                    Tower destroyedTower = mainTowers.get(0); //needs to be changed here based of round usage
-                    //if this tower is destroyed, needs to increment
-                    //Does destroying a tower, mean it has to wait a round to be repaired
-                    destroyedTower.setDestroyed(true);
-                }
-            }
-            if (buffChance == 1) {
-                if (!mainTowers.isEmpty()) {
-                    //need to check if destroyed or not
-                    Tower buffedTower = mainTowers.get(0);
-                }
-            }
             ArrayList<Integer> cartTypeList = getCartNumber();
             newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
+            for(Tower tower: mainTowers){
+                //Draws the towers on correct layer and increments list of full rounds tower is used in
+                ((Pane) trackDefault.getParent()).getChildren().remove(tower.getImage());
+                ((Pane) trackDefault.getParent()).getChildren().add(tower.getImage());
+                tower.incrementRound(roundNumber);
+
+            }
             for (int num : cartTypeList) {
                 cartNumber += num;
             }
@@ -821,7 +841,7 @@ public class GameController {
         if (difficulty.equals("Easy")) {
             goldMine.setHealth(5);
         }
-        if (difficulty.equals("Medium")) {
+        if (difficulty.equals("Normal")) {
             goldMine.setHealth(3);
         }
         if (difficulty.equals("Hard")) {
@@ -860,6 +880,7 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
+        updatePlayerLives();
         instructionLabel.setText("Round " + roundNumber + " complete!");
         collisionTimer.stop();
         if (state) {
@@ -874,13 +895,16 @@ public class GameController {
 
     private void calculateIncome() {
         if (difficulty.equals("Easy")) {
-            coinBalance += (int) ((roundNumber * 50) * 0.5);
+            int moneyAwarded = (int) ((roundNumber * 50) * 0.5);
+            coinBalance += (int) (Math.ceil((double) moneyAwarded / 5) * 5);
         }
         if (difficulty.equals("Normal")) {
-            coinBalance += (int) ((roundNumber * 50) * 0.75);
+            int moneyAwarded = (int) ((roundNumber * 50) * 0.75);
+            coinBalance += (int) (Math.ceil((double) moneyAwarded / 5) * 5);
         }
         if (difficulty.equals("Hard")) {
-            coinBalance += (roundNumber * 50);
+            int moneyAwarded =  (roundNumber * 50);
+            coinBalance += (int) (Math.ceil((double) moneyAwarded / 5) * 5);
         }
     }
 
@@ -891,6 +915,7 @@ public class GameController {
          * @author Gordon Homewood
          *
          */
+        instructionLabel.setText("Game Over!");
 
         collisionTimer = null;
         ImageView image = new ImageView("Art/Asset Pack/Factions/Knights/Troops/Dead/Dead.png");
@@ -904,8 +929,8 @@ public class GameController {
 
         Dialog<ButtonType> gameOverDialogue = new Dialog<>();
         gameOverDialogue.setTitle("Game Over");
-        gameOverDialogue.setHeaderText("Game Over");
-        gameOverDialogue.setContentText("Failed");
+        gameOverDialogue.setHeaderText("Your gold mine was destroyed!");
+        gameOverDialogue.setContentText("You failed at round " + roundNumber);
 
 
         ButtonType retryButton = new ButtonType("Retry", ButtonBar.ButtonData.OK_DONE);
@@ -915,6 +940,7 @@ public class GameController {
         gameOverDialogue.getDialogPane().getButtonTypes().addAll(retryButton, mainButton, quitButton);
 
         Platform.runLater(() -> {
+            //Gets players choice on fail state, runs later so animations can finish
             Optional<ButtonType> result = gameOverDialogue.showAndWait();
             if(result.isPresent()){
                 if(result.get() == mainButton){
@@ -999,5 +1025,4 @@ public class GameController {
 
 }
 
-    // Add other methods and properties as needed
 

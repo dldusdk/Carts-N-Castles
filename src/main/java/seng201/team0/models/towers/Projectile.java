@@ -1,9 +1,7 @@
 package seng201.team0.models.towers;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -76,13 +74,6 @@ public class Projectile {
     public void updateTime(){
         time += 1;
     }
-    private void loadY() {
-        yCoord = (int) target.getCartObject().getTranslateY();
-    }
-
-    private void loadX() {
-        xCoord = (int) target.getCartObject().getTranslateX();
-    }
 
     private int getCurrentX(){return(xCoord);}
     private int getCurrentY(){return(yCoord);}
@@ -120,11 +111,11 @@ public class Projectile {
 
         if ((distance < velocity + 40) || lock) {
             lock = true;
-            projectileObject.setVisible(false);
+            //projectileObject.setVisible(false);
             target.setLoad(damage);
             damage = 0;
             state = false;
-            destroy();
+            //destroy();
         }
         else{
             if (projectileObject != null){

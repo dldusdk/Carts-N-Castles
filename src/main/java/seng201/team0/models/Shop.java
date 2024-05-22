@@ -2,6 +2,8 @@ package seng201.team0.models;
 
 import java.util.Random;
 
+import static java.lang.Math.max;
+
 public class Shop {
 
     // Towers
@@ -87,8 +89,12 @@ public class Shop {
         bronzeTowerStock = random.nextInt(totalStock + 1); // Random stock between 0 and totalStock
         int remainingStock = max_stock - bronzeTowerStock;
 
+        remainingStock = Math.max(0,remainingStock); // Added this to stop negative value error - Gordon :)
+
         silverTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock
         remainingStock -= silverTowerStock;
+
+        remainingStock = Math.max(0,remainingStock);  // Added this to stop negative value error - Gordon :)
 
         goldTowerStock = random.nextInt(remainingStock + 1); // Random stock between 0 and remainingStock
     }

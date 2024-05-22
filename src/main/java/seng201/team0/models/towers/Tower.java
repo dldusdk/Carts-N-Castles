@@ -26,16 +26,20 @@ public class Tower {
     private ImageView towerImage;
     private boolean destroyed;
 
+    private ArrayList<Integer> roundsPlayed;
+
 
     //private long fireRate = 500000000L;
 
     private double radius;
     private double previousRadius = 0;
+    private double bonusPercent;
 
     // Constructor
     public Tower(String towerName, String resourceType,
                  double reloadSpeed, double loadAmount,
                  int towerLevel, int range, double radius, boolean towerState, String inventoryLocation) {
+        this.roundsPlayed = new ArrayList<>();
         this.radius = radius;
         this.towerName = towerName;
         this.resourceType = resourceType;
@@ -47,6 +51,7 @@ public class Tower {
         this.destroyed = false;
         this.towerState = towerState;
         this.inventoryLocation = inventoryLocation;
+        this.bonusPercent = 1.25;
     }
 
     //Setters
@@ -74,6 +79,14 @@ public class Tower {
     // Getters
     public String getName() {
         return towerName;
+    }
+
+    public void incrementRound(int roundNumber){
+        if(towerState) this.roundsPlayed.add(roundNumber);
+    }
+
+    public ArrayList<Integer> getRoundsPlayed(){
+        return(this.roundsPlayed);
     }
 
     public String getResourceType() {
@@ -159,6 +172,7 @@ public class Tower {
         towerImage.setX(x - 64);
         towerImage.setY(y - 192);
     }
+
     public ImageView getImage()
         /**
         * Returns ImageView of tower
@@ -172,6 +186,14 @@ public class Tower {
 
     public long getFireRate(){
         return((long)reloadSpeed);
+    }
+
+    public double getBonusPercent(){
+        return(this.bonusPercent);
+    }
+
+    public double setBonusPercent(double bonus){
+        return(this.bonusPercent += bonus);
     }
 
 

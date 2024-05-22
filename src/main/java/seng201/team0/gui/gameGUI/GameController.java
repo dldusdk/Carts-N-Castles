@@ -81,6 +81,8 @@ public class GameController {
     private AnchorPane towerStats;
     @FXML
     private ImageView selectedTower;
+    @FXML
+    private Button switchInventory;
 
     //Shop
     @FXML
@@ -243,7 +245,12 @@ public class GameController {
          * Will check if the inventory is full first or not.
          * @author Michelle Lee
          */
-        if (selectedTower != null) {
+         if (roundState) {
+                instructionLabel.setText("Cannot switch inventory during a round.");
+                return;
+            }
+
+         if (selectedTower != null) {
             Tower tower = towersMap.get(selectedTower);
             if (tower != null) {
                 // if tower state is active and reserve inventory is not full, change to inactive
@@ -858,7 +865,7 @@ public class GameController {
             }
             shop.randomizeStock(); // Resets stock and randomizes it
         }
-
+        switchInventory.setDisable(false); // Disable switching towers between inventories until the end of the round
     }
 
     private void launchRound() {
@@ -902,6 +909,7 @@ public class GameController {
             roundButton.setText(roundNumber + "/" + totalRounds);
             roundState = true;
         }
+        switchInventory.setDisable(false); 
     }
 
     private ArrayList<Integer> getCartNumber() {
@@ -961,6 +969,7 @@ public class GameController {
             roundButton.setDisable(true);
             gameOver();
         }
+        switchInventory.setDisable(true);  // allows player to switch inventory
     }
 
     private void calculateIncome(){
@@ -1037,6 +1046,7 @@ public class GameController {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    
     @FXML
     private void quitGame(ActionEvent actionEvent) {
         /**

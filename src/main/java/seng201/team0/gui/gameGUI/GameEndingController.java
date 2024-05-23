@@ -43,6 +43,12 @@ public class GameEndingController {
 
     private Stage primaryStage;
 
+    int selectedRounds;
+    int totalRoundsCompeted;
+    int totalMoney;
+    int totalPoints;
+
+
 
 
     Stage stage;
@@ -52,6 +58,17 @@ public class GameEndingController {
 
     public void init(Stage primaryStage) {
        this.primaryStage = (Stage) endPane.getScene().getWindow();;
+    }
+
+    public void gameStats(int selectedRounds, int totalRoundsCompeted, int totalMoney, int totalPoints) {
+        this.selectedRounds = selectedRounds;
+        this.totalRoundsCompeted = totalRoundsCompeted;
+        this.totalMoney = totalMoney;
+        this.totalPoints = totalPoints;
+    }
+
+    @FXML
+    private void lost() {
     }
 
     @FXML

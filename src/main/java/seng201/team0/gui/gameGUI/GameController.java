@@ -113,7 +113,7 @@ public class GameController {
     @FXML
     private Label sellLabel;
     @FXML
-    private Button repairButton;
+    private Label pointsLabel;
 
 
     // GUI variables
@@ -892,22 +892,22 @@ public class GameController {
         //Generate random events
         runRandomEvents();
 
-            ArrayList<Integer> cartTypeList = getCartNumber();
-            newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
-            for (Tower tower : mainTowers) {
-                // Draws the towers on correct layer and increments list of full rounds tower is used in
-                ((Pane) trackDefault.getParent()).getChildren().remove(tower.getImage());
-                ((Pane) trackDefault.getParent()).getChildren().add(tower.getImage());
-                tower.incrementRound(roundNumber);
+        ArrayList<Integer> cartTypeList = getCartNumber();
+        newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
+        for (Tower tower : mainTowers) {
+            // Draws the towers on correct layer and increments list of full rounds tower is used in
+            ((Pane) trackDefault.getParent()).getChildren().remove(tower.getImage());
+            ((Pane) trackDefault.getParent()).getChildren().add(tower.getImage());
+            tower.incrementRound(roundNumber);
 
-            }
-            for (int num : cartTypeList) {
-                // Stores the total number of carts for round logic
-                cartNumber += num;
-            }
-            cartList = newRound.getCartList();
-            roundButton.setText(roundNumber + "/" + totalRounds);
-            roundState = true;
+        }
+        for (int num : cartTypeList) {
+            // Stores the total number of carts for round logic
+            cartNumber += num;
+        }
+        cartList = newRound.getCartList();
+        roundButton.setText(roundNumber + "/" + totalRounds);
+        roundState = true;
         if (switchInventory != null) {
             switchInventory.setDisable(false); //Disables inventory swapping during rounds
         }
@@ -996,12 +996,12 @@ public class GameController {
          *
          * @author Gordon Homewood
          */
-        if (roundNumber >= totalRounds) {
+        if (roundNumber > totalRounds - 1 && state) {
             // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);
-            launchEndScreen();
-            //launchRetry();
-        } else {
+            gameOver();
+            }
+        else {
             for (Tower tower : mainTowers) {
                 if (tower.getBuffState()) {
                     //Resets buff state after round
@@ -1012,7 +1012,7 @@ public class GameController {
             instructionLabel.setText("Round " + roundNumber + " complete!");
             collisionTimer.stop();
             if (state) {
-                // Awards money and allows next round to start if player is succesful, updating money
+                // Awards money and allows next round to start if player is successful, updating money
                 // on screen
                 roundButton.setDisable(false);
                 calculateIncome();
@@ -1072,13 +1072,17 @@ public class GameController {
 
     }
 
+    @FXML
     private void launchEndScreen() {
         /**
          Launches the ending screen once won or losing
          @author Michelle Lee
          */
+
+
         Stage endingScreen = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gameEnd.fxml"));
+        GameEndingController.gameStats(1,2,3,4);
         Parent gameEndingRoot;
 
         try {
@@ -1117,5 +1121,5 @@ public class GameController {
         }
     }
 }
-    // Add other methods and properties as needed
+// Add other methods and properties as needed
 

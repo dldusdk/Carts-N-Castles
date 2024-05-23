@@ -441,7 +441,7 @@
             <Image url="@../Art/Shop/coin.png" />
          </image>
       </ImageView>
-      <Button layoutX="1325.0" layoutY="137.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="53.0" prefWidth="137.0" text="Quit" textAlignment="CENTER">
+      <Button layoutX="1325.0" layoutY="137.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="137.0" text="Quit" textAlignment="CENTER">
          <font>
             <Font name="Minecraft" size="14.0" />
          </font>
@@ -465,5 +465,11 @@
             <Font name="Minecraft" size="26.0" />
          </font>
       </Label>
+      <Label layoutX="1169.0" layoutY="129.0" text="Points">
+         <font>
+            <Font name="Minecraft" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="pointsLabel" layoutX="1171.0" layoutY="166.0" text="0" />
    </children>
 </AnchorPane>

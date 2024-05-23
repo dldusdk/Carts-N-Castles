@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+//Class comment
 public class GameEventHandler {
     private ArrayList<Cart> cartList;
 

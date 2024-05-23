@@ -266,6 +266,7 @@ public class Tower {
     }
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
+        this.towerState = false;
         if (this.destroyed) {
             this.towerImage.setImage(new Image("Art/Factions/Knights/Buildings/Tower/Tower_Destroyed.png"));
         }

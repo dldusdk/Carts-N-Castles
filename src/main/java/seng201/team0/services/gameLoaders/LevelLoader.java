@@ -93,13 +93,11 @@ public class LevelLoader {
                 if (num != -1){
                     invalidCoordsListX.add(x);
                     invalidCoordsListY.add(y);
-
                 }
                 row++;
             }
             column++;
         }
-
     }
 
     private void loadDecorations(){
@@ -165,7 +163,7 @@ public class LevelLoader {
          * @return True if the coordinates are invalid
          * @author Michelle Lee
          */
-        return x < 0 || x > gamePaneWidth || y < 200 || y > 1024;
+        return x < 0 || x > gamePaneWidth || y < 300 || y > 1024;
     }
 
     public String getTileType(int id){

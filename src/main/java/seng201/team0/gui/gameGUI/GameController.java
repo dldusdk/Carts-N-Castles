@@ -44,6 +44,7 @@ import java.util.*;
 
 // CHANGE
 
+
 public class GameController {
 
     // Main Pane and different Views
@@ -133,6 +134,7 @@ public class GameController {
     private String selectedTowerType;
     private String userInputTowerName;
     private Circle radiusCircle;
+    boolean gameOverInitiated = false;
 
     // Shop Variables
     private Shop shop;
@@ -1048,10 +1050,17 @@ public class GameController {
     public void gameOver() {
         /**
          * This method creates a popup dialogue for the Game Over screen, allowing the user to retry the level,
-         * quit to the main menu or quit the game entirely.
+         * quit to the main menu or quit the game entirely. @michelle edit this :) <==========================
          * @author Gordon Homewood
          *
          */
+        if (gameOverInitiated) {
+            // If already in game over loop, don't let function cause
+            // infinite loop of opening game over screen
+            return;
+        }
+
+        gameOverInitiated = true;
         instructionLabel.setText("Game Over!");
         mediaPlayer.stop();
         launchEndScreen();
@@ -1080,9 +1089,9 @@ public class GameController {
          */
 
 
-        Stage endingScreen = new Stage();
+        Stage endingScreen = this.primaryStage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gameEnd.fxml"));
-        GameEndingController.gameStats(1,2,3,4);
+        //GameEndingController.gameStats(1,2,3,4);
         Parent gameEndingRoot;
 
         try {

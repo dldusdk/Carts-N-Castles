@@ -57,7 +57,7 @@ public class GameEndingController {
    // private Stage primaryStage;
 
     public void init(Stage primaryStage) {
-       this.primaryStage = (Stage) endPane.getScene().getWindow();;
+       this.primaryStage = (Stage) endPane.getScene().getWindow();
     }
 
     public void gameStats(int selectedRounds, int totalRoundsCompeted, int totalMoney, int totalPoints) {

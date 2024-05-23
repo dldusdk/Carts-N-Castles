@@ -60,44 +60,46 @@ public class LevelLoader {
             int row = 0;
             ArrayList<Integer> arrayList = new ArrayList<>(2);
             for(int num: innerList){
-                int y = column * tileSize + initialX;
-                int x = row * tileSize;
+                int columnPixel = column * tileSize + initialX;
+                int rowPixel = row * tileSize;
 
                 if (num == 36){
-                    loadNewImage((y), (x), base1Image,grassPath);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,grassPath);
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathRight);
                 }
                 if (num == 7){
-                    loadNewImage((y), (x), base1Image,grassPath);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,grassPath);
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnDown);
                 }
                 if (num == 18){
-                    loadNewImage((y), (x), base1Image,grassPath);
-                    loadNewImage((y), (x), base1Image,trackPathDown);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,grassPath);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,trackPathDown);
                 }
                 if (num == 25){
-                    loadNewImage((y), (x), base1Image,grassPath);
-                    loadNewImage((y), (x), base1Image,trackPathTurnDownRight);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,grassPath);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,trackPathTurnDownRight);
                 }
                 if (num == 27){
-                    loadNewImage((y), (x), base1Image,grassPath);
-                    loadNewImage((y), (x), base1Image,trackPathTurnUpRight);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,grassPath);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,trackPathTurnUpRight);
                 }
                 if (num == 5){
-                    loadNewImage((y), (x), base1Image,grassPath);
-                    loadNewImage((y), (x), base1Image,trackPathTurnDownLR);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,grassPath);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,trackPathTurnDownLR);
                 }
                 if (num == -1){
-                    loadNewImage((y), (x), base1Image,grassPath);
+                    loadNewImage((columnPixel), (rowPixel), base1Image,grassPath);
                 }
                 if (num != -1){
-                    invalidCoordsListX.add(x);
-                    invalidCoordsListY.add(y);
+                    invalidCoordsListX.add(rowPixel);
+                    invalidCoordsListY.add(columnPixel);
+
                 }
                 row++;
             }
             column++;
         }
+
     }
 
     private void loadDecorations(){

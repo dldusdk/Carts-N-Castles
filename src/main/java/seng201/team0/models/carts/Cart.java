@@ -122,7 +122,11 @@ public class Cart {
          *
          * @return percentage of load
          */
-        //System.out.println(capacity);
+        if(capacity <= 0){
+            //In case capacity is incorrect, return a
+            //full cart
+            return(1);
+        }
         return (currentLoad / capacity);
     }
 
@@ -195,7 +199,7 @@ public class Cart {
          * modular animations for the cart
          *
          * When called, it plays that animations created in the CartAnimation class, in a sequence, which uses
-         * the JavaFX SequentialTransition class to playback the animation in order
+         * the JavaFX SequentialTransition class to play back the animation in order.
          *
          * @carthPath which feeds the carts' destinaitons into the animation class
          * @roratePath which feeds the carts' rotations and orientations into the animation

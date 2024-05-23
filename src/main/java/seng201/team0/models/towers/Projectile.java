@@ -7,6 +7,18 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import seng201.team0.models.carts.Cart;
 
+
+/**
+ * This class creates a projectile object for the tower to shoot and
+ * fill up carts with.
+ *
+ * <p>The interaction between the gameController, tower, cart and this projectile class is
+ * essential to the game logic. In this class, the projectile logic can be seperated from
+ * those aforementioned classes, tending towards a more modular design </p>
+ *
+ * @author Gordon Homewood
+ */
+
 public class Projectile {
     private int speed;
     private int resources;
@@ -25,10 +37,16 @@ public class Projectile {
     private double damage;
     private boolean state = true;
 
-    public Projectile(int xCoordStart, int yCoordStart, String type, ImageView projectileDefaultLoad, Cart cart, double inputDamage){
+    public Projectile(int xCoordStart, int yCoordStart, String type, ImageView projectileDefaultLoad,
+                      Cart cart, double inputDamage){
+        /**
+         * Creates a new projectile based on parameters given. Also handles a timeline for the
+         * projectile to be updated during its lifetime.
+         *
+         * @param xCoordStart
+         * @param yCoordStart
+         */
         String path = initType(type);
-
-
 
         target = cart;
         projectileDefault = projectileDefaultLoad;
@@ -49,8 +67,6 @@ public class Projectile {
                     else{
                         destroy();
                     }
-
-
                 }
                 )
         );
@@ -104,10 +120,6 @@ public class Projectile {
         double distance = Math.sqrt(changeX * changeX + changeY * changeY);
 
         double newAngle = Math.atan2(changeY, changeX); //Gets angle to target
-
-        //Angle smoothing algorithm - tweaked to a point so it
-        //produces a smooth animation (only adjusts or)
-        //angle = (9 * angle + newAngle) / 10;
 
         if ((distance < velocity + 40) || lock) {
             lock = true;

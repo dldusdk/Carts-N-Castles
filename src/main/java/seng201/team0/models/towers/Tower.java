@@ -31,7 +31,7 @@ public class Tower {
     private ArrayList<Integer> roundsPlayed;
 
     // Tower Upgrades
-    private static final double SPEED_UPGRADE_FACTOR = 1.05;  // 10% faster
+    private static final double SPEED_UPGRADE_FACTOR = 1.05;  // Increase firerate by 5%
     private static final double RANGE_UPGRADE_FACTOR = 1.1;  // Increase range by 10%
     private static final double LOAD_AMOUNT_FACTOR = 1.1;  // Increase load amount by 10%
 

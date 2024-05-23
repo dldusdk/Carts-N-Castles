@@ -66,7 +66,8 @@ public class Shop {
         // Depreciate 10% per round
         double depreciationRate = 0.10;
         double depreciationFactor = Math.pow((1-depreciationRate), roundNumber);
-        return (int) (initialCost * depreciationFactor);
+        int moneyAwarded = (int) (initialCost * depreciationFactor);
+        return (int) (Math.ceil(moneyAwarded/5)*5);
     }
 
     // OTHER METHODS

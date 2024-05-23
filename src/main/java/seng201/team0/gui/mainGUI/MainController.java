@@ -26,10 +26,6 @@ public class MainController {
     @FXML
     private Button playButton;
     @FXML
-    private Button normalButton;
-    @FXML
-    private Button hardButton;
-    @FXML
     private Text headerText;
     @FXML
     private AnchorPane mainscreenPane;
@@ -65,7 +61,6 @@ public class MainController {
         boolean validNameEntered = false;
 
         while (!validNameEntered) {
-
             // Opens Text Input Dialog to get userName
             TextInputDialog userNameDialog = new TextInputDialog();
             userNameDialog.setTitle("Start new game");
@@ -74,36 +69,38 @@ public class MainController {
 
             // Store user's response in userName
             Optional<String> userName = userNameDialog.showAndWait();
+            validNameTest(String.valueOf(userName));
+            String name = userName.get().trim();
 
             // If the userName is not empty space
-            if (userName.isPresent()) {
-                //Remove any unnecessary spaces in front and before the input and ensure is valid
-                String name = userName.get().trim();
-                if (name.matches("^[a-zA-Z0-9 ]{3,15}$")) {
-                    // Capitalize the first letter of given input
-                    name = name.substring(0,1).toUpperCase() + name.substring(1);
+            if (userName.isPresent() && validNameTest(name)) {
+                // Capitalize the first letter of given input
+                name = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-                    // Change header text to welcome the user with their inputted name
-                    headerText.setText("Welcome " + name + "!\nChoose your difficulty!");
-                    headerText.setTextAlignment(TextAlignment.CENTER);
+                // Change header text to welcome the user with their inputted name
+                headerText.setText("Welcome " + name + "!\nChoose your difficulty!");
+                headerText.setTextAlignment(TextAlignment.CENTER);
 
-                    // Correct output, so stop showing the input dialog for name
-                    validNameEntered = true;
-                    mapSelect();
-
-                } else {
-                    // Shows a POP-UP error message for all invalid inputs
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Invalid Input");
-                    alert.setHeaderText("Please enter a name between 3-15 characters with no special characters.");
-                    alert.setContentText(null);
-                    alert.showAndWait();
-                }
-            } else {
-                // When user cancels the input dialog box, does not request for the name
+                // Correct output, so stop showing the input dialog for name
                 validNameEntered = true;
+                mapSelect();
+            } else {
+                // Shows a POP-UP error message for all invalid inputs
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Input");
+                alert.setHeaderText("Please enter a name between 3-15 characters with no special characters.");
+                alert.setContentText(null);
+                alert.showAndWait();
+                }
             }
-        }
+    }
+
+    public boolean validNameTest(String name) {
+        /**
+         * Tests if name is valid or not
+         * @author Michelle Lee
+         */
+        return name.matches("^[a-zA-Z0-9 ]{3,15}$");
     }
 
     private void mapSelect() {

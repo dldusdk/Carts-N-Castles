@@ -227,11 +227,6 @@
                               <Font name="Minecraft" size="12.0" />
                            </font>
                         </Label>
-                        <Label layoutX="162.0" layoutY="56.0" prefHeight="17.0" prefWidth="131.0" text="Lasts only one round">
-                           <font>
-                              <Font name="Minecraft" size="12.0" />
-                           </font>
-                        </Label>
                         <ImageView fitHeight="33.0" fitWidth="28.0" layoutX="215.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Art/Shop/coin.png" />
@@ -266,11 +261,6 @@
                            </font>
                         </Label>
                         <Label layoutX="159.0" layoutY="37.0" prefHeight="25.0" prefWidth="176.0" text="Increases the shoot range">
-                           <font>
-                              <Font name="Minecraft" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="163.0" layoutY="62.0" prefHeight="17.0" prefWidth="131.0" text="Lasts only one round">
                            <font>
                               <Font name="Minecraft" size="12.0" />
                            </font>
@@ -342,7 +332,7 @@
             <Font name="Minecraft" size="25.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="towerStats" prefHeight="162.0" prefWidth="1152.0" style="-fx-background-color: #C4C1B8;">
+      <AnchorPane fx:id="towerStats" prefHeight="162.0" prefWidth="1152.0" style="-fx-background-color: #C4C1B8;" visible="false">
          <children>
             <ImageView fx:id="selectedTowerImage" fitHeight="156.0" fitWidth="87.0" layoutX="15.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -389,7 +379,7 @@
                   <Font name="Minecraft" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="upgrades" layoutX="953.0" layoutY="57.0" mnemonicParsing="false" onAction="#towerUpgrades" prefHeight="39.0" prefWidth="176.0" text="Tower Upgrades" textAlignment="CENTER">
+            <Button fx:id="upgrades" layoutX="952.0" layoutY="56.0" mnemonicParsing="false" onAction="#towerUpgrades" prefHeight="39.0" prefWidth="176.0" text="Tower Upgrades" textAlignment="CENTER">
                <font>
                   <Font name="Minecraft" size="14.0" />
                </font>
@@ -419,7 +409,7 @@
                   <Font name="Minecraft" size="17.0" />
                </font>
             </Label>
-            <Button fx:id="repairButton" layoutX="953.0" layoutY="58.0" mnemonicParsing="false" onAction="#repairTower" prefHeight="39.0" prefWidth="176.0" text="200 Repair" textAlignment="CENTER" visible="false">
+            <Button fx:id="repairButton" layoutX="764.0" layoutY="103.0" mnemonicParsing="false" onAction="#repairTower" prefHeight="39.0" prefWidth="176.0" text="200 Repair" textAlignment="CENTER">
                <font>
                   <Font name="Minecraft" size="14.0" />
                </font>

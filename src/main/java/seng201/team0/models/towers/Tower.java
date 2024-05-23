@@ -42,7 +42,6 @@ public class Tower {
     //private long fireRate = 500000000L;
 
     private double radius;
-    private double previousRadius = 0;
     private double bonusPercent;
     boolean buffState;
 
@@ -56,7 +55,6 @@ public class Tower {
         this.resourceType = resourceType;
         this.reloadSpeed = reloadSpeed;
         this.loadAmount = loadAmount;
-        this.towerHealth = towerHealth;
         this.towerLevel = towerLevel;
         this.range = range;
         this.destroyed = false;
@@ -269,9 +267,12 @@ public class Tower {
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
         if (this.destroyed) {
-            this.previousRadius = this.radius;
-            this.radius = 0;
             this.towerImage.setImage(new Image("Art/Factions/Knights/Buildings/Tower/Tower_Destroyed.png"));
         }
+    }
+
+    public void repairTower(String towerType) {
+        this.destroyed = false;
+        this.towerImage.setImage(new Image(towerType));
     }
 }

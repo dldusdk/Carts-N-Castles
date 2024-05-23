@@ -88,9 +88,6 @@ public class GameController {
     private ImageView selectedTower;
     @FXML
     private Button switchInventory;
-    @FXML
-    private Button upgrades;
-
     //Shop
     @FXML
     private ScrollPane generalShop;
@@ -331,13 +328,19 @@ public class GameController {
          * Take appropriate amount off from player Coins, update the view and repair the tower.
          * @author Michelle Lee
          */
-
-        coinBalance -= 200;
-        updatePlayerCoins();
         Tower brokenTower = towersMap.get(selectedTower);
-        // set image, radius to normal // how to distinguish which tower it is
-        String towerType = brokenTower.getResourceType();
-
+        if (brokenTower.getDestroyed()) {
+            coinBalance -= 200;
+            updatePlayerCoins();
+            // set image, radius to normal // how to distinguish which tower it is
+            String towerType = brokenTower.getResourceType();
+            String imagePath = getTowerImagePath(towerType);
+            brokenTower.repairTower(imagePath);
+            instructionLabel.setText("Successfully repaired!");
+            }
+        else {
+            instructionLabel.setText("Your selected tower is not broken!");
+        }
     }
 
     @FXML
@@ -789,6 +792,7 @@ public class GameController {
 
         ImageView newSelectedTower = (ImageView) event.getSource();
 
+
         // Check if a tower was previously selected
         if (selectedTower != null) {
             ((Pane) trackDefault.getParent()).getChildren().remove(radiusCircle);
@@ -798,12 +802,7 @@ public class GameController {
             if (checkTower.getBuffState()){
                 //Keeps highlight on if buffed by random event
                 checkTower.applyBuffHighlight(true);
-            }
-            // If destroyed make the repair button visible
-            if (checkTower.getDestroyed()) {
-                repairButton.setVisible(true);
-                upgrades.setVisible(false);
-            }
+            } // If destroyed make the repair button visible
         }
 
         // Apply shadow effect to the newly selected tower
@@ -1116,8 +1115,8 @@ public class GameController {
             //Gets players choice on fail state, runs later so animations can finish
             Optional<ButtonType> result = gameOverDialogue.showAndWait();
             if(result.isPresent()){
+                mediaPlayer.stop();
                 if(result.get() == mainButton){
-                    //Music doesn't stop, needs to be fixed =============================================================================
                     launchMain();
                 }
                 if(result.get() == quitButton){

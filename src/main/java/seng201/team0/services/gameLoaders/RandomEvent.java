@@ -109,7 +109,7 @@ public class RandomEvent {
     public Tower getAffectedTowerBuff(){
         if (!mainTowers.isEmpty() && getBuffChance()) {
             for (Tower tower : mainTowers) {
-                if (tower.getDestroyed()) {
+                if ((tower.getDestroyed()) | !(tower.getTowerState())){
                     continue;
                 }
                 return (tower);

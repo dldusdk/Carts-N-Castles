@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 import seng201.team0.gui.mainGUI.MainController;
 import seng201.team0.models.Shop;
 import seng201.team0.models.towers.Tower;
-import seng201.team0.models.carts.CartBasic;
+import seng201.team0.models.carts.Cart;
 import seng201.team0.models.towers.GoldMine;
 import seng201.team0.models.towers.Projectile;
 import seng201.team0.services.gameLoaders.LevelLoader;
@@ -138,7 +138,7 @@ public class GameController {
 
 
     // Round and Animation Variables
-    private int totalRounds = 3; //need to scale this on player choice
+    private int totalRounds = 15; //need to scale this on player choice
     private int roundNumber = 0;
     private LoadRound newRound = null;
     private boolean roundState = false;
@@ -149,7 +149,7 @@ public class GameController {
     // Track Variables
     private LevelLoader levelGrid;
     private PathLoader path;
-    private ArrayList<CartBasic> cartList;
+    private ArrayList<Cart> cartList;
     private int cartNumber;
 
     //private boolean fail=false;
@@ -168,7 +168,7 @@ public class GameController {
                     if (!tower.getTowerState()) {
                         continue;
                     }
-                    CartBasic towerTarget = tower.targetAcquisition(cartList);
+                    Cart towerTarget = tower.targetAcquisition(cartList);
                     if (towerTarget == null) {
                         continue;
                     }
@@ -201,26 +201,10 @@ public class GameController {
                         tower.setProjectileTime(timestamp);
                     }
                 }
-                Iterator<CartBasic> iterator = cartList.iterator(); //So carts can safely be removed in loop
+                Iterator<Cart> iterator = cartList.iterator(); //So carts can safely be removed in loop
                 while (iterator.hasNext()) {
-                    CartBasic cart = iterator.next();
+                    Cart cart = iterator.next();
 
-                    if (cart.getCartObject().getTranslateX() >= 0) {
-                        //Sets carts distance through track so towers prioritize the furthest cart
-                        double previousX = cart.getCurrentX();
-                        double previousY = cart.getCurrentY();
-                        double currentX = cart.getCartObject().getTranslateX();
-                        double currentY = cart.getCartObject().getTranslateY();
-
-                        double changeX = Math.abs(currentX - previousX);
-                        double changeY = Math.abs(currentY - previousY);
-
-                        cart.incrementDistance(changeX);
-                        cart.incrementDistance(changeY);
-
-                        cart.setCurrentX(currentX);
-                        cart.setCurrentY(currentY);
-                    }
                     if (cart.getLoadPercent() >= 1) {
                         //Carts get destroyed if at max load (explosion different color)
                         cart.explode((int) cart.getCartObject().getTranslateX() - 60, (int) cart.getCartObject().getTranslateY() - 60, false);
@@ -254,6 +238,7 @@ public class GameController {
         /**
          * Initializes the controller with the primary stage
          * @param primaryStage The primary stage of the application
+         *
          */
         // Load the stage and game track
         this.primaryStage = primaryStage;
@@ -268,13 +253,13 @@ public class GameController {
         difficulty = "Normal";
 
         // Game initialization
-        playerLives.setText("n/a");
+        playerLives.setText("");
         roundButton.setText(String.valueOf("Start First Round!"));
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath", "src/main/resources/levelCSV/Level1/Level1RotatePath");
         playMusic(musicpath);
 
-        //move this to own class
+        // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
     }
 
@@ -584,6 +569,7 @@ public class GameController {
     private void soldOut(Button button, Shop shop, String towerType) {
         /**
          * If item is sold out, update the button image to indicate it has been sold out.
+         * @author Michelle Lee
          */
         if (shop.getStock(towerType) <= 0) {
             button.setGraphic(new ImageView("Art/Shop/sold.png"));
@@ -838,7 +824,8 @@ public class GameController {
     @FXML
     public void roundButtonClicked(ActionEvent event) {
         /**
-         *
+         * Prompts user to select desired difficulty when the round starts. Launches round based on
+         * difficulty.
          * @author Gordon Homewood
          */
 
@@ -846,6 +833,8 @@ public class GameController {
         userNameDialog.setTitle("Choose Round Difficulty");
         int nextRound = roundNumber + 1;
         userNameDialog.setHeaderText("Round " + nextRound + " is about to start.");
+
+        // Displays stats for the user to make a decision
         userNameDialog.setContentText("""
                 Select difficulty:
 
@@ -866,20 +855,21 @@ public class GameController {
                    25% chance for tower buff
                    100% money awarded, 100% points
                 """);
-        //Initailize buttons for difficutuy popup
+        // Initialize buttons for difficulty popup
         ButtonType easyButton = new ButtonType("Easy", ButtonBar.ButtonData.OK_DONE);
         ButtonType mediumButton = new ButtonType("Normal", ButtonBar.ButtonData.OK_DONE);
         ButtonType hardButton = new ButtonType("Hard", ButtonBar.ButtonData.OK_DONE);
         ButtonType quitButton = new ButtonType("I'm Not Ready!", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         userNameDialog.setOnShowing(event1 -> {
-            //Sets default button to quitButton, purely for aesthetics, so this appears as default
+            // Sets default button to quitButton, purely for aesthetics, so this appears as default, "blue color"
             Button button1 = (Button) userNameDialog.getDialogPane().lookupButton(easyButton);
             button1.setDefaultButton(false);
             Button button2 = (Button) userNameDialog.getDialogPane().lookupButton(quitButton);
             button2.setDefaultButton(true);
         });
 
+        // Tracks user input
         userNameDialog.getDialogPane().getButtonTypes().addAll(easyButton, mediumButton, hardButton, quitButton);
         Optional<ButtonType> result = userNameDialog.showAndWait();
 
@@ -902,33 +892,41 @@ public class GameController {
 
     private void launchRound() {
         /**
+         *When difficulty is selected, this method is called and the round in launched. This method is mainly
+         * responsible for initializing the round, calling methods and other classes to increment rounds, update lives,
+         * run random events and establishing general logic.
          *
          * @author Gordon Homewood
          */
+
+        // Initializing variables for new round
         instructionLabel.setText("Don't let the carts destroy your goldmine!");
         roundButton.setDisable(true);
         roundNumber++;
         collisionTimer.start();
         roundState = true;
         updatePlayerLives();
+
+        //Generate random events
         runRandomEvents();
 
         if (roundNumber > totalRounds) {
-            // Should switch view to win screen.
+            // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);
-            launchRetry();
+            //launchRetry();
 
         } else {
             ArrayList<Integer> cartTypeList = getCartNumber();
             newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
             for(Tower tower: mainTowers){
-                //Draws the towers on correct layer and increments list of full rounds tower is used in
+                // Draws the towers on correct layer and increments list of full rounds tower is used in
                 ((Pane) trackDefault.getParent()).getChildren().remove(tower.getImage());
                 ((Pane) trackDefault.getParent()).getChildren().add(tower.getImage());
                 tower.incrementRound(roundNumber);
 
             }
             for (int num : cartTypeList) {
+                // Stores the total number of carts for round logic
                 cartNumber += num;
             }
             cartList = newRound.getCartList();
@@ -936,25 +934,39 @@ public class GameController {
             roundState = true;
         }
         if(switchInventory != null){
-            switchInventory.setDisable(false);
+            switchInventory.setDisable(false); //Disables inventory swapping during rounds
         }
     }
 
     private void runRandomEvents(){
+        /** Creates a new RandomEvent class and applies the results of the random event
+         * to the relevant impacted towers
+         * @author Gordon Homewood
+         */
         RandomEvent towerBreaks = new RandomEvent(mainTowers,difficulty);
         Tower brokenTower = towerBreaks.getAffectedTowerBreak();
         if(brokenTower != null){
+            //Change the selected tower to broken if random event happen
             brokenTower.setDestroyed(true);
+            brokenTower.setBuff(false);
         }
         Tower bufftower = towerBreaks.getAffectedTowerBuff();
         if(bufftower != null){
-            bufftower.setBuff(true);
+            if(!bufftower.getDestroyed()) {
+                //Buff the selected tower if random event happens and checks again to make
+                //sure it is not destroyed
+                bufftower.setBuff(true);
+            }
         }
     }
 
     private ArrayList<Integer> getCartNumber() {
         /**
+         * Generates how many carts of each type should be spawned in a round, based on round number. Also
+         * sets goldMine to the correct health for the round.
          *
+         * @return A list of cart numbers, where index 1 = bronze, index 2 = silver and index 3 = gold carts to
+         * be spawned in the round level.
          * @author Gordon Homewood
          */
         if (difficulty.equals("Easy")) {
@@ -996,7 +1008,10 @@ public class GameController {
 
     private void stopRound(boolean state) {
         /**
-         *
+         * Stops the round when called in the collisionTimer. This allows the game to handle
+         * updates as the round finishes, such as awarding money, resetting tower buff, stopping
+         * collisionTimer and renabling inventory.
+         * @param state which decides if the game should continue or not
          * @author Gordon Homewood
          */
         for (Tower tower: mainTowers){
@@ -1009,10 +1024,13 @@ public class GameController {
         instructionLabel.setText("Round " + roundNumber + " complete!");
         collisionTimer.stop();
         if (state) {
+            // Awards money and allows next round to start if player is succesful, updating money
+            // on screen
             roundButton.setDisable(false);
             calculateIncome();
             playerCoins.setText(String.valueOf(coinBalance));
         } else {
+            // If the gameState is failed, it will not allow any more rounds to be played.
             roundButton.setDisable(true);
             gameOver();
         }
@@ -1020,6 +1038,9 @@ public class GameController {
     }
 
     private void calculateIncome() {
+        /**
+         * Decides how much money should be awarded based on the difficulty of the round
+         */
         if (difficulty.equals("Easy")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.5);
             coinBalance += (int) (Math.ceil((double) moneyAwarded / 5) * 5);
@@ -1037,27 +1058,29 @@ public class GameController {
 
     public void gameOver() {
         /**
-         *
+         * This method creates a popup dialogue for the Game Over screen, allowing the user to retry the level,
+         * quit to the main menu or quit the game entirely.
          * @author Gordon Homewood
          *
          */
         instructionLabel.setText("Game Over!");
 
-        collisionTimer = null;
-        ImageView image = new ImageView("Art/Factions/Knights/Troops/Dead/Dead.png");
-        image.setX(250);
-        image.setY(250);
-        for(CartBasic cart: cartList){
+        collisionTimer = null; //Clear track and animations
+        for(Cart cart: cartList){
             cart.despawn();
         }
 
+        ImageView image = new ImageView("Art/Factions/Knights/Troops/Dead/Dead.png"); //Display gameover image
+        image.setX(250);
+        image.setY(250);
+
         ((Pane) trackDefault.getParent()).getChildren().add(image);
 
+        //Creates pop up dialogue for fail state
         Dialog<ButtonType> gameOverDialogue = new Dialog<>();
         gameOverDialogue.setTitle("Game Over");
         gameOverDialogue.setHeaderText("Your gold mine was destroyed!");
         gameOverDialogue.setContentText("You failed at round " + roundNumber);
-
 
         ButtonType retryButton = new ButtonType("Retry", ButtonBar.ButtonData.OK_DONE);
         ButtonType mainButton = new ButtonType("Quit to Main Menu", ButtonBar.ButtonData.OK_DONE);
@@ -1070,10 +1093,11 @@ public class GameController {
             Optional<ButtonType> result = gameOverDialogue.showAndWait();
             if(result.isPresent()){
                 if(result.get() == mainButton){
-                    //Music doesn't stop, needs to be fixed
+                    //Music doesn't stop, needs to be fixed =============================================================================
                     launchMain();
                 }
                 if(result.get() == quitButton){
+                    //Quits the game, no method call required
                     stage = (Stage) gamePane.getScene().getWindow();
                     System.out.println("You Successfully quit the game!");
                     stage.close();
@@ -1085,13 +1109,12 @@ public class GameController {
         });
     }
 
-    ;
-
-
-    //Spawn New Button that resets Quits to mainScreen or reloads game controller or just switch
-    //this whole thing to new screen
-
     private void launchMain() {
+        /**
+         * Launches the main menu after player selects the quit option from the Game Over
+         * dialogue
+         * @author Gordon Homewood
+         */
         stage = (Stage) gamePane.getScene().getWindow();
         stage.close();
 
@@ -1113,6 +1136,11 @@ public class GameController {
     }
 
     private void launchRetry(){
+        /**
+         * Restarts the current level after player selects the retry option from the Game Over
+         * dialogue
+         * @author Gordon Homewood
+         */
         stage = (Stage) gamePane.getScene().getWindow();
         stage.close();
 

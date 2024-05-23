@@ -64,31 +64,31 @@ public class LevelLoader {
                 int x = row * tileSize;
 
                 if (num == 36){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                    loadNewImage((y), (x), base1Image,grassPath);
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathRight);
                 }
                 if (num == 7){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                    loadNewImage((y), (x), base1Image,grassPath);
                     loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnDown);
                 }
                 if (num == 18){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathDown);
+                    loadNewImage((y), (x), base1Image,grassPath);
+                    loadNewImage((y), (x), base1Image,trackPathDown);
                 }
                 if (num == 25){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnDownRight);
+                    loadNewImage((y), (x), base1Image,grassPath);
+                    loadNewImage((y), (x), base1Image,trackPathTurnDownRight);
                 }
                 if (num == 27){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnUpRight);
+                    loadNewImage((y), (x), base1Image,grassPath);
+                    loadNewImage((y), (x), base1Image,trackPathTurnUpRight);
                 }
                 if (num == 5){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,trackPathTurnDownLR);
+                    loadNewImage((y), (x), base1Image,grassPath);
+                    loadNewImage((y), (x), base1Image,trackPathTurnDownLR);
                 }
                 if (num == -1){
-                    loadNewImage((column * tileSize + initialX), (row * tileSize), base1Image,grassPath);
+                    loadNewImage((y), (x), base1Image,grassPath);
                 }
                 if (num != -1){
                     invalidCoordsListX.add(x);

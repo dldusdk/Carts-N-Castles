@@ -2,10 +2,15 @@ package seng201.team0.gui.gameGUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class GameEndingController {
     /**G
@@ -36,13 +41,17 @@ public class GameEndingController {
     @FXML
     private AnchorPane endPane;
 
+    private Stage primaryStage;
+
 
 
     Stage stage;
     String musicpath = "src/main/resources/Music/bg/bgmMain.mp3";
     private static MediaPlayer mediaPlayer;
+   // private Stage primaryStage;
 
     public void init(Stage primaryStage) {
+       this.primaryStage = (Stage) endPane.getScene().getWindow();;
     }
 
     @FXML
@@ -52,6 +61,26 @@ public class GameEndingController {
          * Back to the Game!!!
          */
 
+        stage = (Stage) endPane.getScene().getWindow();
+        stage.close();
+
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
+        Parent root = null;
+        try {
+            root = baseLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        GameController baseController = baseLoader.getController();
+        baseController.init(stage);
+
+        Scene scene = new Scene(root,1472,1024);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+
+        // Show mapSelection window
     }
 
     @FXML
@@ -69,16 +98,36 @@ public class GameEndingController {
         // If User clicks 'Confirm', Quit game
         if (alert.showAndWait().get() == ButtonType.OK) {
             stage = (Stage) endPane.getScene().getWindow();
-            System.out.println("You Successfully quit the game!");
             stage.close();
         }
     }
     @FXML
     private void toMainMenu(ActionEvent event) {
         /**
-         *
-         * Goe sto the main Screen
+         *When button is clicked, it will close the gameEnd stage and open the main controller
+         * @author Michelle Lee
          */
+        stage = (Stage) endPane.getScene().getWindow();
+        stage.close();
+
+        Stage mainMenu = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+        Parent mainMenuRoot;
+
+        try {
+            mainMenuRoot = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // Set up the scene for the mapSelection Window
+        Scene mainScene = new Scene(mainMenuRoot);
+        mainMenu.setScene(mainScene);
+        mainMenu.setTitle("Main Screen");
+
+        // Show mapSelection window
+        mainMenu.show();
 
 
 

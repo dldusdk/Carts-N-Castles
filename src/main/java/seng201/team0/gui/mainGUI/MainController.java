@@ -148,6 +148,7 @@ public class MainController {
         // If User clicks 'Confirm', Quit game
         if (alert.showAndWait().get() == ButtonType.OK) {
             stage = (Stage) mainscreenPane.getScene().getWindow();
+
             stage.close();
         }
     }

@@ -20,32 +20,31 @@ import seng201.team0.models.carts.Cart;
  */
 
 public class Projectile {
-    private int speed;
-    private int resources;
-    private int size;
-    private String resourceType;
     private int xCoord;
     private int yCoord;
-    private int time = 0;
     private ImageView projectileDefault;
     private ImageView projectileObject;
     private Timeline timeline;
     private int framesPerSecond = 60;
     private Cart target;
-    private double angle=0;
     private boolean lock = false;
     private double damage;
-    private boolean state = true;
 
+
+    /**
+     * Creates a new projectile based on parameters given. Also handles a timeline for the
+     * projectile to be updated during its lifetime.
+     *
+     * @param xCoordStart indicates x start, based on tower position
+     * @param yCoordStart indicates y start, based on tower position
+     * @param type allows the projectile to be shown in the right image respective to the tower's type
+     * @param projectileDefaultLoad allows the projectile to be spawned on the screen
+     * @param cart takes in cart as a target
+     * @param inputDamage scales the projectile's load amount with the towers' stats
+     */
     public Projectile(int xCoordStart, int yCoordStart, String type, ImageView projectileDefaultLoad,
                       Cart cart, double inputDamage){
-        /**
-         * Creates a new projectile based on parameters given. Also handles a timeline for the
-         * projectile to be updated during its lifetime.
-         *
-         * @param xCoordStart
-         * @param yCoordStart
-         */
+
         String path = initType(type);
 
         target = cart;
@@ -57,9 +56,10 @@ public class Projectile {
 
         xCoord = xCoordStart;
         yCoord = yCoordStart;
+
+        //Create timeline to update projectile based on framerate of 60 (standard animation timer refresh rate)
         timeline = new Timeline(
                 new KeyFrame(Duration.seconds((double) 1 /framesPerSecond), event -> {
-                    updateTime();
                     if (!lock && !cart.getDestroyed()){
                         updateProjectile();
                         spawn();
@@ -74,7 +74,15 @@ public class Projectile {
         timeline.play();
     }
 
+    /**
+     * This method initializes the image of the projectile based on the tower's type. Returns a bronze image path
+     * if string is not a given type.
+     *
+     * @param type (Bronze, Silver or Gold)
+     * @author Gordon Homewood
+     */
     private String initType(String type) {
+
         if(type.equals("Bronze")){
             return("Art/projectiles/bronze1.png");
         }
@@ -87,23 +95,47 @@ public class Projectile {
         return("Art/projectiles/bronze1.png");
     }
 
-    public void updateTime(){
-        time += 1;
-    }
 
+    /**
+     * Returns current x coordinate of projectile.
+     * @return x coordinate
+     *
+     * @author Gordon Homewood
+     */
     private int getCurrentX(){return(xCoord);}
+
+    /**
+     * Return current y coordinate of projectile
+     * @return y coordinate
+     *
+     * @author Gordon Homewood
+     */
     private int getCurrentY(){return(yCoord);}
 
+    /**
+     * Uses getTranslateX to get the animated target's x location
+     * @return x coordinate of target
+     *
+     * @author Gordon Homewood
+     */
     private double getTargetX(){return(target.getCartObject().getTranslateX());}
 
+
+    /**
+     * Uses getTranslateY to get the animated target's y location
+     * @return y coordinate of target.
+     *
+     * @author Gordon Homewood
+     */
     private double getTargetY(){return(target.getCartObject().getTranslateY());}
 
-    public ImageView getProjectileImage(){
-        return(projectileDefault);
-    }
 
-    public boolean getState(){return(state);}
-
+    /**
+     * This method destroys the projectile to hide from the screen and give null pointers so
+     * it can be removed by the Java garbage collection.
+     *
+     * @author Gordon Homewood
+     */
     public void destroy() {
         if (projectileObject != null && projectileObject.getParent() != null) {
             ((Pane) projectileObject.getParent()).getChildren().remove(projectileObject);
@@ -113,31 +145,45 @@ public class Projectile {
         target = null;
         timeline = null;
     }
+
+    /**
+     * This method uses trigonometry to update the position of the projectile relative to its
+     * target.This translates to the user as an animation, where the projectile follows the cart
+     * until it locks and is destroyed as it hits the target.
+     *
+     * @author Gordon Homewood
+     */
     private void updateProjectile() {
+
         double velocity = 5;
         double changeX = getTargetX() - getCurrentX();
         double changeY = getTargetY() - getCurrentY();
+        //Euclidean Formula for distance
         double distance = Math.sqrt(changeX * changeX + changeY * changeY);
 
         double newAngle = Math.atan2(changeY, changeX); //Gets angle to target
 
         if ((distance < velocity + 40) || lock) {
+            //If hit the target, increase the load once
             lock = true;
-            //projectileObject.setVisible(false);
             target.setLoad(damage);
             damage = 0;
-            state = false;
-            //destroy();
+
         }
         else{
             if (projectileObject != null){
-        // Update the position based on velocity and angle
+        // Update the position based on velocity and angle in y-axis and x-axis
         xCoord += (int) (velocity * Math.cos(newAngle));
         yCoord += (int) (velocity * Math.sin(newAngle));}
         else destroy();}
 
     }
 
+    /**
+     * Spawns the projectile based on the given coordinates of the tower.
+     *
+     * @author Gordon Homewood
+     */
     public void spawn() {
         if(projectileObject != null){
         projectileObject.setX(xCoord);

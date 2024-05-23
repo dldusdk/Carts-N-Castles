@@ -14,27 +14,22 @@ import java.util.Random;
 public class LoadRound {
 
     private String difficulty;
-    private ArrayList<ArrayList<Integer>>cartPath;
-    private ArrayList<ArrayList<Integer>>rotatePath;
-    private ImageView cartImage;
-    private ArrayList<Cart> cartList;
-    private int lowerSpawnBound = -1000; //Scale based on difficutly
-    private int upperSpawnBound = -100;
-    private int lowSpeedBound = 300; //Scale based on difficulty
-    private int upperSpeedBound = 400;
-    private int bronzeCartNum;
-    private int silverCartNum;
-    private int goldCartNum;
-    private Projectile projectile;
-
+    private final ArrayList<ArrayList<Integer>>cartPath;
+    private final ArrayList<ArrayList<Integer>>rotatePath;
+    private final ImageView cartImage;
+    private final ArrayList<Cart> cartList;
+    private final int lowerSpawnBound = -1000;
+    private final int upperSpawnBound = -100;
+    private final int lowSpeedBound = 50;
+    private final int upperSpeedBound = 150;
 
 
     public LoadRound(int round, String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath,
                      ArrayList<Integer> cartNum){
 
-        bronzeCartNum = cartNum.get(0);
-        silverCartNum = cartNum.get(1);
-        goldCartNum = cartNum.get(2);
+        int bronzeCartNum = cartNum.get(0);
+        int silverCartNum = cartNum.get(1);
+        int goldCartNum = cartNum.get(2);
 
         cartImage = cartDefault;
         cartPath = gridPath.getPath();
@@ -43,9 +38,9 @@ public class LoadRound {
         difficulty = difficultySetting;
         cartList = new ArrayList<>();
 
-        loadCarts("Bronze",bronzeCartNum, "Art/Carts/bronzeCarts/bronzeEmpty.png");
-        loadCarts("Silver",silverCartNum, "Art/Carts/silverCarts/silverEmpty.png");
-        loadCarts("Gold",goldCartNum, "Art/Carts/goldCarts/goldEmpty.png");
+        loadCarts("Bronze", bronzeCartNum, "Art/Carts/bronzeCarts/bronzeEmpty.png");
+        loadCarts("Silver", silverCartNum, "Art/Carts/silverCarts/silverEmpty.png");
+        loadCarts("Gold", goldCartNum, "Art/Carts/goldCarts/goldEmpty.png");
 
     }
 

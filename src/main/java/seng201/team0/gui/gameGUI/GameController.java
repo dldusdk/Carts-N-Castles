@@ -24,6 +24,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 //Package imports
@@ -47,7 +48,21 @@ import java.io.IOException;
 import java.util.*;
 
 
-// CHANGE
+/**
+ * This class contains the logic of the game's Graphical User Interface interaction,
+ * and is the initializer for the majority
+ * of the game's animations, level loading, and round logic.
+ *
+ * <p>As Carts and Castles uses javaFX to animate and display its game logic with a heavy emphasis on the visuals,
+ * this controller is much more complex than others in the program. Outsourcing logic is used where possible and
+ * practical, but because of the nature of merging animations, collisions, game logic and player interactions, a more
+ * modular design can sometimes seem impractical. It also is the Controller for the FXML gameScreen file, which
+ * provides key compatibility between the on screen GUI and the game logic.</p>
+ *
+ *
+ * @author Gordon Homewood
+ * @author Michelle Lee
+ */
 
 
 public class GameController {
@@ -145,10 +160,12 @@ public class GameController {
     private Shop shop;
     private int coinBalance;
     private boolean upgradePurchased = false;
+    private int points = 0; // Can't be spent, but used to give player
+                            // feedback on their Game
 
 
     // Round and Animation Variables
-    private int totalRounds = 1; //need to scale this on player choice
+    private int totalRounds = 15; //need to scale this on player choice
     private int roundNumber = 0;
     private LoadRound newRound = null;
     private boolean roundState = false;
@@ -168,7 +185,6 @@ public class GameController {
         @Override
         public void handle(long timestamp) {
             GameEventHandler gameEventHandler = new GameEventHandler(cartList);
-            System.out.println(cartList.size());
             updatePlayerLives();
             if (!cartList.isEmpty()) {
                 cartList = gameEventHandler.getCartList();
@@ -218,6 +234,10 @@ public class GameController {
 
         // Game initialization
         playerLives.setText("");
+
+        Font font = Font.font("Minecraft",12);
+        pointsLabel.setFont(font);
+
         roundButton.setText(String.valueOf("Start First Round!"));
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath", "src/main/resources/levelCSV/Level1/Level1RotatePath");
@@ -642,11 +662,11 @@ public class GameController {
                         130, true, "Main");
                 break;
             case "Silver":
-                tower = new Tower(userInputTowerName, "Silver", 1.5, 0.5, 1, 25,
+                tower = new Tower(userInputTowerName, "Silver", 1.5, 0.75, 1, 25,
                         130, true, "Main");
                 break;
             case "Gold":
-                tower = new Tower(userInputTowerName, "Gold", 1.0, 1, 1, 45,
+                tower = new Tower(userInputTowerName, "Gold", 1.0, 1.5, 1, 45,
                         130, true, "Main");
                 break;
         }
@@ -923,17 +943,16 @@ public class GameController {
          * to the relevant impacted towers
          * @author Gordon Homewood
          */
-        RandomEvent towerBreaks = new RandomEvent(mainTowers, difficulty);
+        RandomEvent towerBreaks = new RandomEvent(mainTowers, difficulty,roundNumber);
         Tower brokenTower = towerBreaks.getAffectedTowerBreak();
         if (brokenTower != null) {
-            //Change the selected tower to broken if random event happen
+            //Change the selected tower to broken if the random event happens
             brokenTower.setDestroyed(true);
-            brokenTower.setBuff(false);
         }
         Tower bufftower = towerBreaks.getAffectedTowerBuff();
         if (bufftower != null) {
             if (!bufftower.getDestroyed()) {
-                //Buff the selected tower if random event happens and checks again to make
+                //Buff the selected tower if the random event happens and checks again to make
                 //sure it is not destroyed
                 bufftower.setBuff(true);
             }
@@ -1010,6 +1029,8 @@ public class GameController {
             for (Tower tower : mainTowers) {
                 if (tower.getBuffState()) {
                     //Resets buff state after round
+                    System.out.println("OK");
+                    tower.getImage().setEffect(null);
                     tower.setBuff(false);
                 }
             }
@@ -1037,15 +1058,25 @@ public class GameController {
          */
         if (difficulty.equals("Easy")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.5);
-            coinBalance += (int) (Math.ceil((double) moneyAwarded / 5) * 5);
+            int roundedAward = (int) (Math.ceil((double) moneyAwarded / 5) * 5);
+            points += roundedAward;
+            coinBalance += roundedAward;
+            pointsLabel.setText(String.valueOf(points));
         }
         if (difficulty.equals("Normal")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.75);
-            coinBalance += (int) (Math.ceil((double) moneyAwarded / 5) * 5);
+            int roundedAward = (int) (Math.ceil((double) moneyAwarded / 5) * 5);
+            points += roundedAward;
+            coinBalance += roundedAward;
+            pointsLabel.setText(String.valueOf(points));
+
         }
         if (difficulty.equals("Hard")) {
             int moneyAwarded = (roundNumber * 50);
-            coinBalance += (int) (Math.ceil((double) moneyAwarded / 5) * 5);
+            int roundedAward = (int) (Math.ceil((double) moneyAwarded / 5) * 5);
+            points += roundedAward;
+            coinBalance += roundedAward;
+            pointsLabel.setText(String.valueOf(points));
         }
     }
 
@@ -1079,8 +1110,9 @@ public class GameController {
 
         ((Pane) trackDefault.getParent()).getChildren().add(image);
 
+        if(stage != null){
         stage = (Stage) gamePane.getScene().getWindow();
-        stage.close();
+        stage.close();}
 
     }
 

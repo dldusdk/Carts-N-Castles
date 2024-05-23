@@ -4,9 +4,6 @@ import seng201.team0.services.fileReaders.FileReader;
 
 import java.util.ArrayList;
 
-
-
-
 /**
  *This class loads the rotations of carts into a file, using the provided FileReader
  * class.
@@ -23,7 +20,7 @@ public class PathLoader {
     private ArrayList<ArrayList<Integer>> loadRotatesDirections;
 
     public PathLoader(String wayPath,String rotatePath){
-        int numWaypoints = 7; //Move this to settings
+        int numWaypoints = 6; //Move this to settings
         int numRotates = 5;
 
         FileReader cartLoader = new FileReader(wayPath, numWaypoints);
@@ -31,14 +28,13 @@ public class PathLoader {
 
         FileReader cartRotateLoader = new FileReader(rotatePath, numRotates);
         loadRotatesDirections = cartRotateLoader.getList();
-        //System.out.println(loadWaypoints);
     }
 
+    public ArrayList<ArrayList<Integer>> getPath()
+    {return (loadWaypoints);}
 
 
-    public ArrayList<ArrayList<Integer>> getPath(){return (loadWaypoints);}
-
-
-    public ArrayList<ArrayList<Integer>> getRotatePath() {return(loadRotatesDirections);
+    public ArrayList<ArrayList<Integer>> getRotatePath() {
+        return(loadRotatesDirections);
     }
 }

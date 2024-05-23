@@ -9,16 +9,29 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * This class is responsible for outsoyrcing the animation from the cart class and gives a list of
+ * transitions to be played in a sequence from the carts' parameters.
+ *
+ * @author Gordon Homewood
+ */
 public class CartAnimation {
-    private ArrayList<TranslateTransition> transitionList;
-    private ArrayList<ArrayList<Integer>>rotationDirectionList;
-    private ArrayList<ArrayList<Integer>>cartPathList;
-    private ArrayList<RotateTransition> rotationList;
-    private double speed;
-    private ImageView cartSource;
-    private int cartSpawn;
+    private final ArrayList<TranslateTransition> transitionList;
+    private final ArrayList<ArrayList<Integer>>rotationDirectionList;
+    private final ArrayList<ArrayList<Integer>>cartPathList;
+    private final ArrayList<RotateTransition> rotationList;
+    private final double speed;
+    private final ImageView cartSource;
+    private final int cartSpawn;
     private int rotateCount = 0;
 
+    /**
+     * @param cart
+     * @param rotationPaths
+     * @param cartPaths
+     * @param cartSpeed
+     * @param cartSpawnCoord
+     */
     public CartAnimation(ImageView cart, ArrayList<ArrayList<Integer>>rotationPaths,
                          ArrayList<ArrayList<Integer>>cartPaths,double cartSpeed,int cartSpawnCoord){
         cartSpawn = cartSpawnCoord;

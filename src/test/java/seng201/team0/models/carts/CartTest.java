@@ -5,8 +5,12 @@ import javafx.scene.image.ImageView;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,8 +21,8 @@ class CartTest {
     void setUp() {
         ImageView image = new ImageView("p");
         ArrayList<RotateTransition> rotatepath = new ArrayList<>();
-        cart = new Cart(image,2,
-                "bronze",4,new ArrayList<>(),new ArrayList<>(),7,"1");
+        cart = new Cart(image,1, "bronze",2,
+                new ArrayList<>(),new ArrayList<>(),0,"1");
     }
 
     @AfterEach
@@ -26,9 +30,9 @@ class CartTest {
 
     }
 
-    int number = 1;
     @Test
     void setLoad() {
+        assertEquals(cart.getLoadPercent(),10);
     }
 
     @Test
@@ -66,6 +70,7 @@ class CartTest {
 
     @Test
     void explode() {
+        //assert
     }
 
     @Test

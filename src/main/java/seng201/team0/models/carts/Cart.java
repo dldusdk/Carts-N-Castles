@@ -42,27 +42,26 @@ public class Cart {
     private double currentLoad = 0;
     private boolean destroyed = false;
 
+    /**
+     * Constructs a new cart based on given parameters.
+     * @param cartImageImport gives a way to access the pane so the cart can be drawn
+     * @param cartSizeScale gives how much the image size should be changed, which is
+     *                      also related to capacity
+     * @param cartType either bronze,silver,gold which gives the cart a weakness to the towers of their
+     *                 specific types
+     * @param cartSpeed sets the carts travel speed, which will determine how fast the cart reaches the end of the
+     *                  track
+     * @param rotatePath gives direction of rotation for animation
+     * @param cartPath gives coordinates for cart's travel across track
+     * @param cartX defines a starting point for the cart
+     * @param cartSourcePath defines what image should be used for the cart's spawn (related to type)
+     *
+     * @author Gordon Homewood
+     */
     public Cart(ImageView cartImageImport, double cartSizeScale, String cartType, double cartSpeed,
                 ArrayList<ArrayList<Integer>> rotatePath,
                 ArrayList<ArrayList<Integer>> cartPath, int cartX,
                 String cartSourcePath) {
-        /**
-         * Constructs a new cart based on given parameters.
-         * @param cartImageImport gives a way to access the pane so the cart can be drawn
-         * @param cartSizeScale gives how much the image size should be changed, which is
-         *                      also related to capacity
-         * @param cartType either bronze,silver,gold which gives the cart a weakness to the towers of their
-         *                 specific types
-         * @param cartSpeed sets the carts travel speed, which will determine how fast the cart reaches the end of the
-         *                  track
-         * @param rotatePath gives direction of rotation for animation
-         * @param cartPath gives coordinates for cart's travel across track
-         * @param cartX defines a starting point for the cart
-         * @param cartSourcePath defines what image should be used for the cart's spawn (related to type)
-         *
-         * @author Gordon Homewood
-         */
-
         resourceType = cartType;
         cartSize = cartSizeScale;
 
@@ -78,15 +77,16 @@ public class Cart {
         animateCart(cartPath, rotatePath);
     }
 
+
+    /**
+     * Gives a value for the capacity or 'health' of the cart which is
+     * derived from its visual size to give the player a visual indication
+     * of how many projectiles will be needed to fill it up
+     *
+     * @return cart's capacity
+     * @author Gordon Homewood
+     */
     private double initializeCapacity() {
-        /**
-         * Gives a value for the capacity or 'health' of the cart which is
-         * derived from its visual size to give the player a visual indication
-         * of how many projectiles will be needed to fill it up
-         *
-         * @return cart's capacity
-         * @author Gordon Homewood
-         */
         if (cartSize == 0.75) {
             return (2);
         }
@@ -99,29 +99,31 @@ public class Cart {
         return (1);
     }
 
+
+    /**
+     * Updates the cart's load based on a projectiles' damage
+     * Setting the destroyed means the cart is periodically hit,
+     * so logic with the projectile enables it to despawn
+     *
+     * @param damage - determined by tower's and it's projectiles' damage
+     *
+     * @author Gordon Homewood
+     */
     public void setLoad(double damage) {
-        /**
-         * Updates the cart's load based on a projectiles' damage
-         * Setting the destroyed means the cart is periodically hit,
-         * so logic with the projectile enables it do despawn
-         *
-         * @param damage - determined by tower's and it's projectiles' damage
-         *
-         * @author Gordon Homewood
-         */
         currentLoad += damage;
         setDestroyed(true);
         updateImage();
         setDestroyed(false);
     }
 
+    /**
+     * Returns the percentage of the carts' load, so it
+     * can update its image if needed
+     *
+     * @return percentage of load
+     */
     public double getLoadPercent() {
-        /**
-         * Returns the percentage of the carts' load, so it
-         * can update its image if needed
-         *
-         * @return percentage of load
-         */
+
         if(capacity <= 0){
             //In case capacity is incorrect, return a
             //full cart
@@ -130,14 +132,15 @@ public class Cart {
         return (currentLoad / capacity);
     }
 
+
+    /**
+     * Updates the cart image based on load percent
+     * This gives the player rough visual feedback on how much more a cart needs
+     * to be hit to be destroyed. Also makes game more engaging
+     *
+     * @author Gordon Homewood
+     */
     public void updateImage() {
-        /**
-         * Updates the cart image based on load percent
-         * This gives the player rough visual feedback on how much more a cart needs
-         * to be hit in order to be destroyed. Also makes game more engaging
-         *
-         * @author Gordon Homewood
-         */
         if (getLoadPercent() >= 0.5 && getLoadPercent() < 1) {
             if (Objects.equals(resourceType, "Bronze")) {
                 cartObject.setImage((new Image("Art/Carts/bronzeCarts/bronzeHalf.png")));
@@ -173,15 +176,15 @@ public class Cart {
         }
     }
 
+    /**
+     * Method that builds the initial image for the cart
+     * and draws it on the screen
+     *
+     * @return cart image to be animated
+     *
+     * @author Gordon Homewood
+     */
     public ImageView loadCart() {
-        /**
-         * Method that builds the initial image for the cart
-         * and draws it on the screen
-         *
-         * @return cart image to be animated
-         *
-         * @author Gordon Homewood
-         */
         Image source = new Image(cartSource);
         ImageView cartImage = new ImageView(source);
         cartImage.setX(0);
@@ -193,21 +196,19 @@ public class Cart {
         return (cartImage);
     }
 
+    /**
+     * Method that creates new CartAnimation class, which is responsible for creating
+     * modular animations for the cart.
+     * When called, it plays that animations created in the CartAnimation class, in a sequence, which uses
+     * the JavaFX SequentialTransition class to play back the animation in order.
+     *
+     * @cartPath which feeds the carts' destinations into the animation class
+     * @rotatePath which feeds the carts' rotations and orientations into the animation
+     *
+     * @author Gordon Homewood
+     */
     public void animateCart(ArrayList<ArrayList<Integer>> cartPath, ArrayList<ArrayList<Integer>> rotatePath) {
-        /**
-         * Method that creates new CartAnimation class, which is responsible for creating
-         * modular animations for the cart
-         *
-         * When called, it plays that animations created in the CartAnimation class, in a sequence, which uses
-         * the JavaFX SequentialTransition class to play back the animation in order.
-         *
-         * @carthPath which feeds the carts' destinaitons into the animation class
-         * @roratePath which feeds the carts' rotations and orientations into the animation
-         * @cartSpeed determines how fast the animations will be played, and subsequently, how fast the cart moves
-         * across the track
-         *
-         * @author Gordon Homewood
-         */
+
         CartAnimation cartAnimation = new CartAnimation(cartObject, cartPath, rotatePath, speed, cartSpawnLocationX);
 
         ArrayList<TranslateTransition> transitionList = cartAnimation.getAnimations();
@@ -222,63 +223,65 @@ public class Cart {
         sequentialTransition.play();
     }
 
+    /**
+     * This method is responsible for removing the cart from the screen, which
+     * is useful when it is full, the cart reaches the end, or the game is finishes
+     *
+     * @author Gordon Homewood
+     */
     public void despawn() {
-        /**
-         * This method is responsible for removing the cart from the screen, which
-         * is useful when it is full, the cart reaches the end or the game is finishes
-         *
-         * @author Gordon Homewood
-         */
         cartObject.setVisible(false);
         setDestroyed(true);
     }
 
-    public String getResourceType()
     /**
      * @return resource type (bronze,silver,gold). Useful for iteractions with towers and projectiles
      *
      * @author Gordon Homewood
      */
+    public String getResourceType()
+
     {
         return (resourceType);
     }
 
+    /**
+     * If the cart is hit, destroyed is true, which is useful for
+     * switching states of the cart depending on how much it's damaged
+     * by a projectile
+     *
+     * @param hit to switch state
+     *
+     * @author Gordon Homewood
+     */
     public void setDestroyed(boolean hit) {
-        /**
-         * If the cart is hit, destroyed is true, which is useful for
-         * switching states of the cart depending on how much it's damaged
-         * by a projectile
-         *
-         * @author Gordon Homewood
-         */
+
         destroyed = hit;
     }
 
-    public boolean getDestroyed() {
-        /**
-         * @returns boolean destroyed state of cart
-         *
-         * @author Gordon Homewood
-         */
-        return (destroyed);
-    }
+    /**
+     * Gets state of cart if full or not
+     * @return destroyed states
+     * @author Gordon Homewood
+     */
+    public boolean getDestroyed() {return (destroyed);}
 
+    /**
+     * This method provides the explosion animation for the cart. It uses a more general class,
+     * AnimationKeyframes to animate the explosion across a duration.
+     *
+     * @param x determines the x coordinate of the animation
+     * @param y determines the y coordinate of the animation
+     *
+     * @param reachedEnd if true, will play a normal explosion, but if false, will
+     *                   play a blue explosion, this difference provides vital feedback to the
+     *                   player, so they can know if the cart reached the end (where it explodes
+     *                   normally) or their towers managed to destroy it (where no lives will be
+     *                   reduced)
+     *
+     * @author Gordon Homewood
+     */
     public void explode(int x, int y, boolean reachedEnd) {
-        /**
-         * This method provides the explosion animation for the cart. It uses a more general class,
-         * AnimationKeyframes to animate the explosion across a duration.
-         *
-         * @param x determines the x coordinate of the animation
-         * @param y determines the y coordinate of the animation
-         *
-         * @param reachedEnd if true, will play a normal explosion, but if false, will
-         *                   play a blue explosion, this difference provides vital feedback to the
-         *                   player, so they can know if the cart reached the end (where it explodes
-         *                   normally) or their towers managed to destroy it (where no lives will be
-         *                   reduced)
-         *
-         * @author Gordon Homewood
-         */
         ImageView image = new ImageView();
         image.setX(x);
         image.setY(y);
@@ -323,14 +326,12 @@ public class Cart {
         cartObject.setVisible(false);
     }
 
-    public ImageView getCartObject() {
-        /**
-         * @return cartObject (imageView of the cart), useful for getting
-         * screen coordinates and applying effects if needed.
-         *
-         * @Author Gordon Homewood
-         */
-        return (cartObject);
-    }
+    /**
+     * @return cartObject (imageView of the cart), useful for getting
+     * screen coordinates and applying effects if needed.
+     *
+     * @Author Gordon Homewood
+     */
+    public ImageView getCartObject() {return (cartObject);}
 
 }

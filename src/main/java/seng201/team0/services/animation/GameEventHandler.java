@@ -26,7 +26,7 @@ public class GameEventHandler {
         for (Tower tower : mainTowers) {
 
             // If tower is inactive or destroyed skip the code, else continue if active
-            if (!tower.getTowerState()) {
+            if (!tower.getTowerState() || tower.getDestroyed()) {
                 continue;
             }
             Cart towerTarget = tower.targetAcquisition(cartList);

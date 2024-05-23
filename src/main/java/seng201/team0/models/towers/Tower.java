@@ -60,7 +60,7 @@ public class Tower {
         this.destroyed = false;
         this.towerState = towerState;
         this.inventoryLocation = inventoryLocation;
-        this.bonusPercent = 1.25;
+        this.bonusPercent = 1.5; //50% load buff to cart of same size
         this.buffState = false;
     }
 
@@ -103,12 +103,13 @@ public class Tower {
         return resourceType;
     }
 
-    public double getReloadSpeed() {
-        return reloadSpeed;
+    public double getReloadSpeed()
+    {
+        return Math.ceil(reloadSpeed * 100) / 100;
     }
 
     public double getLoadAmount() {
-        return loadAmount;
+        return Math.ceil(loadAmount * 100) / 100;
     }
 
     public int getTowerLevel() {
@@ -186,28 +187,34 @@ public class Tower {
 
     public ImageView getImage()
         /**
-        * Returns ImageView of tower
+         * Returns image view of tower, making it easily accessible for applying effects,
+         * getting coordinates, etc.
+         *
+        * @return ImageView of tower
         * @Author Gordon Homewood
         */
     {return(towerImage);}
 
-    public void delete() {
-        towerImage = null;
-    }
     public long getFireRate() {
         return ((long) reloadSpeed);
     }
-
     public double getBonusPercent(){
         return(this.bonusPercent);
     }
 
-    public double setBonusPercent(double bonus){
-        return(this.bonusPercent += bonus);
-    }
-
 
     public Cart targetAcquisition(ArrayList<Cart> cartList) {
+        /**
+         * This method sorts the carts that are in the tower's radius based on how far they are through the track
+         * and if they are in the radius or not. This is useful for the player, as it allows the towers to
+         * dynamically switch targets and always target the most immediate threat
+         *
+         * @param cartList takes the current list of carts on the track to be judged for target selection
+         *
+         * @return target that is best
+         *
+         * @author Gordon Homewood
+         */
         ArrayList<Cart> targetsInRange = new ArrayList<>();
 
         for (Cart cart : cartList) {
@@ -224,25 +231,38 @@ public class Tower {
         Collections.sort(targetsInRange, new Comparator<Cart>() {
             @Override
             public int compare(Cart o1, Cart o2) {
+                //Sorts carts based on distance to the tower
                 double distance1 = getDistance(o1.getCartObject().getTranslateX(), o1.getCartObject().getTranslateY());
                 double distance2 = getDistance(o2.getCartObject().getTranslateX(), o2.getCartObject().getTranslateY());
                 return Double.compare(distance1, distance2);
             }
         });
 
-        return targetsInRange.getFirst(); // Return the closest target in range
+        return targetsInRange.getFirst(); // Return the best target in range
     }
 
     public void setBuff(boolean buff){
+        /**
+         * This method changes the buff status of the tower, and it's given effects. If it is buffed, then the
+         * load amount and radius are scaled up accordingly, making the buffed tower a formidable force no
+         * matter the difficulty or stats.
+         * If the round is over, this method should be called with buff=false, so the tower can be reset to its
+         * original state. setBuff(false) should not be called to weaken a tower, only to remove a buff.
+         *
+         * @param buff gives if tower should be buffed or have buff removed
+         *
+         * @author Gordon Homewood
+         */
         if(buff){
             this.buffState = true;
-            this.loadAmount = loadAmount * 2;
-            this.radius = radius * 1.5;
+            this.loadAmount = this.loadAmount * 2;
+            this.radius = this.radius * 1.5;
             applyBuffHighlight(true);
         }
         if(!buff){
-            this.loadAmount = loadAmount / 2;
-            this.radius = radius / 1.5;
+            this.buffState = false;
+            this.loadAmount = this.loadAmount / 2;
+            this.radius = this.radius / 1.5;
             applyBuffHighlight(false);
         }
 
@@ -253,11 +273,22 @@ public class Tower {
     }
 
     public void applyBuffHighlight(boolean apply){
+        /**
+         * Adds a highlight to the buffed tower to give visual indication of buffed tower event
+         * to player.
+         *
+         * @param apply if apply, then add the effect, otherwise set effect to null
+         *
+         * @author Gordon Homewood
+         */
         if(apply){
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.CORNFLOWERBLUE);
         dropShadow.setRadius(60);
         this.towerImage.setEffect(dropShadow);}
+        else{
+            towerImage.setEffect(null);
+        }
 
     }
 
@@ -266,7 +297,6 @@ public class Tower {
     }
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
-        this.towerState = false;
         if (this.destroyed) {
             this.towerImage.setImage(new Image("Art/Factions/Knights/Buildings/Tower/Tower_Destroyed.png"));
         }

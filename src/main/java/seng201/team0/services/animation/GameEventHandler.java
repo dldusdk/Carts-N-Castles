@@ -2,6 +2,7 @@ package seng201.team0.services.animation;
 
 import javafx.scene.image.ImageView;
 import seng201.team0.models.carts.Cart;
+import seng201.team0.models.towers.GoldMine;
 import seng201.team0.models.towers.Projectile;
 import seng201.team0.models.towers.Tower;
 
@@ -10,15 +11,20 @@ import java.util.Iterator;
 import java.util.Objects;
 
 public class GameEventHandler {
+    private ArrayList<Cart> cartList;
 
-    public GameEventHandler() {
-
+    public GameEventHandler(ArrayList<Cart> cartList){
+        this.cartList = cartList;
     }
+
+    public ArrayList<Cart> getCartList(){return(cartList);}
+
+
     public void handleTowerLogic(ArrayList<Tower> mainTowers,ArrayList<Cart> cartList,
                                  long timestamp, ImageView trackDefault) {
         for (Tower tower : mainTowers) {
 
-            // If tower is inactive skip the code, else continue if active
+            // If tower is inactive or destroyed skip the code, else continue if active
             if (!tower.getTowerState()) {
                 continue;
             }
@@ -56,7 +62,7 @@ public class GameEventHandler {
             }
         }
     }
-    public String handleCartLogic(ArrayList<Cart> cartList){
+    public String handleCartLogic(GoldMine goldMine){
         Iterator<Cart> iterator = cartList.iterator(); //So carts can safely be removed in loop
         while (iterator.hasNext()) {
             Cart cart = iterator.next();
@@ -73,23 +79,11 @@ public class GameEventHandler {
                 iterator.remove();
                 cart.explode(965, 380, true);
                 return("Damaged");
-                /**
-                 *                 cartNumber--;
-                 *                 goldMine.decreaseHealth();
-                 *                 playerLives.setText(String.valueOf(goldMine.getHealth()));
-                 *                 updatePlayerLives();
-                 *                 if (goldMine.getHealth() <= 0) {
-                 *                     stopRound(false);
-                 *                 }
-                 */
             }
-
-            if (cartList.size() <= 0){ //&& !(goldMine.getHealth() <= 0)) {
-                //collisionTimer.stop();
-                //stopRound(true);
+            if ((cartList.size() <= 0) && !(goldMine.getHealth() <= 0)) {
                 return("Fail");
             }
         }
-        return null;
+        return(null);
     }
 };

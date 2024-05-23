@@ -164,13 +164,33 @@ public class GameController {
     private AnimationTimer collisionTimer = new AnimationTimer() {
         @Override
         public void handle(long timestamp) {
-            GameEventHandler gameEventHandler = new GameEventHandler();
+            GameEventHandler gameEventHandler = new GameEventHandler(cartList);
+            System.out.println(cartList.size());
             updatePlayerLives();
             if (!cartList.isEmpty()) {
-                    gameEventHandler.handleTowerLogic(mainTowers,cartList,timestamp,trackDefault);
-                    gameEventHandler.handleCartLogic(cartList);
-
+                cartList = gameEventHandler.getCartList();
+                gameEventHandler.handleTowerLogic(mainTowers, cartList, timestamp, trackDefault);
+                String updateType = gameEventHandler.handleCartLogic(goldMine);
+                if(updateType != null){
+                if (updateType.equals("Damaged")) {
+                    cartNumber--;
+                    goldMine.decreaseHealth();
+                    playerLives.setText(String.valueOf(goldMine.getHealth()));
+                    updatePlayerLives();
+                    if (goldMine.getHealth() <= 0) {
+                        stopRound(false);
+                    }
+                }
+                if (updateType.equals("Fail")) {
+                    collisionTimer.stop();
+                    stopRound(true);
+                }}
             }
+            else{
+                stopRound(true);
+            }
+
+
         }
 
     };

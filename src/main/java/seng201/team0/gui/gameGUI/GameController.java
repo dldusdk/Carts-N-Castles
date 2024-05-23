@@ -35,6 +35,7 @@ import seng201.team0.services.gameLoaders.PathLoader;
 import seng201.team0.services.gameLoaders.RandomEvent;
 
 //Imports for file reading
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -87,6 +88,8 @@ public class GameController {
     private ImageView selectedTower;
     @FXML
     private Button switchInventory;
+    @FXML
+    private Button upgrades;
 
     //Shop
     @FXML
@@ -111,6 +114,8 @@ public class GameController {
     private Label goldStockLabel;
     @FXML
     private Label sellLabel;
+    @FXML
+    private Button repairButton;
 
 
     // GUI variables
@@ -320,6 +325,22 @@ public class GameController {
     }
 
     @FXML
+    private void repairTower(ActionEvent actionEvent){
+        /**
+         * If tower is broken able to run this method
+         * Take appropriate amount off from player Coins, update the view and repair the tower.
+         * @author Michelle Lee
+         */
+
+        coinBalance -= 200;
+        updatePlayerCoins();
+        Tower brokenTower = towersMap.get(selectedTower);
+        // set image, radius to normal // how to distinguish which tower it is
+        String towerType = brokenTower.getResourceType();
+
+    }
+
+    @FXML
     public void switchInventory(ActionEvent actionEvent) {
         /**
          * When button is clicked, it will switch Main -> Reserve and Reserve -> Main
@@ -488,8 +509,6 @@ public class GameController {
                 break;
         }
     }
-
-
 
     private void setupCursorForTower(String imagePath) {
         /**
@@ -773,15 +792,20 @@ public class GameController {
         // Check if a tower was previously selected
         if (selectedTower != null) {
             ((Pane) trackDefault.getParent()).getChildren().remove(radiusCircle);
-            Tower buffTowerCheck = towersMap.get(selectedTower);
+            Tower checkTower = towersMap.get(selectedTower);
             // Remove shadow effect from the previously selected tower
             selectedTower.setEffect(null);
-            if(buffTowerCheck.getBuffState()){
+            if (checkTower.getBuffState()){
                 //Keeps highlight on if buffed by random event
-                buffTowerCheck.applyBuffHighlight(true);
+                checkTower.applyBuffHighlight(true);
             }
-
+            // If destroyed make the repair button visible
+            if (checkTower.getDestroyed()) {
+                repairButton.setVisible(true);
+                upgrades.setVisible(false);
+            }
         }
+
         // Apply shadow effect to the newly selected tower
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.RED);

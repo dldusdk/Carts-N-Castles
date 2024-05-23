@@ -199,7 +199,7 @@
                <children>
                   <AnchorPane prefHeight="126.0" prefWidth="308.0">
                      <children>
-                        <Button fx:id="upgradeSpeed" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
+                        <Button fx:id="upgradeSpeed" mnemonicParsing="false" onMouseClicked="#buyUpgrade" prefHeight="130.0" prefWidth="156.0">
                            <graphic>
                               <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -242,7 +242,7 @@
                   </AnchorPane>
                   <AnchorPane layoutX="15.0" layoutY="10.0" prefHeight="126.0" prefWidth="308.0">
                      <children>
-                        <Button fx:id="upgradeRange" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
+                        <Button fx:id="upgradeRange" mnemonicParsing="false" onMouseClicked="#buyUpgrade" prefHeight="130.0" prefWidth="156.0">
                            <graphic>
                               <ImageView fx:id="towerImageView11" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -285,7 +285,7 @@
                   </AnchorPane>
                   <AnchorPane fx:id="r" layoutX="15.0" layoutY="270.0" prefHeight="126.0" prefWidth="308.0">
                      <children>
-                        <Button fx:id="upgradeFill" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="156.0">
+                        <Button fx:id="upgradeFill" mnemonicParsing="false" onMouseClicked="#buyUpgrade" prefHeight="130.0" prefWidth="156.0">
                            <graphic>
                               <ImageView fx:id="towerImageView1111" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -342,7 +342,7 @@
             <Font name="Minecraft" size="25.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="towerStats" prefHeight="162.0" prefWidth="1152.0" style="-fx-background-color: #C4C1B8;" visible="false">
+      <AnchorPane fx:id="towerStats" prefHeight="162.0" prefWidth="1152.0" style="-fx-background-color: #C4C1B8;">
          <children>
             <ImageView fx:id="selectedTowerImage" fitHeight="156.0" fitWidth="87.0" layoutX="15.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -389,7 +389,7 @@
                   <Font name="Minecraft" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="953.0" layoutY="57.0" mnemonicParsing="false" onAction="#towerUpgrades" prefHeight="39.0" prefWidth="176.0" text="Tower Upgrades" textAlignment="CENTER">
+            <Button fx:id="upgrades" layoutX="953.0" layoutY="57.0" mnemonicParsing="false" onAction="#towerUpgrades" prefHeight="39.0" prefWidth="176.0" text="Tower Upgrades" textAlignment="CENTER">
                <font>
                   <Font name="Minecraft" size="14.0" />
                </font>
@@ -419,7 +419,7 @@
                   <Font name="Minecraft" size="17.0" />
                </font>
             </Label>
-            <Button layoutX="953.0" layoutY="104.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="176.0" text="50  Repair" textAlignment="CENTER" visible="false">
+            <Button fx:id="repairButton" layoutX="953.0" layoutY="58.0" mnemonicParsing="false" onAction="#repairTower" prefHeight="39.0" prefWidth="176.0" text="200 Repair" textAlignment="CENTER" visible="false">
                <font>
                   <Font name="Minecraft" size="14.0" />
                </font>
@@ -433,17 +433,17 @@
             </Button>
             <Label fx:id="activeLabel" layoutX="506.0" layoutY="75.0" prefHeight="17.0" prefWidth="65.0" text="Active!" />
             <Label fx:id="inventoryLocationLabel" layoutX="609.0" layoutY="97.0" prefHeight="17.0" prefWidth="65.0" text="Main" />
-            <Button fx:id="switchInventory" layoutX="953.0" layoutY="104.0" mnemonicParsing="false" onAction="#switchInventory" prefHeight="39.0" prefWidth="176.0" text="Switch Inventory" textAlignment="CENTER">
-               <font>
-                  <Font name="Minecraft" size="14.0" />
-               </font>
-            </Button>
             <ImageView fitHeight="36.0" fitWidth="27.0" layoutX="879.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Art/Shop/coin.png" />
                </image>
             </ImageView>
             <Label fx:id="sellLabel" layoutX="919.0" layoutY="23.0" text="0" />
+            <Button fx:id="switchInventory" layoutX="952.0" layoutY="103.0" mnemonicParsing="false" onAction="#switchInventory" prefHeight="39.0" prefWidth="176.0" text="Switch Inventory" textAlignment="CENTER">
+               <font>
+                  <Font name="Minecraft" size="14.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <ImageView fitHeight="47.0" fitWidth="40.0" layoutX="1165.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">

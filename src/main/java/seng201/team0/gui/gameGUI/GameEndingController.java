@@ -7,10 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import seng201.team0.gui.mainGUI.MainController;
 
+import java.io.File;
 import java.io.IOException;
 
 public class GameEndingController {
@@ -41,19 +43,23 @@ public class GameEndingController {
 
     // INITALIZE VARIABLES
     public Stage primaryStage;
-    int selectedRounds;
-    int totalRoundsCompeted;
-    int totalMoney;
-    int totalPoints;
     Stage stage;
     String musicpath = "src/main/resources/Music/bg/bgmMain.mp3";
     private static MediaPlayer mediaPlayer;
+    private String songPath;
 
     public void init() {
         this.primaryStage = (Stage) endPane.getScene().getWindow();
     }
+    public void playEndingSong(String songPath) {
+        Media media = new Media(new File(songPath).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+    }
 
-    public void gameStats(int selectedRounds, int totalRoundsCompeted, int totalMoney, int totalPoints, String message) {
+
+    public void gameStats(String feedback, int selectedRounds, int totalRoundsCompeted, int totalMoney, int totalPoints, String message) {
+        endingMessage.setText(feedback);
         selectedRoundsLabel.setText(String.valueOf(selectedRounds));
         roundsCompletedLabel.setText(String.valueOf(totalRoundsCompeted));
         totalMoneyLabel.setText(String.valueOf(totalMoney));
@@ -119,6 +125,7 @@ public class GameEndingController {
             stage.close();
         }
     }
+
 
 
 }

@@ -1043,7 +1043,7 @@ public class GameController {
         if (roundNumber > totalRounds - 1 && state) {
             // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);
-            launchEndScreen(true);
+            launchEndScreen(true, "src/main/resources/Music/bg/winBGM.mp3" );
             }
         else {
             for (Tower tower : mainTowers) {
@@ -1066,7 +1066,7 @@ public class GameController {
             } else {
                 // If the gameState is failed, it will not allow any more rounds to be played.
                 roundButton.setDisable(true);
-                launchEndScreen(false);
+                launchEndScreen(false, "src/main/resources/Music/bg/loseBGM.mp3");
             }
             switchInventory.setDisable(false);  // allows player to switch inventory
         }
@@ -1109,7 +1109,7 @@ public class GameController {
 
 
     @FXML
-    private void launchEndScreen(boolean won) {
+    private void launchEndScreen(boolean won, String songPath) {
         /**
          Launches the ending screen once won or losing
          @author Michelle Lee
@@ -1155,7 +1155,9 @@ public class GameController {
         endingScreen.setTitle("Game Over!");
 
         GameEndingController gameEndingController = loader.getController();
-        gameEndingController.gameStats(totalRounds, roundNumber, totalCoins, totalPoints, won ? "Congratulations! You won!" : "Try again next time!");
+        gameEndingController.gameStats(won ? "Congratulations!" : "You lose..", totalRounds, roundNumber, totalCoins, totalPoints, won ? "Great job! We are proud of you!" : "Try again next time!");
+
+        gameEndingController.playEndingSong(songPath);
 
         // Show Game End Stats Screen
         endingScreen.show();

@@ -20,8 +20,8 @@ public class LoadRound {
     private ArrayList<Cart> cartList;
     private int lowerSpawnBound = -1000; //Scale based on difficutly
     private int upperSpawnBound = -100;
-    private int lowSpeedBound = 50; //Scale based on difficulty
-    private int upperSpeedBound = 200;
+    private int lowSpeedBound = 300; //Scale based on difficulty
+    private int upperSpeedBound = 400;
     private int bronzeCartNum;
     private int silverCartNum;
     private int goldCartNum;
@@ -31,7 +31,6 @@ public class LoadRound {
 
     public LoadRound(int round, String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath,
                      ArrayList<Integer> cartNum){
-
 
         bronzeCartNum = cartNum.get(0);
         silverCartNum = cartNum.get(1);
@@ -43,8 +42,6 @@ public class LoadRound {
 
         difficulty = difficultySetting;
         cartList = new ArrayList<>();
-
-
 
         loadCarts("Bronze",bronzeCartNum, "Art/Carts/bronzeCarts/bronzeEmpty.png");
         loadCarts("Silver",silverCartNum, "Art/Carts/silverCarts/silverEmpty.png");

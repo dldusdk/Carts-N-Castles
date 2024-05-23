@@ -31,7 +31,7 @@ public class MainController {
     private AnchorPane mainscreenPane;
 
     Stage stage;
-    String musicpath = "src/main/java/seng201/team0/gui/mainGUI/mainscreenbgm.mp3";
+    String musicpath = "src/main/resources/Music/bg/bgmMain.mp3";
     private static MediaPlayer mediaPlayer;
 
     public void init(Stage primaryStage) {
@@ -49,6 +49,7 @@ public class MainController {
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
     }
+
     public void play(ActionEvent actionEvent) {
         /**
          * Method for when the Play button is clicked.
@@ -147,7 +148,7 @@ public class MainController {
         // If User clicks 'Confirm', Quit game
         if (alert.showAndWait().get() == ButtonType.OK) {
             stage = (Stage) mainscreenPane.getScene().getWindow();
-            System.out.println("You Successfully quit the game!");
+
             stage.close();
         }
     }

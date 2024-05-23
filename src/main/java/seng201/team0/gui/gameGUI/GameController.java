@@ -10,6 +10,10 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +41,7 @@ import seng201.team0.services.gameLoaders.RandomEvent;
 
 //Imports for file reading
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -157,11 +162,7 @@ public class GameController {
     private ArrayList<Cart> cartList;
     private int cartNumber;
 
-    //private boolean fail=false;
-    //private int coinBalance = 200;
     private GoldMine goldMine;
-    private double destroyedChance = 0;
-    private double buffChance;
 
     private AnimationTimer collisionTimer = new AnimationTimer() {
         @Override
@@ -224,6 +225,8 @@ public class GameController {
 
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
+
+
     }
 
     public void playMusic(String musicPath) {

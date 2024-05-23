@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import seng201.team0.gui.gameGUI.GameController;
@@ -25,13 +27,22 @@ public class GameWindow extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
+        //Loads font before fxml file
+        Font minecraftFont = Font.loadFont(getClass().getResourceAsStream("/fonts/Minecraft.ttf"), 12);
+
+
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
         Parent root = baseLoader.load();
+
 
         GameController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
         Scene scene = new Scene(root,1472,1024);
+
+
+
+
 
 
         //Code so it can run on Gordon's mac

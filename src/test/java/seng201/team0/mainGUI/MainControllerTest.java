@@ -1,4 +1,4 @@
-package test.java;
+package test.java.seng201.team0.mainGUI;
 
 import static org.junit.jupiter.api.Assertions.*;
 

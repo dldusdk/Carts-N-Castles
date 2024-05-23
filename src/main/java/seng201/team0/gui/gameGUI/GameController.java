@@ -2,7 +2,6 @@ package seng201.team0.gui.gameGUI;
 
 //JavaFX imports for display
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,8 +40,6 @@ import seng201.team0.services.gameLoaders.PathLoader;
 import seng201.team0.services.gameLoaders.RandomEvent;
 
 //Imports for file reading
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -142,6 +139,8 @@ public class GameController {
     private Stage primaryStage;
     String musicpath = "src/main/resources/Music/bg/gameBGM.mp3";
     private static MediaPlayer mediaPlayer;
+    private int totalCoins;
+    private int totalPoints=0;
 
     // Tower variables
     private ArrayList<Tower> mainTowers = new ArrayList<>();
@@ -150,7 +149,6 @@ public class GameController {
     private double paneX;
     private double paneY;
     private boolean isPurchaseMode = false;
-    private boolean isSellMode = false;
     private String selectedTowerType;
     private String userInputTowerName;
     private Circle radiusCircle;
@@ -159,7 +157,6 @@ public class GameController {
     // Shop Variables
     private Shop shop;
     private int coinBalance;
-    private boolean upgradePurchased = false;
     private int points = 0; // Can't be spent, but used to give player
                             // feedback on their Game
 
@@ -170,8 +167,6 @@ public class GameController {
     private LoadRound newRound = null;
     private boolean roundState = false;
     private String difficulty;
-    private boolean fail = false;
-
 
     // Track Variables
     private LevelLoader levelGrid;
@@ -208,10 +203,7 @@ public class GameController {
             else{
                 stopRound(true);
             }
-
-
         }
-
     };
 
     public void init(Stage primaryStage) {
@@ -231,21 +223,50 @@ public class GameController {
         updateStockDisplay();
         updatePlayerCoins();
         difficulty = "Normal";
+        switchInventory.setDisable(false);
 
         // Game initialization
         playerLives.setText("");
-
         Font font = Font.font("Minecraft",12);
         pointsLabel.setFont(font);
-
         roundButton.setText(String.valueOf("Start First Round!"));
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath", "src/main/resources/levelCSV/Level1/Level1RotatePath");
         playMusic(musicpath);
 
+
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
 
+        // Show instructions:
+        showInstructionDialog();
+    }
+
+    private void showInstructionDialog() {
+        /**
+         * Displays an instruction pop-up dialog to the user when entering the Game Screen
+         *
+         * @author Michelle Lee
+         */
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Instructions");
+        alert.setHeaderText("Welcome to Carts N' Castles");
+        alert.setContentText(" Read below for instructions on how to win (or lose...) the game! \n\n" +
+                "1. Use the 'Buy Tower' buttons to purchase towers with different stats (and prices!) to start off!\n" +
+                "2. Click anywhere on the game map to place the towers! \n Note:You cannot place outside of the game screen or anywhere that is not a grass tile!\n" +
+                "3. Once a tower is placed, you can click on it for numerous options!\n"  +
+                "3.a Selling: You can sell the tower at a depreciated cost, you better sell quick to get your money's worth!\n" +
+                "3.b Upgrading: You can click on the Upgrade Button to view available upgrades and purchase any upgrades for your tower!\n" +
+                "3.c Switching Inventory: If you don't want a tower to be in your Main Inventory anymore, you can click the Switch Inventory button and the tower will be deactivated.\n" +
+                "   You can also switch back to the Main Inventory from the Reserve\n\n" +
+                "4. Click the 'Start Round' button and choose your difficulty to begin a round.\n" +
+                "5. Defend your Gold Mine from the exploding carts.\n"+
+                "6. Your score will be determined by how many rounds you complete and the number of coins and points earned!\n" +
+                "7. Random events can occur at any round...\n" +
+                "8. To win, ensure you fill up all carts and lose as little lives as possible and reach the end of all rounds!\n" +
+                "Good luck have fun!");
+        alert.showAndWait();
 
     }
 
@@ -759,7 +780,6 @@ public class GameController {
                 towersMap.remove(selectedTower);
                 selectedTower = null;
                 gamePane.setCursor(null);
-                isSellMode = false;
                 towerStats.setVisible(false);
             }
         }
@@ -1023,7 +1043,7 @@ public class GameController {
         if (roundNumber > totalRounds - 1 && state) {
             // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);
-            gameOver();
+            launchEndScreen(true);
             }
         else {
             for (Tower tower : mainTowers) {
@@ -1046,9 +1066,9 @@ public class GameController {
             } else {
                 // If the gameState is failed, it will not allow any more rounds to be played.
                 roundButton.setDisable(true);
-                gameOver();
+                launchEndScreen(false);
             }
-            switchInventory.setDisable(true);  // allows player to switch inventory
+            switchInventory.setDisable(false);  // allows player to switch inventory
         }
     }
 
@@ -1056,12 +1076,14 @@ public class GameController {
         /**
          * Decides how much money should be awarded based on the difficulty of the round
          */
+
         if (difficulty.equals("Easy")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.5);
             int roundedAward = (int) (Math.ceil((double) moneyAwarded / 5) * 5);
             points += roundedAward;
             coinBalance += roundedAward;
             pointsLabel.setText(String.valueOf(points));
+            totalCoins += roundedAward;
         }
         if (difficulty.equals("Normal")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.75);
@@ -1069,6 +1091,7 @@ public class GameController {
             points += roundedAward;
             coinBalance += roundedAward;
             pointsLabel.setText(String.valueOf(points));
+            totalCoins += roundedAward;
 
         }
         if (difficulty.equals("Hard")) {
@@ -1077,17 +1100,21 @@ public class GameController {
             points += roundedAward;
             coinBalance += roundedAward;
             pointsLabel.setText(String.valueOf(points));
+            totalCoins += roundedAward;
         }
+        updatePlayerCoins();
     }
 
 
-    public void gameOver() {
+
+
+    @FXML
+    private void launchEndScreen(boolean won) {
         /**
-         * This method creates a popup dialogue for the Game Over screen, allowing the user to retry the level,
-         * quit to the main menu or quit the game entirely. @michelle edit this :) <==========================
-         * @author Gordon Homewood
-         *
+         Launches the ending screen once won or losing
+         @author Michelle Lee
          */
+
         if (gameOverInitiated) {
             // If already in game over loop, don't let function cause
             // infinite loop of opening game over screen
@@ -1097,7 +1124,6 @@ public class GameController {
         gameOverInitiated = true;
         instructionLabel.setText("Game Over!");
         mediaPlayer.stop();
-        launchEndScreen();
 
         collisionTimer = null; //Clear track and animations
         for (Cart cart : cartList) {
@@ -1110,23 +1136,10 @@ public class GameController {
 
         ((Pane) trackDefault.getParent()).getChildren().add(image);
 
-        if(stage != null){
         stage = (Stage) gamePane.getScene().getWindow();
-        stage.close();}
-
-    }
-
-    @FXML
-    private void launchEndScreen() {
-        /**
-         Launches the ending screen once won or losing
-         @author Michelle Lee
-         */
-
-
+        stage.close();
         Stage endingScreen = this.primaryStage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gameEnd.fxml"));
-        //GameEndingController.gameStats(1,2,3,4);
         Parent gameEndingRoot;
 
         try {
@@ -1141,7 +1154,10 @@ public class GameController {
         endingScreen.setScene(gameEnding);
         endingScreen.setTitle("Game Over!");
 
-        // Show mapSelection window
+        GameEndingController gameEndingController = loader.getController();
+        gameEndingController.gameStats(totalRounds, roundNumber, totalCoins, totalPoints, won ? "Congratulations! You won!" : "Try again next time!");
+
+        // Show Game End Stats Screen
         endingScreen.show();
     }
 
@@ -1160,7 +1176,6 @@ public class GameController {
         // If User clicks 'Confirm', Quit game
         if (alert.showAndWait().get() == ButtonType.OK) {
             stage = (Stage) gamePane.getScene().getWindow();
-            System.out.println("You Successfully quit the game!");
             stage.close();
         }
     }

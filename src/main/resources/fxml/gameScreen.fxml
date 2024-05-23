@@ -113,6 +113,21 @@
                               <Font name="Minecraft" size="12.0" />
                            </font>
                         </Label>
+                        <Label layoutX="166.0" layoutY="29.0" text="Reload Speed: 2.0">
+                           <font>
+                              <Font name="Minecraft" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="166.0" layoutY="47.0" text="Load Amount: 0.25">
+                           <font>
+                              <Font name="Minecraft" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="167.0" layoutY="65.0" text="Range: 10">
+                           <font>
+                              <Font name="Minecraft" size="12.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="112.0" prefWidth="308.0">
@@ -151,6 +166,21 @@
                               <Font name="Minecraft" size="12.0" />
                            </font>
                         </Label>
+                        <Label layoutX="165.0" layoutY="26.0" text="Reload Speed: 1.5">
+                           <font>
+                              <Font name="Minecraft" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="166.0" layoutY="44.0" text="Load Amount: 0.75">
+                           <font>
+                              <Font name="Minecraft" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="166.0" layoutY="63.0" text="Range: 20">
+                           <font>
+                              <Font name="Minecraft" size="12.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="15.0" layoutY="244.0" prefHeight="131.0" prefWidth="270.0">
@@ -180,6 +210,21 @@
                            </font>
                         </Label>
                         <Label fx:id="goldStockLabel" layoutX="169.0" layoutY="106.0" prefHeight="17.0" prefWidth="65.0" text="Stock ">
+                           <font>
+                              <Font name="Minecraft" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="164.0" layoutY="27.0" text="Reload Speed: 1.0">
+                           <font>
+                              <Font name="Minecraft" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="165.0" layoutY="45.0" text="Load Amount: 1.5">
+                           <font>
+                              <Font name="Minecraft" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="167.0" layoutY="65.0" text="Range: 45">
                            <font>
                               <Font name="Minecraft" size="12.0" />
                            </font>
@@ -441,7 +486,7 @@
             <Image url="@../Art/Shop/coin.png" />
          </image>
       </ImageView>
-      <Button layoutX="1325.0" layoutY="137.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="137.0" text="Quit" textAlignment="CENTER">
+      <Button layoutX="1325.0" layoutY="137.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="53.0" prefWidth="137.0" text="Quit" textAlignment="CENTER">
          <font>
             <Font name="Minecraft" size="14.0" />
          </font>
@@ -453,7 +498,7 @@
       </Button>
       <Button fx:id="roundButton" layoutX="1324.0" layoutY="8.0" mnemonicParsing="false" onAction="#roundButtonClicked" prefHeight="53.0" prefWidth="139.0" style="-fx-font-family: minecraft.ttf;" text="START">
          <font>
-            <Font name="BatangChe" size="12.0" />
+            <Font name="Minecraft" size="14.0" />
          </font></Button>
       <ImageView fitHeight="79.0" fitWidth="78.0" layoutX="1149.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -465,11 +510,15 @@
             <Font name="Minecraft" size="26.0" />
          </font>
       </Label>
-      <Label layoutX="1169.0" layoutY="129.0" text="Points">
+      <Label layoutX="1185.0" layoutY="125.0" text="Points:">
          <font>
-            <Font name="Minecraft" size="18.0" />
+            <Font name="Minecraft" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="pointsLabel" layoutX="1171.0" layoutY="166.0" text="0" />
+      <Label fx:id="pointsLabel" layoutX="1181.0" layoutY="162.0" prefHeight="17.0" prefWidth="93.0">
+         <font>
+            <Font name="Minecraft" size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

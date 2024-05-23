@@ -31,9 +31,9 @@ public class Tower {
     private ArrayList<Integer> roundsPlayed;
 
     // Tower Upgrades
-    private static final double SPEED_UPGRADE_FACTOR = 0.9;  // 10% faster
-    private static final double RANGE_UPGRADE_INCREMENT = 10.0;  // Increase range by 10 units
-    private static final double LOAD_AMOUNT_INCREMENT = 5.0;  // Increase load amount by 5 units
+    private static final double SPEED_UPGRADE_FACTOR = 1.05;  // 10% faster
+    private static final double RANGE_UPGRADE_FACTOR = 1.1;  // Increase range by 10%
+    private static final double LOAD_AMOUNT_FACTOR = 1.1;  // Increase load amount by 10%
 
 
 
@@ -161,7 +161,7 @@ public class Tower {
          * Updates the range by constant
          * @author Michelle Lee
          */
-        radius += RANGE_UPGRADE_INCREMENT;
+        radius *= RANGE_UPGRADE_FACTOR;
     }
 
     public void upgradeFill() {
@@ -169,7 +169,7 @@ public class Tower {
          * Updates the load amount by constant
          * @author Michelle Lee
          */
-        loadAmount += LOAD_AMOUNT_INCREMENT;
+        loadAmount *= LOAD_AMOUNT_FACTOR;
     }
 
     // Projectiles

@@ -29,6 +29,7 @@ import seng201.team0.models.towers.Tower;
 import seng201.team0.models.carts.Cart;
 import seng201.team0.models.towers.GoldMine;
 import seng201.team0.models.towers.Projectile;
+import seng201.team0.services.animation.GameEventHandler;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
 import seng201.team0.services.gameLoaders.PathLoader;
@@ -143,7 +144,7 @@ public class GameController {
 
 
     // Round and Animation Variables
-    private int totalRounds = 15; //need to scale this on player choice
+    private int totalRounds = 10; //need to scale this on player choice
     private int roundNumber = 0;
     private LoadRound newRound = null;
     private boolean roundState = false;
@@ -166,74 +167,12 @@ public class GameController {
     private AnimationTimer collisionTimer = new AnimationTimer() {
         @Override
         public void handle(long timestamp) {
+            GameEventHandler gameEventHandler = new GameEventHandler();
             updatePlayerLives();
             if (!cartList.isEmpty()) {
-                for (Tower tower : mainTowers) {
-                    // If tower is inactive skip the code, else continue if active
-                    if (!tower.getTowerState()) {
-                        continue;
-                    }
-                    Cart towerTarget = tower.targetAcquisition(cartList);
-                    if (towerTarget == null) {
-                        continue;
-                    }
+                    gameEventHandler.handleTowerLogic(mainTowers,cartList,timestamp,trackDefault);
+                    gameEventHandler.handleCartLogic(cartList);
 
-                    long fireRate =  1000000000L / tower.getFireRate();
-                    long fireTime = timestamp - tower.getProjectileTime();
-
-                    double cartOnTrack = towerTarget.getCartObject().getTranslateX();
-
-                    double targetDistance =
-                            tower.getDistance(towerTarget.getCartObject().getTranslateX(),
-                            towerTarget.getCartObject().getTranslateY());
-
-                    if (fireTime >= fireRate && cartOnTrack > 0 && tower.getRadius() > targetDistance) {
-
-                        double damage = tower.getLoadAmount();
-                        //System.out.println(towerTarget.getResourceType());
-                        //System.out.println(tower.getResourceType());
-                        if (Objects.equals(towerTarget.getResourceType(), tower.getResourceType())){
-                            damage = damage * tower.getBonusPercent();
-                            //System.out.println("Damage "+ damage);
-                            //System.out.println("Load "+towerTarget.getLoadPercent());
-                        }
-                        String type = tower.getResourceType();
-                        int spawnX = (int) (tower.getX() - 30);
-                        int spawnY = (int) (tower.getY() - 30);
-
-                        Projectile projectile = new Projectile(spawnX, spawnY, type, trackDefault, towerTarget, damage);
-                        projectile.spawn();
-                        tower.setProjectileTime(timestamp);
-                    }
-                }
-                Iterator<Cart> iterator = cartList.iterator(); //So carts can safely be removed in loop
-                while (iterator.hasNext()) {
-                    Cart cart = iterator.next();
-
-                    if (cart.getLoadPercent() >= 1) {
-                        //Carts get destroyed if at max load (explosion different color)
-                        cart.explode((int) cart.getCartObject().getTranslateX() - 60, (int) cart.getCartObject().getTranslateY() - 60, false);
-                        iterator.remove();
-                        cart.despawn();
-                        cartNumber--;
-                    }
-                    if (cart.getCartObject().getTranslateX() > 1025 && cart.getLoadPercent() < 1) {
-                        //Carts damage gold mine if reach end of track
-                        iterator.remove();
-                        cart.explode(965, 380, true);
-                        cartNumber--;
-                        goldMine.decreaseHealth();
-                        playerLives.setText(String.valueOf(goldMine.getHealth()));
-                        updatePlayerLives();
-                        if (goldMine.getHealth() <= 0) {
-                            stopRound(false);
-                        }
-                    }
-                    if (cartNumber <= 0 && !(goldMine.getHealth() <= 0)) {
-                        collisionTimer.stop();
-                        stopRound(true);
-                    }
-                }
             }
         }
 
@@ -993,6 +932,8 @@ public class GameController {
          * be spawned in the round level.
          * @author Gordon Homewood
          */
+
+        //Set health based on difficulty
         if (difficulty.equals("Easy")) {
             goldMine.setHealth(5);
         }
@@ -1002,9 +943,11 @@ public class GameController {
         if (difficulty.equals("Hard")) {
             goldMine.setHealth(1);
         }
+        //Update goldMine image based on health changing
         goldMine.checkHealth();
 
         ArrayList<Integer> cartTypeNumbers = new ArrayList<>();
+        //Cart generation algorithm for rounds as they progress
         if (roundNumber < 3) {
             cartTypeNumbers.add(roundNumber + 1); //Bronze carts
             cartTypeNumbers.add(0);               //Silver carts
@@ -1023,6 +966,7 @@ public class GameController {
             cartTypeNumbers.add(roundNumber / 4);
             return (cartTypeNumbers);
         }
+        //Keep increasing scale of carts beyond round 10
         cartTypeNumbers.add(roundNumber);
         cartTypeNumbers.add(roundNumber / 2);
         cartTypeNumbers.add(roundNumber / 3);
@@ -1038,6 +982,7 @@ public class GameController {
          * @param state which decides if the game should continue or not
          * @author Gordon Homewood
          */
+        collisionTimer.stop();
         for (Tower tower: mainTowers){
             if(tower.getBuffState()) {
                 //Resets buff state after round
@@ -1063,7 +1008,9 @@ public class GameController {
 
     private void calculateIncome() {
         /**
-         * Decides how much money should be awarded based on the difficulty of the round
+         * Decides how much money should be awarded based on the difficulty of the round. Scales
+         * with round number reached
+         * @author Gordon Homewood
          */
         if (difficulty.equals("Easy")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.5);

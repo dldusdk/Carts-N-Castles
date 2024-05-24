@@ -1021,7 +1021,7 @@ public class GameController {
         runRandomEvents();
 
         ArrayList<Integer> cartTypeList = getCartNumber();
-        LoadRound newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
+        LoadRound newRound = new LoadRound(cartDefault, path, cartTypeList);
         for (Tower tower : mainTowers) {
             // Draws the towers on correct layer and increments list of full rounds tower is used in
             ((Pane) trackDefault.getParent()).getChildren().remove(tower.getImage());

@@ -7,9 +7,11 @@ import seng201.team0.models.carts.Cart;
 import java.util.ArrayList;
 import java.util.Random;
 
-//Move animation timer into this class, move goldmine into own class with method for destruction based on
-//found failure
-
+/**
+ * This class is responsible for spawning carts in each round, given an argument of the number of each type
+ * of cart that should be spawned
+ * @author Gordon Homewood
+ */
 public class LoadRound {
 
     private final ArrayList<ArrayList<Integer>>cartPath;
@@ -17,17 +19,23 @@ public class LoadRound {
     private final ImageView cartImage;
     private final ArrayList<Cart> cartList;
 
-
-    public LoadRound(int round, String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath,
-                     ArrayList<Integer> cartNum){
+    /**
+     * This constructor spawns the carts for the new round given in the GameController.
+     * @param cartDefault default imageView so the carts can access the pane
+     * @param loadedCartPath loaded cart's rotations and coordinates/movements
+     * @param cartNum number of carts that should be spawned
+     *
+     * @author Gordon Homewood
+     */
+    public LoadRound(ImageView cartDefault, PathLoader loadedCartPath, ArrayList<Integer> cartNum){
 
         int bronzeCartNum = cartNum.get(0);
         int silverCartNum = cartNum.get(1);
         int goldCartNum = cartNum.get(2);
 
         cartImage = cartDefault;
-        cartPath = gridPath.getPath();
-        rotatePath = gridPath.getRotatePath();
+        cartPath = loadedCartPath.getPath();
+        rotatePath = loadedCartPath.getRotatePath();
 
         cartList = new ArrayList<>();
 
@@ -37,6 +45,15 @@ public class LoadRound {
 
     }
 
+    /**
+     * This method creates new carts for the number and type specified. It also gives them a random speed and
+     * random spawn within a bound, to vary the player experience and stagger cart spawns.
+     * @param type bronze,silver or gold type to pass through to cart object
+     * @param cartNumber number of carts to be spawned
+     * @param imageSource imageView so cart can be drawn on screen (able to access pane)
+     *
+     * @author Gordon Homewood
+     */
     public void loadCarts(String type, int cartNumber, String imageSource){
         Random random = new Random();
         double sizeDouble = 1;
@@ -66,5 +83,9 @@ public class LoadRound {
 
     }
 
+    /**
+     * @return cart list of carts spawned in round
+     * @author Gordon Homewood
+     */
     public ArrayList<Cart> getCartList(){return(cartList);}
 }

@@ -69,9 +69,9 @@ public class CartAnimation {
                 for (int j = 0; j < currentRow.size(); j++) {
                     if (j < nextRow.size() && currentRow.get(j).equals(nextRow.get(j))) {
                         if (j == 0) {
-                            createNewAnimation("y", currentRow.get(j+1), nextRow.get(j+1));
+                            createNewAnimation("y", currentRow.get(1), nextRow.get(1));
                         } else if (j == 1) {
-                            createNewAnimation("x", currentRow.get(j-1), nextRow.get(j-1));
+                            createNewAnimation("x", currentRow.get(0), nextRow.get(0));
 
                         }
                     }

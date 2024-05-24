@@ -17,6 +17,7 @@ import seng201.team0.gui.gameGUI.GameController;
 
 
 import java.io.*;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -54,7 +55,7 @@ public class MainController {
     public void playMusic(String musicPath) {
 
 //        Media media = new Media(new File(musicPath).toURI().toString());
-        Media media = new Media(getClass().getResource(musicPath).toExternalForm());
+        Media media = new Media(Objects.requireNonNull(getClass().getResource(musicPath)).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
     }
@@ -73,7 +74,9 @@ public class MainController {
             // Opens Text Input Dialog to get userName
             String name = getName();
             // If the input name is valid
+            assert name != null;
             if (validNameTest(name)) {
+                validNameEntered = true;
                 startGame();
             } else {
                 // Shows a POP-UP error message for all invalid inputs
@@ -129,7 +132,7 @@ public class MainController {
 
         Font minecraftFont = Font.loadFont(getClass().getResourceAsStream("/fonts/Minecraft.ttf"), 12);
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
-        Parent root = null;
+        Parent root;
         try {
             root = baseLoader.load();
         } catch (IOException e) {

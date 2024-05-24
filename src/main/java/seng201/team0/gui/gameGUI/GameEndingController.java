@@ -76,7 +76,7 @@ public class GameEndingController {
 
 
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
-        Parent root = null;
+        Parent root;
         try {
             root = baseLoader.load();
         } catch (IOException e) {

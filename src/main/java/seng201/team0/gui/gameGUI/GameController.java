@@ -299,7 +299,9 @@ public class GameController {
 
             // Store user's response in userName
             Optional<String> result = roundDialog.showAndWait();
-            roundNumberChosen = Integer.parseInt(result.get());
+            if(result.isPresent()){
+                roundNumberChosen = Integer.parseInt(result.get());
+            }
 
             if (roundNumberChosen >= 5 && roundNumberChosen <= 15) {
                 System.out.print(roundNumberChosen);
@@ -460,6 +462,7 @@ public class GameController {
                     }
                 }
             }
+            assert tower != null;
             updateTowerStats(tower);
         }
     }
@@ -915,7 +918,9 @@ public class GameController {
             radiusCircle.setStroke(Color.RED);
             ((Pane) trackDefault.getParent()).getChildren().add(radiusCircle);
         }
+        assert tower != null;
         String imagePath = getTowerImagePath(tower.getResourceType());
+        assert imagePath != null;
         selectedTowerImage.setImage(new Image(imagePath));
     }
 

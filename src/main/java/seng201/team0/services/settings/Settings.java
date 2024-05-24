@@ -23,10 +23,10 @@ public class Settings {
         difficulty = setDifficulty;
         cartSpawnIndex = 0;
 
-        if(difficulty == "Normal"){
+        if(difficulty.equals("Normal")){
             cartNumber = 1;
         }
-        if(difficulty == "Hard"){
+        if(difficulty.equals("Hard")){
             cartNumber = 20;
         }
     }

@@ -17,8 +17,6 @@ public class RandomEvent {
     private boolean buffChance;
     private ArrayList<Tower> mainTowers;
     private int roundNumber;
-    private int chance;
-    private String type;
     private String difficulty;
 
     /**
@@ -30,7 +28,6 @@ public class RandomEvent {
     public RandomEvent(ArrayList<Tower> mainTowers, String difficulty, int roundNumber){
         this.mainTowers = mainTowers;
         this.roundNumber = roundNumber;
-        this.type = type;
         this.difficulty = difficulty;
 
         setBreakChance(calculateBreakChance());

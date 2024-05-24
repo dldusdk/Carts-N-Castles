@@ -11,13 +11,52 @@ The game is over when 1. the mine cave explodes and you have no more lives 2. yo
 
 ## Prerequisites
 To run this project, you will need the following on your local machine:
-- JDK 8 or higher
-- Gradle
-- IntelliJ DEA
+- JDK 11 or higher (https://www.oracle.com/java/technologies/downloads/#java22)
+- Gradle (https://gradle.org/install/)
+- IntelliJ DEA (https://www.jetbrains.com/idea/download/)
+
+## To run the Game!
+Open the Terminal and run the jar file by inputting:
+'java -jar gho72_myl24_seng_201.jar'
+
+Make sure you are in the same directory as the jar file in your terminal!
+
+## Clone the Project!
+1. Open IntelliJ IDEA.
+2. Go to `File` > `New` > `Project from Version Control`.
+3. In the URL field, enter the following repository URL: https://eng-git.canterbury.ac.nz/seng201-2024/team-99/
+
+
+## Build the source code!
+1. Open the cloned project in IntelliJ IDEA.
+2. Go to File > Project Structure.
+3. Ensure that the JDK is set to version 11 or higher.
+4. Go to Build > Build Project to compile the source code.
+
+## Dependencies
+
+```
+dependencies {
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-controls
+    implementation "org.openjfx:javafx-controls:${javafxVersion}"
+
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-fxml
+    implementation "org.openjfx:javafx-fxml:${javafxVersion}"
+
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-media
+    implementation group: 'org.openjfx', name: 'javafx-media', version:"${javafxVersion}"
+}
+```
+
 
 ## Authors
 Michelle Lee and Gordon Homewood
-
 
 ## Resources
 All music sourced from: https://pixabay.com/ 
@@ -27,8 +66,4 @@ Cart / Tower Art Sourced from: Ellen Homewood
 Coin / Potion / Lives Art from: Michelle Lee
 
 
-### To run the Game!
-Open the Terminal and run the jar file by inputting:
-'java -jar gho72_myl24_ResourceStockpiling.jar'
 
-Make sure you are in the same directory as the jar file in your terminal!

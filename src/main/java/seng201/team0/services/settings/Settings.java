@@ -40,7 +40,7 @@ public class Settings {
     public int getTileWidth(){return(levelTilesWidth);}
 
     /**
-     * @return pixel size, based on asset pack tile size
+     * @return pixel size, based the asset pack tile size
      * @author Gordon Homewood
      */
     public int getTilePixelSize(){return(tilePixelSize);}

@@ -15,8 +15,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import seng201.team0.gui.gameGUI.GameController;
 
-import java.io.File;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.Optional;
 
 /**
@@ -33,7 +33,8 @@ public class MainController {
     @FXML
     private AnchorPane mainscreenPane;
     Stage stage;
-    String musicPath = "src/main/resources/Music/bg/mainscreenbgm.mp3";
+//    String musicPath = "src/main/resources/Music/bg/mainscreenbgm.mp3";
+    String musicPath = "/Music/bg/mainscreenbgm.mp3";
     private boolean nameRecieved = false;
 
     /**
@@ -51,7 +52,9 @@ public class MainController {
      * @author Michelle Lee
      */
     public void playMusic(String musicPath) {
-        Media media = new Media(new File(musicPath).toURI().toString());
+
+//        Media media = new Media(new File(musicPath).toURI().toString());
+        Media media = new Media(getClass().getResource(musicPath).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
     }
@@ -83,6 +86,11 @@ public class MainController {
             }
     }
 
+    /**
+     * Gets the name of the user from input text dialog and passes it through validNameTest to check if valid
+     * @return the name input from the user
+     * @author Michelle Lee
+     */
     private String getName() {
         if (nameRecieved) {
             // If already in game over loop, don't let function cause
@@ -112,7 +120,7 @@ public class MainController {
     }
 
     /**
-     * Open the mapSelection Window to proceed to next part of the game
+     * Open the Game Window
      * @author Michelle Lee
      * */
     private void startGame() {

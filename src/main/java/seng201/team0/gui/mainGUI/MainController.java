@@ -35,7 +35,6 @@ public class MainController {
     Stage stage;
 
     final String musicPath = "/Music/bg/mainscreenbgm.mp3";
-    private boolean nameRecieved = false;
 
     /**
      * Initializes the Main Start-Up Screen

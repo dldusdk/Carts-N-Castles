@@ -63,7 +63,7 @@ public class GameEventHandler {
                 continue;
             }
 
-            long fireRate = 1000000000L / tower.getFireRate();
+            long fireRate = 1000000000L / tower.getFireRate(); //Baseline firerate
             long fireTime = timestamp - tower.getProjectileTime();
 
             double cartPosition = towerTarget.getCartObject().getTranslateX();

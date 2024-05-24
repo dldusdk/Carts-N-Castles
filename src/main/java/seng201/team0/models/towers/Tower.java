@@ -18,7 +18,6 @@ public class Tower {
     final String resourceType;
     double reloadSpeed;
     double loadAmount;
-    int towerHealth;
     final int towerLevel;
     final int range;
     boolean towerState;
@@ -108,10 +107,20 @@ public class Tower {
         return towerName;
     }
 
+    /**
+     * This method increments the round list of rounds the tower has participated in.
+     * Useful for determing the random event behaviour.
+     * @param roundNumber current round number
+     * @author Gordon Homewood
+     */
     public void incrementRound(int roundNumber){
         if(towerState) this.roundsPlayed.add(roundNumber);
     }
 
+    /**
+     * @return the list of rounds played by the tower
+     * @author Gordon Homewood
+     */
     public ArrayList<Integer> getRoundsPlayed(){
         return(this.roundsPlayed);
     }
@@ -148,13 +157,7 @@ public class Tower {
     public int getTowerLevel() {
         return towerLevel;
     }
-    /**
-     * @return Tower Range
-     * @author Michelle Lee
-     */
-    public int getRange() {
-        return range;
-    }
+
     /**
      * @return Tower State
      * @author Michelle Lee
@@ -218,7 +221,7 @@ public class Tower {
     /**
      * Creates image of tower based on parameters
      * Held in class, so it can be accessed if needed
-     * @Author Gordon Homewood
+     * @author Gordon Homewood
      */
     public void draw(double x, double y, String path) {
         towerImage = new ImageView(new Image(path));
@@ -233,7 +236,7 @@ public class Tower {
      * getting coordinates, etc.
      *
      * @return ImageView of tower
-     * @Author Gordon Homewood
+     * @author Gordon Homewood
      */
     public ImageView getImage() {return(towerImage);}
 

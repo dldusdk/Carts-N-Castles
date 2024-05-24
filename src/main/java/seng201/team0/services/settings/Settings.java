@@ -28,18 +28,6 @@ public class Settings {
     }
 
     /**
-     * @return level display tile height.
-     * @author Gordon Homewood
-     */
-    public int getTileHeight(){return(levelTilesHeight); }
-
-    /**
-     * @return level display tile width.
-     * @author Gordon Homewood
-     */
-    public int getTileWidth(){return(levelTilesWidth); }
-
-    /**
      * @return pixel size, based the asset pack tile size
      * @author Gordon Homewood
      */

@@ -27,28 +27,6 @@ public class Shop {
     // GETTERS
 
     /**
-     * @return Bronze Tower Stock Level
-     * @author Michelle Lee
-     */
-    public int getBronzeTowerStock() {
-        return bronzeTowerStock;
-    }
-    /**
-     * @return Silver Tower Stock Level
-     * @author Michelle Lee
-     */
-    public int getSilverTowerStock() {
-        return silverTowerStock;
-    }
-    /**
-     * @return Gold Tower Stock Level
-     * @author Michelle Lee
-     */
-    public int getGoldTowerStock() {
-        return goldTowerStock;
-    }
-
-    /**
      * @return Bronze Tower Cost
      * @author Michelle Lee
      */
@@ -159,21 +137,21 @@ public class Shop {
      * Randomizes the stock with the bronze tower stock always between 0 - 5
      * After the first round the stock is randomized
      * The bronze tower will always be between 0 - 5
-     * @uthor Michelle Lee
+     * @author Michelle Lee
      */
     public void randomizeStock() {
         int totalStock = 10;
         int bronzeMaxStock = 5;
 
         // Random stock between 0 and bronzeMaxStock
-        bronzeTowerStock = random.nextInt(totalStock + 1);
-        int remainingStock = bronzeMaxStock - bronzeTowerStock;
+        bronzeTowerStock = random.nextInt(bronzeMaxStock + 1);
+        int remainingStock = totalStock - bronzeTowerStock;
         remainingStock = Math.max(0,remainingStock);
         // Set Silver Stock
-        silverTowerStock = random.nextInt(remainingStock + 1);
+        silverTowerStock = random.nextInt(remainingStock + 1);;
         remainingStock -= silverTowerStock;
         // Set Gold Stock
         remainingStock = Math.max(0,remainingStock);
-        goldTowerStock = random.nextInt(remainingStock + 1);
+        goldTowerStock = remainingStock;
     }
 }

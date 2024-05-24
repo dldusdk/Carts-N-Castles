@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * This class holds the methods to close the game controller and to display the correct information and stats from the game
@@ -62,20 +63,22 @@ public class GameEndingController {
      * @author Michelle Lee
      */
     public void playEndingSong(String songPath) {
-        Media media = new Media(new File(songPath).toURI().toString());
+        Media media = new Media(Objects.requireNonNull(getClass().getResource(songPath)).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
     }
 
 
     /**
-     * Set the Labels (GUI) for the game ending screen. Ensure the
-     * @param feedback
-     * @param selectedRounds
-     * @param totalRoundsCompeted
-     * @param totalMoney
-     * @param totalPoints
-     * @param message
+     * Set the Labels (GUI) for the game ending screen. Ensure the player Stats are displayed with the correct
+     * values at the end of the game.
+     * @param feedback provides message based on win or loss
+     * @param selectedRounds the player chosen round number
+     * @param totalRoundsCompeted the number of rounds the player completed before win / loes
+     * @param totalMoney the total coins earned
+     * @param totalPoints total points earned
+     * @param message message changes depending on win or lose
+     * @author Michelle Lee
      */
     public void gameStats(String feedback, int selectedRounds, int totalRoundsCompeted, int totalMoney, int totalPoints, String message) {
         endingMessage.setText(feedback);

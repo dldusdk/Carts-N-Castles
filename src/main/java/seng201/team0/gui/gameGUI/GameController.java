@@ -134,7 +134,6 @@ public class GameController {
     private Stage stage;
     private Stage primaryStage;
     private final String musicPath = "/Music/bg/gameBGM.mp3";
-    private static MediaPlayer mediaPlayer;
     private int totalCoins;
 
     // Tower variables
@@ -167,11 +166,12 @@ public class GameController {
     private int cartNumber;
 
     private GoldMine goldMine;
+    private MediaPlayer mediaPlayer;
 
 
     private AnimationTimer collisionTimer = new AnimationTimer() {
         /**
-         * This method overwrites the animationTimer handle method.
+         * This method overrides the animationTimer handle method.
          * It calls a separate class, GameEventHandler to handle the logic.
          * This method is internal to handling the interaction between the
          * logic and the graphics, as it updates at around 60 times a second to
@@ -339,7 +339,7 @@ public class GameController {
      */
     public void playMusic(String musicPath) {
         Media media = new Media(Objects.requireNonNull(getClass().getResource(musicPath)).toExternalForm());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         mediaPlayer.setCycleCount(1000);
     }
@@ -914,7 +914,9 @@ public class GameController {
             reloadSpeedLabel.setText(String.valueOf(tower.getReloadSpeed()));
             loadAmountLabel.setText(String.valueOf(tower.getLoadAmount()));
             levelLabel.setText(String.valueOf(tower.getTowerLevel()));
+            activeLabel.setFont(Font.font("Minecraft"));
             activeLabel.setText(tower.getTowerState() ? "Active" : "Inactive");
+            inventoryLocationLabel.setFont(Font.font("Minecraft"));
             inventoryLocationLabel.setText(tower.getInventoryLocation());
             //Get and display sell value
             String towerType = tower.getResourceType();
@@ -995,7 +997,7 @@ public class GameController {
                 difficulty = "Hard";
                 launchRound();
             }
-            shop.randomizeStock(); // Resets stock and randomizes it
+
         }
         switchInventory.setDisable(false); // Disable switching towers between inventories until the end of the round
     }
@@ -1009,6 +1011,7 @@ public class GameController {
      */
 
     private void launchRound() {
+
         // Initializing variables for new round
         instructionLabel.setText("Don't let the carts destroy your goldmine!");
         roundButton.setDisable(true);
@@ -1119,6 +1122,8 @@ public class GameController {
      * @author Gordon Homewood
      */
     private void stopRound(boolean state) {
+        shop.randomizeStock(); // Resets stock and randomizes it
+        updateStockDisplay();
         if (roundNumber > totalRounds - 1 && state) {
             // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);
@@ -1161,7 +1166,7 @@ public class GameController {
         if (difficulty.equals("Easy")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.5);
             int roundedAward = (int) (Math.ceil((double) moneyAwarded / 5) * 5);
-            points += roundedAward;
+            points += roundedAward * 25;
             coinBalance += roundedAward;
             pointsLabel.setText(String.valueOf(points));
             totalCoins += roundedAward;
@@ -1169,7 +1174,7 @@ public class GameController {
         if (difficulty.equals("Normal")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.75);
             int roundedAward = (int) (Math.ceil((double) moneyAwarded / 5) * 5);
-            points += roundedAward;
+            points += roundedAward * 25;
             coinBalance += roundedAward;
             pointsLabel.setText(String.valueOf(points));
             totalCoins += roundedAward;
@@ -1178,7 +1183,7 @@ public class GameController {
         if (difficulty.equals("Hard")) {
             int moneyAwarded = (roundNumber * 50);
             int roundedAward = (int) (Math.ceil((double) moneyAwarded / 5) * 5);
-            points += roundedAward;
+            points += roundedAward * 25;
             coinBalance += roundedAward;
             pointsLabel.setText(String.valueOf(points));
             totalCoins += roundedAward;
@@ -1232,8 +1237,7 @@ public class GameController {
         endingScreen.setTitle("Game Over!");
         // Pass the appropriate variable sthrough to gameendingController
         GameEndingController gameEndingController = loader.getController();
-        int totalPoints = 0;
-        gameEndingController.gameStats(won ? "Congratulations!" : "You lose..", totalRounds, roundNumber, totalCoins, totalPoints, won ? "Great job! We are proud of you!" : "Try again next time!");
+        gameEndingController.gameStats(won ? "Congratulations!" : "You lose..", totalRounds, roundNumber, totalCoins, points, won ? "Great job!" : "Try again next time!");
         // Play winning or losing song
         gameEndingController.playEndingSong(songPath);
         // Show Game End Stats Screen

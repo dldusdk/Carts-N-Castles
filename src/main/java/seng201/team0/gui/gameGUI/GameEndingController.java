@@ -15,13 +15,15 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class holds the methods to close the game controller and to display the correct information and stats from the game
+ * controller to the player
+ * @author Michelle Lee
+ */
 public class GameEndingController {
     // GUI
-
     @FXML
     private Label endingMessage;
-    @FXML
-    private Label nameLabel;
     @FXML
     private Label selectedRoundsLabel;
     @FXML
@@ -44,12 +46,21 @@ public class GameEndingController {
     // INITALIZE VARIABLES
     public Stage primaryStage;
     Stage stage;
-    String musicpath = "src/main/resources/Music/bg/bgmMain.mp3";
     private String songPath;
 
+    /**
+     * initializes the Game End Screen
+     * @author Michelle Lee
+     */
     public void init() {
         this.primaryStage = (Stage) endPane.getScene().getWindow();
     }
+
+    /**
+     * Depending on whether the user has won or lost, the music for the Game Ending Controller will differ
+     * @param songPath String variable passed in when the Game Ending Controller is called
+     * @author Michelle Lee
+     */
     public void playEndingSong(String songPath) {
         Media media = new Media(new File(songPath).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -57,6 +68,15 @@ public class GameEndingController {
     }
 
 
+    /**
+     * Set the Labels (GUI) for the game ending screen. Ensure the
+     * @param feedback
+     * @param selectedRounds
+     * @param totalRoundsCompeted
+     * @param totalMoney
+     * @param totalPoints
+     * @param message
+     */
     public void gameStats(String feedback, int selectedRounds, int totalRoundsCompeted, int totalMoney, int totalPoints, String message) {
         endingMessage.setText(feedback);
         selectedRoundsLabel.setText(String.valueOf(selectedRounds));
@@ -66,6 +86,11 @@ public class GameEndingController {
         feedbackLabel.setText(message);
     }
 
+    /**
+     * Close the current end Pane and restart and launch the game Screen to allow the player to replay the game
+     * @param event when the Retry button is clicked
+     * @author Michelle Lee
+     */
     @FXML
     private void retry(ActionEvent event) {
         stage = (Stage) endPane.getScene().getWindow();
@@ -89,6 +114,11 @@ public class GameEndingController {
         stage.show();
     }
 
+    /**
+     * Allows the user to click a button and go back to the Main Menu
+     * @param event allow the user to go back to the Main Menu once this event is run
+     * @author Michelle Lee
+     */
     @FXML
     private void toMainMenu(ActionEvent event) {
         stage = (Stage) endPane.getScene().getWindow();
@@ -106,16 +136,19 @@ public class GameEndingController {
             e.printStackTrace();
             return;
         }
-
         // Set up the scene for the main menu
         Scene mainScene = new Scene(mainMenuRoot);
         mainMenu.setScene(mainScene);
         mainMenu.setTitle("Main Screen");
-
         // Show main menu
         mainMenu.show();
     }
 
+    /**
+     * Allows the user to click a button and quit the game
+     * @param event allow the user to go back to the Main Menu once this event is run
+     * @author Michelle Lee
+     */
     @FXML
     private void quitGame(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -128,7 +161,4 @@ public class GameEndingController {
             stage.close();
         }
     }
-
-
-
 }

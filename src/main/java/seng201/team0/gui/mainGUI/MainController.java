@@ -11,7 +11,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import seng201.team0.gui.gameGUI.GameController;
 
@@ -32,7 +31,7 @@ public class MainController {
     @FXML
     private Text headerText;
     @FXML
-    private AnchorPane mainscreenPane;
+    private AnchorPane mainScreenPane;
     Stage stage;
 
     final String musicPath = "/Music/bg/mainscreenbgm.mp3";
@@ -98,21 +97,22 @@ public class MainController {
                 }
             }
     }
-
+    /**
+     * Tests if name is between 3 - 15 characters, and contains no special characters or spaces
+     * @param name variable passed through from the text input dialog
+     * @author Michelle Lee
+     */
     public boolean validNameTest(String name) {
-        /**
-         * Tests if name is valid or not
-         * @author Michelle Lee
-         */
+
         return name.matches("^[a-zA-Z0-9 ]{3,15}$");
     }
 
     /**
-     * Open the Game Window
+     * Closes the mainScreenPane and initializes the Game Window
      * @author Michelle Lee
      * */
     private void startGame() {
-        stage = (Stage) mainscreenPane.getScene().getWindow();
+        stage = (Stage) mainScreenPane.getScene().getWindow();
         stage.close();
 
         Font minecraftFont = Font.loadFont(getClass().getResourceAsStream("/fonts/Minecraft.ttf"), 12);
@@ -149,7 +149,7 @@ public class MainController {
 
         // If User clicks 'Confirm', Quit game
         if (alert.showAndWait().get() == ButtonType.OK) {
-            stage = (Stage) mainscreenPane.getScene().getWindow();
+            stage = (Stage) mainScreenPane.getScene().getWindow();
             stage.close();
         }
     }

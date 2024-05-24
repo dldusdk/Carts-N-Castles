@@ -2,6 +2,10 @@ package seng201.team0.models;
 
 import java.util.Random;
 
+/**
+ * Shop Class handles the stock levels, randomization of the stock levels and contains the depreciation methods.
+ * @author Michelle Lee
+ */
 public class Shop {
     // Towers
     private int bronzeTowerStock = 5;

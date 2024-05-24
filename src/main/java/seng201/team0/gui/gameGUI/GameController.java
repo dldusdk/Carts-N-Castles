@@ -36,6 +36,7 @@ import seng201.team0.services.gameLoaders.RandomEvent;
 //Imports for file reading
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 
@@ -232,10 +233,15 @@ public class GameController {
     public void init(Stage primaryStage) {
         // Load the stage and game track
         this.primaryStage = primaryStage;
-        String levelPath = "src/main/resources/levelCSV/Level1/"
-                + "Level1Concept_Track.csv";
-        String levelDecor = "src/main/resources/levelCSV/Level1/"
-                + "Level1Concept_Decorations.csv";
+        String levelPath = "/levelCSV/Level1/Level1Concept_Track.csv";
+        String levelDecor = "/levelCSV/Level1/Level1Concept_Decorations.csv";
+
+        // Testing
+        InputStream levelPathStream = getClass().getResourceAsStream(levelPath);
+        InputStream levelDecorStream = getClass().getResourceAsStream(levelDecor);
+
+        levelGrid = new LevelLoader(trackDefault, levelPathStream, levelDecorStream);
+        path = new PathLoader("/levelCSV/Level1/Level1CartPath", "/levelCSV/Level1/Level1RotatePath");
 
         //Initialize shop and player currency
         shop = new Shop();
@@ -250,11 +256,6 @@ public class GameController {
         Font font = Font.font("Minecraft", 12);
         pointsLabel.setFont(font);
         roundButton.setText("Start First Round!");
-        levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
-        path = new PathLoader("src/main/resources/levelCSV/"
-                + "Level1/Level1CartPath",
-                "src/main/resources/levelCSV/"
-                        + "Level1/Level1RotatePath");
         playMusic(musicPath);
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
@@ -295,10 +296,8 @@ public class GameController {
 
     /**
      * Creates a dialog box and gets the user's choice of
-     * total rounds plaued.
-     *
+     * total rounds to play and sets that number as the max round number.
      * @return total round number
-     *
      * @author Michelle Lee
      */
     public int getRound() {

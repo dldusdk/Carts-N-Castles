@@ -60,6 +60,7 @@ Michelle Lee and Gordon Homewood
 
 ## Resources
 Resource Pack from: pixelfrog-assets.itch.io/tiny-swords
+
 All music sourced from: https://pixabay.com/ 
 
 Cart / Tower Art Sourced from: Ellen Homewood

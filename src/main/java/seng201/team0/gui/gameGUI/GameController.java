@@ -133,7 +133,7 @@ public class GameController {
     // GUI variables
     private Stage stage;
     private Stage primaryStage;
-    private final String musicPath = "src/main/resources/Music/bg/gameBGM.mp3";
+    private final String musicPath = "/Music/bg/gameBGM.mp3";
     private static MediaPlayer mediaPlayer;
     private int totalCoins;
 
@@ -346,7 +346,7 @@ public class GameController {
         Media media = new Media(Objects.requireNonNull(getClass().getResource(musicPath)).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-    }
+        }
 
     /**
      * When this method is called, it will update the GUI (playerCoins Label) on the Game Screen to display
@@ -1126,7 +1126,7 @@ public class GameController {
         if (roundNumber > totalRounds - 1 && state) {
             // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);
-            launchEndScreen(true, "src/main/resources/Music/bg/winBGM.mp3" );
+            launchEndScreen(true, "/Music/bg/winBGM.mp3" );
             }
         else {
             for (Tower tower : mainTowers) {
@@ -1149,7 +1149,7 @@ public class GameController {
             } else {
                 // If the gameState is failed, it will not allow any more rounds to be played.
                 roundButton.setDisable(true);
-                launchEndScreen(false, "src/main/resources/Music/bg/loseBGM.mp3");
+                launchEndScreen(false, "/Music/bg/loseBGM.mp3");
             }
             switchInventory.setDisable(false);  // allows player to switch inventory
         }

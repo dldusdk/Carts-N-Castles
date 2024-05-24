@@ -231,8 +231,8 @@ public class GameController {
      */  public void init(Stage primaryStage) {
         // Load the stage and game track
         this.primaryStage = primaryStage;
-        String levelPath = "src/main/resources/levelCSV/Level1Concept_Track.csv";
-        String levelDecor = "src/main/resources/levelCSV/Level1Concept_Decorations.csv";
+        String levelPath = "/levelCSV/Level1Concept_Track.csv";
+        String levelDecor = "/levelCSV/Level1Concept_Decorations.csv";
 
         //Initialize shop and player currency
         shop = new Shop();
@@ -248,8 +248,8 @@ public class GameController {
         pointsLabel.setFont(font);
         roundButton.setText("Start First Round!");
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
-        path = new PathLoader("src/main/resources/levelCSV/Level1CartPath",
-                "src/main/resources/levelCSV/Level1CartPath");
+        path = new PathLoader("/levelCSV/Level1CartPath",
+                "/levelCSV/Level1CartPath");
         playMusic(musicpath);
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);

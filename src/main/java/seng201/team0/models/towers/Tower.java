@@ -308,15 +308,16 @@ public class Tower {
         return(this.buffState);
     }
 
+
+    /**
+     * Adds a highlight to the buffed tower to give visual indication of buffed tower event
+     * to player.
+     *
+     * @param apply if applied, then add the effect, otherwise set effect to null
+     *
+     * @author Gordon Homewood
+     */
     public void applyBuffHighlight(boolean apply){
-        /**
-         * Adds a highlight to the buffed tower to give visual indication of buffed tower event
-         * to player.
-         *
-         * @param apply if apply, then add the effect, otherwise set effect to null
-         *
-         * @author Gordon Homewood
-         */
         if(apply){
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.CORNFLOWERBLUE);

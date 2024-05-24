@@ -13,7 +13,6 @@ public class Tower {
     private long projectileTime;
     double x;
     double y;
-
     // Tower
     String towerName;
     String resourceType;
@@ -23,29 +22,32 @@ public class Tower {
     int towerLevel;
     int range;
     boolean towerState;
-
-
     private ImageView towerImage;
     private boolean destroyed;
-
     private ArrayList<Integer> roundsPlayed;
-
     // Tower Upgrades
     private static final double SPEED_UPGRADE_FACTOR = 1.05;  // Increase firerate by 5%
     private static final double RANGE_UPGRADE_FACTOR = 1.1;  // Increase range by 10%
     private static final double LOAD_AMOUNT_FACTOR = 1.1;  // Increase load amount by 10%
-
-
-
     // Other
     String inventoryLocation;
-    //private long fireRate = 500000000L;
-
     private double radius;
     private double bonusPercent;
     boolean buffState;
-
     // Constructor
+
+    /**
+     * Initializes the Tower Class
+     * @param towerName userInputted name of the tower
+     * @param resourceType Resource Type of the tower
+     * @param reloadSpeed Reload Speed of the Tower
+     * @param loadAmount Load Amount of the Tower
+     * @param towerLevel Tower Level
+     * @param range Range of the Tower
+     * @param radius Radius of the Tower
+     * @param towerState State of the tower
+     * @param inventoryLocation Inventory Locaiton of the Tower
+     */
     public Tower(String towerName, String resourceType,
                  double reloadSpeed, double loadAmount,
                  int towerLevel, int range, double radius, boolean towerState, String inventoryLocation) {
@@ -64,11 +66,17 @@ public class Tower {
         this.buffState = false;
     }
 
-    //Setters
+    /**
+     * @param xCoord x-coordinate of the mouse click
+     * @author Michelle Lee
+     */
     public void setX(double xCoord) {
         x = xCoord;
     }
-
+    /**
+     * @param yCoord y-coordinate of the mouse click
+     * @author Michelle Lee
+     */
     public void setY(double yCoord) {
         y = yCoord;
     }
@@ -76,16 +84,25 @@ public class Tower {
     public void setProjectileTime(long time) {
         projectileTime = time;
     }
-
+    /**
+     * @param location Inventory Location of the tower
+     * @author Michelle Lee
+     */
     public void setInventoryLocation(String location) {
         this.inventoryLocation = location;
     }
-
+    /**
+     * @param state State of the Tower
+     * @author Michelle Lee
+     */
     public void setTowerState(boolean state) {
         this.towerState = state;
     }
 
-
+    /**
+     * @return the tower name
+     * @author Michelle Lee
+     */
     // Getters
     public String getName() {
         return towerName;
@@ -99,6 +116,10 @@ public class Tower {
         return(this.roundsPlayed);
     }
 
+    /**
+     * @return Returns the Resource Type
+     * @author Michelle Lee
+     */
     public String getResourceType() {
         return resourceType;
     }
@@ -112,22 +133,39 @@ public class Tower {
         return Math.ceil(loadAmount * 100) / 100;
     }
 
+    /**
+     * @return Tower Level
+     * @author Michelle Lee
+     */
     public int getTowerLevel() {
         return towerLevel;
     }
-
+    /**
+     * @return Tower Range
+     * @author Michelle Lee
+     */
     public int getRange() {
         return range;
     }
-
+    /**
+     * @return Tower State
+     * @author Michelle Lee
+     */
     public boolean getTowerState() {
         return towerState;
     }
-
+    /**
+     * @return Tower Inventory Location
+     * @author Michelle Lee
+     */
     public String getInventoryLocation() {
         return inventoryLocation;
     }
 
+    /**
+     * @return Tower Level
+     * @author Michelle Lee
+     */
     // For projectiles
     public double getX() {
         return x;
@@ -137,39 +175,37 @@ public class Tower {
     public long getProjectileTime() {
         return projectileTime;
     }
-
+    /**
+     * @return Tower radius
+     * @author Michelle Lee
+     */
     public double getRadius() {
         return (radius);
     }
-
+    /**
+     * @return Tower Level
+     * @author Michelle Lee
+     */
     public double getDistance(double targetX, double targetY) {
         return (Math.sqrt(Math.pow(this.x - targetX, 2) + Math.pow(this.y - targetY, 2)));
     }
 
     // Upgrade methods
-    public void upgradeSpeed() {
-        /**
-         * Updates the reload speed by constant
-         * @author Michelle Lee
-         */
-        reloadSpeed *= SPEED_UPGRADE_FACTOR;
-    }
-
-    public void upgradeRange() {
-        /**
-         * Updates the range by constant
-         * @author Michelle Lee
-         */
-        radius *= RANGE_UPGRADE_FACTOR;
-    }
-
-    public void upgradeFill() {
-        /**
-         * Updates the load amount by constant
-         * @author Michelle Lee
-         */
-        loadAmount *= LOAD_AMOUNT_FACTOR;
-    }
+    /**
+     * Updates the reload speed by constant
+     * @author Michelle Lee
+     */
+    public void upgradeSpeed() { reloadSpeed *= SPEED_UPGRADE_FACTOR; }
+    /**
+     * Updates the range by constant
+     * @author Michelle Lee
+     */
+    public void upgradeRange() { radius *= RANGE_UPGRADE_FACTOR; }
+    /**
+     * Updates the load amount by constant
+     * @author Michelle Lee
+     */
+    public void upgradeFill() { loadAmount *= LOAD_AMOUNT_FACTOR; }
 
     // Projectiles
     public void draw(double x, double y, String path) {
@@ -311,6 +347,10 @@ public class Tower {
         }
     }
 
+    /**
+     * Changes the image of the tower when this method is called to repaired Tpewr
+     * @param towerType is the String to identify which tower image path we need to call and set as the new image
+     */
     public void repairTower(String towerType) {
         this.destroyed = false;
         this.towerImage.setImage(new Image(towerType));

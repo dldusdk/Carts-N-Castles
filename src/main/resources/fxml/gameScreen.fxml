@@ -496,7 +496,7 @@
             <Font name="Minecraft" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="roundButton" layoutX="1324.0" layoutY="8.0" mnemonicParsing="false" onAction="#roundButtonClicked" prefHeight="53.0" prefWidth="139.0" style="-fx-font-family: minecraft.ttf;" text="START">
+      <Button fx:id="roundButton" layoutX="1324.0" layoutY="8.0" mnemonicParsing="false" onAction="#roundButtonClicked" prefHeight="53.0" prefWidth="139.0" text="START">
          <font>
             <Font name="Minecraft" size="14.0" />
          </font></Button>

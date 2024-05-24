@@ -27,10 +27,12 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 //Package imports
+import seng201.team0.gui.mainGUI.MainController;
 import seng201.team0.models.Shop;
 import seng201.team0.models.towers.Tower;
 import seng201.team0.models.carts.Cart;
 import seng201.team0.models.towers.GoldMine;
+import seng201.team0.models.towers.Projectile;
 import seng201.team0.services.animation.GameEventHandler;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
@@ -131,7 +133,6 @@ public class GameController {
     @FXML
     private Label pointsLabel;
 
-
     // GUI variables
     private Stage stage;
     private Stage primaryStage;
@@ -160,7 +161,7 @@ public class GameController {
 
 
     // Round and Animation Variables
-    private int totalRounds = 1; //need to scale this on player choice
+    private int totalRounds = 15; //need to scale this on player choice
     private int roundNumber = 0;
     private LoadRound newRound = null;
     private boolean roundState = false;
@@ -217,12 +218,18 @@ public class GameController {
         }
     };
 
+    /**
+     * Initialize the controller for the Game Window FXML
+     * Shop and player currency are initialized here
+     * The methods updateStockDisplay, updatePlayercoins, playMusic, showInstructions will run.
+     * updateStock display will refresh the shop tower's label to show the correct stock
+     * updatePlayerCoins will update the amount of coins the player has
+     * playMusic will initialize and play the background music
+     * showInstructions will display a pop-up information box dialogue to give instructions to the user before the game runs
+     * @param primaryStage The main stage which the game screen will run on
+     * @author Michelle Lee
+     */
     public void init(Stage primaryStage) {
-        /**
-         * Initializes the controller with the primary stage
-         * @param primaryStage The primary stage of the application
-         *
-         */
         // Load the stage and game track
         this.primaryStage = primaryStage;
         String levelPath = "src/main/resources/levelCSV/Level1/Level1Concept_Track.csv";
@@ -244,22 +251,21 @@ public class GameController {
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
         path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath", "src/main/resources/levelCSV/Level1/Level1RotatePath");
         playMusic(musicpath);
-
-
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
-
         // Show instructions:
         showInstructionDialog();
+        totalRounds = getRound();
     }
 
+    /**
+     * Before the main Game Screen is launched, an information dialogue will pop up and show the dialogue box to the user
+     * giving instructions on how the game is played. It will wait for them to click 'OK' and then the gameScreen will start pu
+     * and allow the user to play the game.
+     * player
+     * @author Michelle Lee
+     */
     private void showInstructionDialog() {
-        /**
-         * Displays an instruction pop-up dialog to the user when entering the Game Screen
-         *
-         * @author Michelle Lee
-         */
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Game Instructions");
         alert.setHeaderText("Welcome to Carts N' Castles");
@@ -278,75 +284,122 @@ public class GameController {
                 "8. To win, ensure you fill up all carts and lose as little lives as possible and reach the end of all rounds!\n" +
                 "Good luck have fun!");
         alert.showAndWait();
-
     }
 
-    public void playMusic(String musicPath) {
-        /**
-         * Play the BGM for the Main Screen
-         * @author Michelle Lee
-         */
+    public int getRound() {
 
+        int roundNumberChosen = 0;
+        boolean validroundEntered = false;
+
+        while (!validroundEntered) {
+            TextInputDialog roundDialog = new TextInputDialog();
+            roundDialog.setTitle("Start new game");
+            roundDialog.setHeaderText("Please enter the number of rounds you would like to play!");
+            roundDialog.setContentText("Note:It must be a number between 5-15 Rounds");
+
+            // Store user's response in userName
+            Optional<String> result = roundDialog.showAndWait();
+            roundNumberChosen = Integer.parseInt(result.get());
+
+            if (roundNumberChosen >= 5 && roundNumberChosen <= 15) {
+                System.out.print(roundNumberChosen);
+                validroundEntered = true;
+            }
+            // If the number is invalid, show error dialog box
+            else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Input");
+                alert.setHeaderText("Please enter a number BETWEEN 5-15 Rounds\"");
+                alert.setContentText(null);
+                alert.showAndWait();
+            }
+        }
+        return roundNumberChosen;
+    }
+
+    /**
+     * When this method is called, a String (path of the song) must be passed into the method.
+     * The mediaPlayer import is initialized here and requires the path in order to play the music appropriately
+     * As the musicPath variable is set when initializing this Controller, it will always pass in "src/main/resources/Music/bg/gameBGM.mp3";
+     * This method will automatically play the music 1000 times before it stops.
+     * @param musicPath
+     * @author Michelle Lee
+     */
+    public void playMusic(String musicPath) {
         Media media = new Media(new File(musicpath).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-        mediaPlayer.setCycleCount(1000000);
-
+        mediaPlayer.setCycleCount(1000);
     }
 
-    private void updatePlayerLives() {
-        /**
-         * Method to update the playerLives
-         * @author Michelle Lee
-         */
-        playerLives.setText(String.valueOf(goldMine.getHealth()));
-    }
-
+    /**
+     * When this method is called, it will update the GUI (playerCoins Label) on the Game Screen to display
+     * the correct number of coins the player has.
+     * @author Michelle Lee
+     */
     private void updatePlayerCoins() {
-        /**
-         * Updates the Player Coins
-         * @author Michelle Lee
-         */
         playerCoins.setText(String.valueOf(coinBalance));
     }
 
-    @FXML
-    public void towerUpgrades(ActionEvent actionEvent) {
-        /**
-         * Makes Upgrades Shop Panel visible for the user and updates the instruction label to provide guidance to user.
-         * @author Michelle Lee
-         */
-        generalShop.setVisible(false);
-        upgradeShop.setVisible(true);
-        instructionLabel.setText("Select your upgrade and then the tower you would like to apply the upgrade to!");
+    /**
+     * When this method is called, it will update the GUI (playerLives Label) on the Game screen to display
+     * correct live(s) amount
+     * @author Michelle Lee
+     */
+    private void updatePlayerLives() {
+        playerLives.setText(String.valueOf(goldMine.getHealth()));
     }
 
-    @FXML
-    public void generalShop(ActionEvent actionEvent) {
-        /**
-         *Makes Shop Panel visible for the user and updates the instruction label to provide guidance to user.
-         * @author Michelle Lee
-         */
-        upgradeShop.setVisible(false);
-        generalShop.setVisible(true);
-        instructionLabel.setText("Buy Towers and Boosters!");
-    }
-
+    /**
+     * When this method is called, it will update the GUI (bronze,silver, gold Stock Labels) on the gameScreen and display
+     * the correct amount of stock available
+     * @author Michelle Lee
+     */
     private void updateStockDisplay() {
         bronzeStockLabel.setText("Stock: " + shop.getStock("Bronze"));
         silverStockLabel.setText("Stock: " + shop.getStock("Silver"));
         goldStockLabel.setText("Stock: " + shop.getStock("Gold"));
     }
 
+    /**
+     * When this method is called (from clicking button action event), it will change the GUI and hide the upgrade shop and
+     * make the general shop visible.
+     * @param actionEvent When the button labelled 'SHOP' is clicked, it will run the generalShop method
+     * @author Michelle Lee
+     */
+    @FXML
+    public void generalShop(ActionEvent actionEvent) {
+        upgradeShop.setVisible(false);
+        generalShop.setVisible(true);
+        instructionLabel.setText("Buy Towers and Boosters!");
+    }
+
+    /**
+     * When this method is called (from clicking button action event), it will change the GUI and hide the general shop and
+     * make the upgrade shop visible
+     * @param actionEvent When the button labelled 'Upgrades' is clicked, it will run the towerUpgrades method
+     * @author Michelle Lee
+     */
+    @FXML
+    public void towerUpgrades(ActionEvent actionEvent) {
+        generalShop.setVisible(false);
+        upgradeShop.setVisible(true);
+        instructionLabel.setText("Select your upgrade and then the tower you would like to apply the upgrade to!");
+    }
+
+    /**
+     * When this method is called (from clicking button action event), it will make a new instance of the tower called brokenTower,
+     * It checks if the tower is broken by calling .getDestroyed() and checks the user has enough coins. If they have enough coins
+     * and the tower is destroyed, it will deduct 200 coins and update their coin balance on the GUI.
+     * It will then update the image of the tower to show it has been repaired.
+     *
+     * @param actionEvent When the button labelled 'Repair' is clicked, it will run the repairTower method
+     * @author Michelle Lee
+     */
     @FXML
     private void repairTower(ActionEvent actionEvent) {
-        /**
-         * If tower is broken able to run this method
-         * Take appropriate amount off from player Coins, update the view and repair the tower.
-         * @author Michelle Lee
-         */
         Tower brokenTower = towersMap.get(selectedTower);
-        if (brokenTower.getDestroyed()) {
+        if (brokenTower.getDestroyed() && coinBalance >= 200) {
             coinBalance -= 200;
             updatePlayerCoins();
             // set image, radius to normal // how to distinguish which tower it is
@@ -354,23 +407,31 @@ public class GameController {
             String imagePath = getTowerImagePath(towerType);
             brokenTower.repairTower(imagePath);
             instructionLabel.setText("Successfully repaired!");
+        } else if (coinBalance < 200){
+            instructionLabel.setText("You do not have enough coins to repair your tower");
         } else {
             instructionLabel.setText("Your selected tower is not broken!");
         }
     }
 
+    /**
+     * When this method is called (from clicking button action event), it will ensure a round is currently not commenced.
+     * If not, then it will check if the tower is active, check the Reserve Inventory Capacity.
+     * If active and reserve is not full, then it will change the towers state to inactive, remove it from the mainTower array and add it to the reserveTower array
+     * and make the tower low opacity.
+     * For inactive towers, the opposite will happen where it will check the Main Inventory Capacity and check if it is inactive,
+     * as long as those conditions are true, it will remove the tower from the reservedTowers array, add it to the mainTowers array
+     * and make the tower have full opacity.
+     *
+     * @param actionEvent When the button labelled 'Switch Inventory' is clicked, it will run the switchInventory method
+     * @author Michelle Lee
+     */
     @FXML
     public void switchInventory(ActionEvent actionEvent) {
-        /**
-         * When button is clicked, it will switch Main -> Reserve and Reserve -> Main
-         * Will check if the inventory is full first or not.
-         * @author Michelle Lee
-         */
         if (roundState) {
             instructionLabel.setText("Cannot switch inventory during a round.");
             return;
         }
-
         if (selectedTower != null) {
             Tower tower = towersMap.get(selectedTower);
             if (tower != null) {
@@ -403,19 +464,22 @@ public class GameController {
         }
     }
 
+    /**
+     * Stores the event of the pressed Button into variable called 'pressedButton' from that Button get a String of the
+     * tower type the user has clicked. Depending on the case from the String, get different tower costs.
+     * Checks if the user has enough money to buy the tower, if so then get the user to input a name for the tower.
+     * If the name is entered and the user clicks 'OK' then deduct the appropriate amount.
+     * If the user clicks 'Cancel' from the dialog box, then does not deduct money from the user's balance.
+     *
+     * @param event
+     * @author Michelle Lee
+     */
     public void buyTower(MouseEvent event) {
-        /**
-         * Checks if we currently have 8 towers including reserve and main inventory, if we have less than 8 towers,
-         * prompt the user to input a name for the tower and check the stock level of the selected tower
-         * Change mouse cursor to give user a preview of the tower(helper method below)
-         *
-         * @author Michelle Lee
-         */
-
+        // Store the button clicked fx:id
         Button pressedButton = (Button) event.getSource();
         int towerCost = 0;
         String towerType = getTowerTypeFromButton(pressedButton);
-
+        // Depending on the Button clicked
         if (towerType != null && shop.getStock(towerType) > 0) {
             switch (towerType) {
                 case "Bronze":
@@ -428,12 +492,13 @@ public class GameController {
                     towerCost = shop.getGoldTowerCost();
                     break;
             }
+            // Checks if the User has enough money to purchse the tower
             if (coinBalance >= towerCost) {
                 selectedTowerType = towerType;
                 isPurchaseMode = true;
                 setupCursorForTower(getTowerImagePath(towerType));
 
-                // User inputs the tower name
+                // Dialogue Box to get User input for the tower name
                 TextInputDialog dialog = new TextInputDialog("Tower Name");
                 dialog.setTitle("Enter Tower Name");
                 dialog.setHeaderText("Enter a name for your " + selectedTowerType + " tower:");
@@ -453,25 +518,24 @@ public class GameController {
             }
         }
     }
-
+    /**
+     * Stores the event of the presesdButton into variable called 'pressedButton' from that Button get a String of the
+     * upgrade type the user has clicked. Depending on the case from the String, get different upgrae costs.
+     * Checks if the user has enough money to buy the upgrade, then deduct the appropriate amount.
+     * If the user clicks has not enough money, the instruction Label will change to inform the user.
+     *
+     * @param event When the
+     * @author Michelle Lee
+     */
     public void buyUpgrade(MouseEvent event) {
-        /**
-         * Handles the buying of upgrades for the selected tower.
-         * @author Michelle Lee
-         */
+        // Store the clicked Button's fx:id
         Button pressedButton = (Button) event.getSource();
-        System.out.println("Button pressed: " + pressedButton.getId());
-
         int upgradeCost = 0;
-
+        // As long as a tower is selected, store the tower in tower instance and get which upgrade the user Selected
         if (selectedTower != null) {
-            System.out.println("Selected tower is not null.");
             Tower tower = towersMap.get(selectedTower);
-            System.out.println("Tower retrieved from map: " + tower.getName());
-
             String upgradeType = getUpgradeType(pressedButton);
-            System.out.println("Upgrade type: " + upgradeType);
-
+            // Depending on the String returned from upgradeType
             if (upgradeType != null) {
                 switch (upgradeType) {
                     case "Upgrade Speed":
@@ -487,32 +551,29 @@ public class GameController {
                         System.out.println("Unknown upgrade type.");
                         break;
                 }
-                System.out.println("Upgrade cost: " + upgradeCost);
-
-                // If the player has enough money, take away the coins and then upgrade
+                // If the player has enough money, take away the coins and then upgrade the tower
                 if (coinBalance >= upgradeCost) {
                     coinBalance -= upgradeCost;
-                    System.out.println("Coin balance after upgrade: " + coinBalance);
                     updatePlayerCoins();
-                    // Apply the upgrade to the tower here
+                    // Apply the upgrade by calling applyUpgradeToTower method
                     applyUpgradeToTower(tower, upgradeType);
                     updateTowerStats(tower);
-                    System.out.println("Upgrade applied to tower.");
+                    // No money for the upgrade!
                 } else {
                     instructionLabel.setText("You don't have enough coins for this upgrade. Try again next round!");
-                    System.out.println("Not enough coins. Current balance: " + coinBalance);
                 }
             }
         } else {
-            System.out.println("Selected tower is null.");
+            instructionLabel.setText("You have no tower selected!");
         }
     }
 
+    /**
+     * Depending on the String passed from buyUpgrade, this method will call different methods in the Tower Class
+     * @param tower The selected tower getting the upgrade
+     * @param upgradeType The upgrade the user has clicked
+     */
     private void applyUpgradeToTower(Tower tower, String upgradeType) {
-        /**
-         * Upgrades the tower depending on Upgrade Type input
-         * @author Michelle Lee
-         */
         switch (upgradeType) {
             case "Upgrade Speed":
                 tower.upgradeSpeed();
@@ -529,21 +590,21 @@ public class GameController {
         }
     }
 
+    /**
+     * Depending on the tower clicked, it will set the cursor to carry the image of the tower when the tower button is clicked
+     * @param imagePath contains a string of the image's path
+     */
     private void setupCursorForTower(String imagePath) {
-        /**
-         * Changes the cursor depending on the button clicked
-         * @author Michelle Lee
-         */
         ImageView towerImage = new ImageView(imagePath);
         gamePane.setCursor(new ImageCursor(towerImage.getImage()));
     }
 
+    /**
+     * Depending on button clicked, it will return a String corresponding to that button which will be passed through to buyUpgrade method
+     * @param button gets the source (fx:id) from the Button clicked
+     * @return String version of the upgrade clicked.
+     */
     private String getUpgradeType(Button button) {
-        /**
-         * Get the button fx:id from the button clicked
-         * @author Michelle Lee
-         */
-
         if (button == upgradeSpeed) {
             return "Upgrade Speed";
         } else if (button == upgradeRange) {
@@ -554,11 +615,13 @@ public class GameController {
             return null;
         }
     }
+
+    /**
+     * Depending on button clicked, it will return a String corresponding to that button which will be passed through to buyTower method
+     * @param button gets the source (fx:id) from the Button clicked
+     * @return String version of the tower clicked
+     */
     private String getTowerTypeFromButton(Button button) {
-        /**
-         * returns the fxml:id of the button clicked
-         * @author Michelle Lee
-         */
         if (button == bronzeTower) {
             return "Bronze";
         } else if (button == silverTower) {
@@ -570,11 +633,12 @@ public class GameController {
         }
     }
 
+    /**
+     * This method returns the path of the image as a string depending on the Tower Button the user initially clicked
+     * @param towerType passes in the string version of the selected tower
+     * @return the image path of the tower type as a string
+     */
     private String getTowerImagePath(String towerType) {
-        /**
-         * Returns the image based on the fxid of the button clicked
-         * @author Michelle Lee
-         */
         switch (towerType) {
             case "Bronze":
                 return "Art/Factions/Knights/Buildings/Tower/bronzeTower.png";
@@ -587,11 +651,12 @@ public class GameController {
         }
     }
 
+    /**
+     *This method returns the fx:id depending on the String passed into the method
+     * @param towerType String version of the towerType the user selected
+     * @return the fx:id value from the String passed in
+     */
     private Button getButtonForTowerType(String towerType) {
-        /**
-         * Returns the button that was clicked
-         * @author Michelle Lee
-         */
         switch (towerType) {
             case "Bronze":
                 return bronzeTower;
@@ -604,6 +669,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Depending on the variables entered, this method will change the image of the button to a sold image when the stock
+     * of the selected towerType is equal or less than 0
+     * @param button The button clicked source
+     * @param shop Instance of the Shop Class
+     * @param towerType The towerType retrieved from the button clicked
+     */
     private void soldOut(Button button, Shop shop, String towerType) {
         /**
          * If item is sold out, update the button image to indicate it has been sold out.
@@ -614,20 +686,19 @@ public class GameController {
         }
     }
 
+    /**
+     * Get the coordinates of where the user clicks on the map, check if these coordinates are valid by running
+     * them through canPlaceTower method. If valid then place the tower and reset the purchase mode to be able to
+     * purchase the next item.
+     * @author Michelle Lee
+     */
 
     @FXML
     public void paneClick(MouseEvent event) {
-        /**
-         * Get the coordinates of where the user clicks on the map, check if these coordinates are valid by running
-         * them through canPlaceTower method. If valid then place the tower and reset the purchase mode to be able to
-         * purchase the next item.
-         * @author Michelle Lee
-         */
         // If the tower button is clicked once get the coordinates
         if ((isPurchaseMode) && selectedTowerType != null) {
             paneX = event.getX();
             paneY = event.getY();
-
             // if the coordinate is a valid point then we can place the tower
             if (canPlaceTower(paneX, paneY)) {
                 placeTower(paneX, paneY, selectedTowerType);
@@ -636,17 +707,16 @@ public class GameController {
                 resetPurchaseMode();
             }
         } else {
-            //towerStats.setVisible(false);
             instructionLabel.setText("Please select a tower to place.");
-
         }
     }
 
+    /**
+     * This method updates the GUI (Labels) associated with the Tower to ensure all details of the tower is correct
+     * @param tower fx:id of the selected tower
+     * @author Michelle Lee
+     */
     private void updateTowerStats(Tower tower) {
-        /**
-         * Updates the Tower Stats on the Tower Stats View
-         * @author Michelle Lee
-         */
         towerNameLabel.setText(tower.getName());
         resourceTypeLabel.setText(tower.getResourceType());
         reloadSpeedLabel.setText(String.valueOf(tower.getReloadSpeed()));
@@ -655,39 +725,48 @@ public class GameController {
         activeLabel.setText(tower.getTowerState() ? "Active" : "Inactive");
         inventoryLocationLabel.setText(tower.getInventoryLocation());
     }
+
+    /**
+     * Checks whether the tower is able to be placed on selected tile by passing the values through to outsideGamePane and
+     * invalidCoordChecker methods in LevelLoader class, if these methods return true, then the tower is placed in an invalid
+     * spot and will update the label to advise the user to Place the tower within the game map.
+     * @param x x coordinate of where the user has clicked
+     * @param y y coordinate of where the user has clicked
+     * @author Michelle Lee
+     */
     private boolean canPlaceTower(double x, double y) {
-        /**
-         * Checks whether the tower is able to be placed on selected tile by passing the values through to an external method
-         * if valid returns true
-         * @author Michelle Lee
-         */
-        // If outside GamePane
+
+        // If outside GamePane returns true
         if (levelGrid.outsideGamePane(x, y)) {
             instructionLabel.setText("Please place the tower within the game map");
             resetPurchaseMode();
             return false;
         }
-        // If invalid tile
+        // If invalid tile returns true
         if (levelGrid.invalidCoordChecker(x, y)) {
             instructionLabel.setText("Please do not place the tower ON the track");
             resetPurchaseMode();
             return false;
+            // if valid spot
         } else {
             return true;
         }
     }
-
-
+    /**
+     * Only able to be called if the canPlaceTower returns true
+     * Creates initializations of towers based on the button clicked
+     * Decreases the stock of the Tower and checks if there are more than 5 towers on the map
+     * @param x x coordinate of where the user has clicked
+     * @param y y coordinate of where the user has clicked
+     * @param towerType Checks whether the tower is a bronze, silver or gold tower
+     * @author Michelle Lee
+     */
     private void placeTower(double x, double y, String towerType) {
-        /**
-         * Only able to be called if the canPlaceTower returns true
-         * Creates initializations of towers based on the button clicked
-         * Decreases the stock of the Tower and checks if there are more than 5 towers on the map
-         * @author Michelle Lee
-         */
+
         String imagePath = getTowerImagePath(towerType);
         Tower tower = null;
 
+        // Create instance if the toewr in Tower.java
         switch (towerType) {
             case "Bronze":
                 tower = new Tower(userInputTowerName, "Bronze", 2.0, 0.25, 1, 10,
@@ -702,14 +781,12 @@ public class GameController {
                         130, true, "Main");
                 break;
         }
-
         if (tower != null) {
             tower.setX(x);
             tower.setY(y);
             tower.draw(x, y, imagePath);
             ImageView towerImage = tower.getImage();
             towerImage.setOnMouseClicked(this::checkTowerStats);
-
             // If total towers on map (incl reserve) < 9 then place tower
             if (mainTowers.size() < 5) {
                 ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
@@ -719,21 +796,20 @@ public class GameController {
                 shop.decreaseStock(towerType);
                 soldOut(getButtonForTowerType(towerType), shop, towerType);
                 updateStockDisplay();
-                // in the reserve tower
+                // If reserveTower is not full
             } else if (reserveTowers.size() < 3) {
                 ((Pane) trackDefault.getParent()).getChildren().add(towerImage);
                 reserveTowers.add(tower);
                 towersMap.put(towerImage, tower);
-
+                // Change the images opacity
                 towerImage.setOnMouseClicked(this::checkTowerStats);
                 towerImage.setOpacity(0.5);
                 towerImage.setMouseTransparent(false);
-
+                // Create a grey dropshadow on the tower
                 DropShadow dropShadow = new DropShadow();
                 dropShadow.setColor(Color.GREY);
                 dropShadow.setRadius(20);
                 towerImage.setEffect(dropShadow);
-
                 // Update Inventory Location
                 tower.setInventoryLocation("Reserve");
                 tower.setTowerState(false);
@@ -748,26 +824,25 @@ public class GameController {
         }
     }
 
-
-
+    /**
+     * Resets the purchase Mode to allow cancellations of purchases
+     * Helper Method
+     * @author Michelle Lee
+     */
     private void resetPurchaseMode() {
-        /**
-         * Resets the purchase Mode
-         * Helper Method
-         * @author Michelle Lee
-         */
         isPurchaseMode = false;
         selectedTowerType = null;
         gamePane.setCursor(null);  // Reset cursor to default
     }
 
+    /**
+     * When the Sell button is clicked, and we have a tower selected, it will sell the tower and add money to the users coin balance
+     * It will remove the selectedTower from its respective array (main or reserve) and remove the tower's image from the game map
+     * @param actionEvent When the 'Sell' Button is clicked this method is run
+     * @author Michelle Lee
+     */
     @FXML
     public void sell(ActionEvent actionEvent) {
-        /**
-         * Allows deletion of the tower and refunds the money at a depreciated cost
-         * @author Michelle Lee
-         */
-
         if (selectedTower != null) {
             // Refund the tower sell value to the player
             Tower tower = towersMap.get(selectedTower);
@@ -776,18 +851,15 @@ public class GameController {
                 int refund = shop.getSellValue(towerType, roundNumber);
                 coinBalance += refund;
                 updatePlayerCoins();
-
                 // Remove the selected tower from the gamePane
                 ((Pane) trackDefault.getParent()).getChildren().remove(radiusCircle);
                 gamePane.getChildren().remove(selectedTower);
-
                 // Checks if it is a Main or Reserve tower and removes it from respective Array
                 if (mainTowers.contains(tower)) {
                     mainTowers.remove(tower);
                 } else if (reserveTowers.contains(tower)) {
                     reserveTowers.remove(tower);
                 }
-
                 towersMap.remove(selectedTower);
                 selectedTower = null;
                 gamePane.setCursor(null);
@@ -795,20 +867,16 @@ public class GameController {
             }
         }
     }
-
-
-
+    /**
+     * When a tower is clicked, this method is called and will make the Tower Stats GUI visible.
+     * the Tower Stats GUI will show the stats of the tower selected only.
+     * @param event passes through the tower that was clicked before the checkTowerStats method was called
+     * @author Michelle Lee
+     */
     @FXML
     private void checkTowerStats(MouseEvent event) {
-        /**
-         * When a tower is clicked, make the Tower Stats GUI visible and show the stats of the tower clicked
-         * @author Michelle Lee
-         */
-
         ImageView newSelectedTower = (ImageView) event.getSource();
-
-
-        // Check if a tower was previously selected
+        // Check if a tower is selected
         if (selectedTower != null) {
             ((Pane) trackDefault.getParent()).getChildren().remove(radiusCircle);
             Tower checkTower = towersMap.get(selectedTower);
@@ -817,22 +885,19 @@ public class GameController {
             if (checkTower.getBuffState()) {
                 //Keeps highlight on if buffed by random event
                 checkTower.applyBuffHighlight(true);
-            } // If destroyed make the repair button visible
+            }
         }
-
         // Apply shadow effect to the newly selected tower
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.RED);
         dropShadow.setRadius(20);
         newSelectedTower.setEffect(dropShadow);
-
         selectedTower = newSelectedTower;
         towerStats.setVisible(true);
-
         Tower tower = towersMap.get(newSelectedTower);
 
         if (tower != null) {
-            // Setter Methods
+            // Setter Methods for the GUI of the Tower's Stats
             towerNameLabel.setText(tower.getName());
             resourceTypeLabel.setText(tower.getResourceType());
             reloadSpeedLabel.setText(String.valueOf(tower.getReloadSpeed()));
@@ -840,32 +905,29 @@ public class GameController {
             levelLabel.setText(String.valueOf(tower.getTowerLevel()));
             activeLabel.setText(tower.getTowerState() ? "Active" : "Inactive");
             inventoryLocationLabel.setText(tower.getInventoryLocation());
-
             //Get and display sell value
             String towerType = tower.getResourceType();
             int sellPrice = shop.getSellValue(towerType, roundNumber);
             sellLabel.setText(String.valueOf(sellPrice));
-
-            // RANGE?
+            // RANGE
             radiusCircle = new Circle(tower.getX(), tower.getY(), tower.getRadius());
             radiusCircle.setFill(null);
             radiusCircle.setStroke(Color.RED);
             ((Pane) trackDefault.getParent()).getChildren().add(radiusCircle);
-
         }
         String imagePath = getTowerImagePath(tower.getResourceType());
         selectedTowerImage.setImage(new Image(imagePath));
-
     }
 
 
-    /**
-     * Prompts user to select desired difficulty when the round starts. Launches round based on
-     * difficulty.
-     * @author Gordon Homewood
-     */
     @FXML
     public void roundButtonClicked(ActionEvent event) {
+        /**
+         * Prompts user to select desired difficulty when the round starts. Launches round based on
+         * difficulty.
+         * @author Gordon Homewood
+         */
+
         Dialog<ButtonType> userNameDialog = new Dialog<>();
         userNameDialog.setTitle("Choose Round Difficulty");
         int nextRound = roundNumber + 1;
@@ -927,14 +989,15 @@ public class GameController {
         switchInventory.setDisable(false); // Disable switching towers between inventories until the end of the round
     }
 
-    /**
-     *When difficulty is selected, this method is called and the round in launched. This method is mainly
-     * responsible for initializing the round, calling methods and other classes to increment rounds, update lives,
-     * run random events and establishing general logic.
-     *
-     * @author Gordon Homewood
-     */
     private void launchRound() {
+        /**
+         *When difficulty is selected, this method is called and the round in launched. This method is mainly
+         * responsible for initializing the round, calling methods and other classes to increment rounds, update lives,
+         * run random events and establishing general logic.
+         *
+         * @author Gordon Homewood
+         */
+
         // Initializing variables for new round
         instructionLabel.setText("Don't let the carts destroy your goldmine!");
         roundButton.setDisable(true);
@@ -947,7 +1010,7 @@ public class GameController {
         runRandomEvents();
 
         ArrayList<Integer> cartTypeList = getCartNumber();
-        newRound = new LoadRound(cartDefault, path, cartTypeList);
+        newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
         for (Tower tower : mainTowers) {
             // Draws the towers on correct layer and increments list of full rounds tower is used in
             ((Pane) trackDefault.getParent()).getChildren().remove(tower.getImage());
@@ -967,11 +1030,11 @@ public class GameController {
         }
     }
 
-    /** Creates a new RandomEvent class and applies the results of the random event
-     * to the relevant impacted towers
-     * @author Gordon Homewood
-     */
     private void runRandomEvents() {
+        /** Creates a new RandomEvent class and applies the results of the random event
+         * to the relevant impacted towers
+         * @author Gordon Homewood
+         */
         RandomEvent towerBreaks = new RandomEvent(mainTowers, difficulty,roundNumber);
         Tower brokenTower = towerBreaks.getAffectedTowerBreak();
         if (brokenTower != null) {
@@ -988,15 +1051,16 @@ public class GameController {
         }
     }
 
-    /**
-     * Generates how many carts of each type should be spawned in a round, based on round number. Also
-     * sets goldMine to the correct health for the round.
-     *
-     * @return A list of cart numbers, where index 1 = bronze, index 2 = silver and index 3 = gold carts to
-     * be spawned in the round level.
-     * @author Gordon Homewood
-     */
     private ArrayList<Integer> getCartNumber() {
+        /**
+         * Generates how many carts of each type should be spawned in a round, based on round number. Also
+         * sets goldMine to the correct health for the round.
+         *
+         * @return A list of cart numbers, where index 1 = bronze, index 2 = silver and index 3 = gold carts to
+         * be spawned in the round level.
+         * @author Gordon Homewood
+         */
+
         //Set health based on difficulty
         if (difficulty.equals("Easy")) {
             goldMine.setHealth(5);
@@ -1038,16 +1102,16 @@ public class GameController {
 
     }
 
-    /**
-     * Stops the round when called in the collisionTimer. This allows the game to handle
-     * updates as the round finishes, such as awarding money, resetting tower buff, stopping
-     * collisionTimer and renabling inventory.
-     *
-     * @param state which decides if the game should continue or not.
-     *
-     * @author Gordon Homewood
-     */
     private void stopRound(boolean state) {
+        /**
+         * Stops the round when called in the collisionTimer. This allows the game to handle
+         * updates as the round finishes, such as awarding money, resetting tower buff, stopping
+         * collisionTimer and renabling inventory.
+         *
+         * @param state which decides if the game should continue or not.
+         *
+         * @author Gordon Homewood
+         */
         if (roundNumber > totalRounds - 1 && state) {
             // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);
@@ -1080,14 +1144,11 @@ public class GameController {
         }
     }
 
-    /**
-     * Decides how much money should be awarded based on the difficulty of the round.
-     * Makes sure money is rounded up to nearest mod 5 - for consistency. Also
-     * updates the points with the total money awarded.
-     *
-     * @author Gordon Homewood
-     */
     private void calculateIncome() {
+        /**
+         * Decides how much money should be awarded based on the difficulty of the round
+         */
+
         if (difficulty.equals("Easy")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.5);
             int roundedAward = (int) (Math.ceil((double) moneyAwarded / 5) * 5);
@@ -1117,75 +1178,74 @@ public class GameController {
     }
 
 
-
-
+    /**
+     * This method allows the GameEndingController to Run and sets up for the game Ending Controller to run with the correct
+     * variables to display.
+     * @param won A boolean value advising on whether the user has won (true) or lots (false)
+     * @param songPath String of the path of the song
+     */
     @FXML
     private void launchEndScreen(boolean won, String songPath) {
         /**
          Launches the ending screen once won or losing
          @author Michelle Lee
          */
-
         if (gameOverInitiated) {
             // If already in game over loop, don't let function cause
             // infinite loop of opening game over screen
             return;
         }
-
         gameOverInitiated = true;
         instructionLabel.setText("Game Over!");
         mediaPlayer.stop();
-
-        collisionTimer = null; //Clear track and animations
+        //Clear track and animations
+        collisionTimer = null;
         for (Cart cart : cartList) {
             cart.despawn();
         }
-
-        ImageView image = new ImageView("Art/Factions/Knights/Troops/Dead/Dead.png"); //Display gameover image
+        //Display gameover image
+        ImageView image = new ImageView("Art/Factions/Knights/Troops/Dead/Dead.png");
         image.setX(250);
         image.setY(250);
-
         ((Pane) trackDefault.getParent()).getChildren().add(image);
-
+        // Close the game Screen
         stage = (Stage) gamePane.getScene().getWindow();
         stage.close();
         Stage endingScreen = this.primaryStage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gameEnd.fxml"));
         Parent gameEndingRoot;
-
         try {
             gameEndingRoot = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-
-        // Set up the scene for the mapSelection Window
+        // Set up the scene for the Game Ending Window
         Scene gameEnding = new Scene(gameEndingRoot);
         endingScreen.setScene(gameEnding);
         endingScreen.setTitle("Game Over!");
-
+        // Pass the appropriate variable sthrough to gameendingController
         GameEndingController gameEndingController = loader.getController();
         gameEndingController.gameStats(won ? "Congratulations!" : "You lose..", totalRounds, roundNumber, totalCoins, totalPoints, won ? "Great job! We are proud of you!" : "Try again next time!");
-
+        // Play winning or losing song
         gameEndingController.playEndingSong(songPath);
-
         // Show Game End Stats Screen
         endingScreen.show();
     }
 
+    /**
+     * A Method that allows the user to quit the application upon clicking the quit button
+     * It makes use of a dialog box to inform the user that they are about to quit
+     * @param actionEvent When the 'Quit' Button is clicked this method is called
+     * @author Michelle Lee
+     */
     @FXML
     private void quitGame(ActionEvent actionEvent) {
-        /**
-         * A Method that allows the user to quit the application upon clicking the quit button
-         * @author Michelle Lee
-         */
         // Have a pop-up appear if the user clicks 'Quit' Button
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Quit");
         alert.setHeaderText("You are about to quit. Please be advised this game DOES NOT support saves! ");
         alert.setContentText("Are you sure you want to quit?");
-
         // If User clicks 'Confirm', Quit game
         if (alert.showAndWait().get() == ButtonType.OK) {
             stage = (Stage) gamePane.getScene().getWindow();
@@ -1193,5 +1253,3 @@ public class GameController {
         }
     }
 }
-// Add other methods and properties as needed
-

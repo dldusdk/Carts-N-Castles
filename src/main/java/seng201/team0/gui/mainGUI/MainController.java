@@ -11,6 +11,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import seng201.team0.gui.gameGUI.GameController;
 
@@ -33,8 +34,8 @@ public class MainController {
     @FXML
     private AnchorPane mainscreenPane;
     Stage stage;
-//    String musicPath = "src/main/resources/Music/bg/mainscreenbgm.mp3";
-final String musicPath = "/Music/bg/mainscreenbgm.mp3";
+
+    final String musicPath = "/Music/bg/mainscreenbgm.mp3";
     private boolean nameRecieved = false;
 
     /**
@@ -56,7 +57,8 @@ final String musicPath = "/Music/bg/mainscreenbgm.mp3";
 //        Media media = new Media(new File(musicPath).toURI().toString());
         Media media = new Media(Objects.requireNonNull(getClass().getResource(musicPath)).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.play();
+        mediaPlayer.setCycleCount(1000);
     }
 
     /**

@@ -1,5 +1,6 @@
 package seng201.team0.services.settings;
 
+
 /**
  * Settings class to define level settings.
  *

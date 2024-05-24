@@ -26,11 +26,14 @@ public class CartAnimation {
     private int rotateCount = 0;
 
     /**
-     * @param cart
-     * @param rotationPaths
-     * @param cartPaths
-     * @param cartSpeed
-     * @param cartSpawnCoord
+     * Creates a cart animation object, receiving parameters based on the cart it's animating.
+     *
+     * @param cart ImageView of the cart which is drawn onto the pane and is animated on the screen.
+     * @param rotationPaths Rotation paths (direction and orientation) 2D int array read from a file
+     * @param cartPaths Cart paths (x and y coords) 2D int array read from a file
+     * @param cartSpeed Cart speed parameter which will determine the speed of the animation and thus, how far
+     *                  the cart traverses across the screen.
+     * @param cartSpawnCoord Starting point of the animation based on where the cart starts.
      */
     public CartAnimation(ImageView cart, ArrayList<ArrayList<Integer>>rotationPaths,
                          ArrayList<ArrayList<Integer>>cartPaths,double cartSpeed,int cartSpawnCoord){
@@ -49,7 +52,15 @@ public class CartAnimation {
         buildTransitionList();
     }
 
-    public void buildTransitionList() {
+
+    /**
+     * This method reads a 2D array based on the provided 2D array of the coordinate list
+     * given in the constructor. It calls the method CreateNewAnimation after it accesses each coordinate, giving it
+     * a type and initial coordinates.
+     *
+     * @author Gordon Homewood
+     */
+        public void buildTransitionList() {
 
         for (int i = 0; i < cartPathList.size(); i++) {
             ArrayList<Integer> currentRow = cartPathList.get(i);
@@ -70,7 +81,20 @@ public class CartAnimation {
     }
 
 
+    /**
+     * This method adds a new transition and rotatation to the transition list and computes the correct times,
+     * coordinates and orientation of each cart based on the cart's speed and given coordinates.
+     * For the purposes of the game, the animation can only either be in X or Y, as the cart does not have to
+     * move diagonally.
+     *
+     * @param type should be either x or y
+     * @param firstCoord gives the initial start of the translateTransition
+     * @param secondCoord gives the end goal of the translateTransition
+     *
+     * @author Gordon Homewood
+     */
     public void createNewAnimation(String type, int firstCoord, int secondCoord){
+
         if(transitionList.isEmpty()){
             firstCoord = cartSpawn;
         }
@@ -78,14 +102,16 @@ public class CartAnimation {
         TranslateTransition transition = new TranslateTransition();
         transition.setInterpolator(Interpolator.LINEAR); //Removes default speed ramp up on animation
 
+        //Calculate distance based on physics t=d/v
         double distance = Math.abs(secondCoord - firstCoord);
         transition.setDuration(Duration.seconds(getTime(distance)));
         transition.setNode(cartSource);
 
+        // Rotation between each TranslateTransition, as the cart hits corner
         RotateTransition rotation = new RotateTransition();
         rotation.setNode(cartSource);
         rotation.setByAngle(rotationDirectionList.get(rotateCount).getFirst());
-        rotation.setDuration(Duration.seconds(0.2));
+        rotation.setDuration(Duration.seconds(0.2)); //rotation is constant for all carts
         rotationList.add(rotation);
 
         rotateCount++;
@@ -101,17 +127,37 @@ public class CartAnimation {
         transitionList.add(transition);
     }
 
+
+    /**
+     * This method returns distance/speed to get how long the cart should travel for to
+     * maintain consistent speed
+     *
+     * @param distance absolutle distance cart is travelling
+     * @return distance / cart's speed
+     *
+     *  * @author Gordon Homewood
+     */
     public double getTime(double distance){
         //Returns time = distance/speed
         return(distance / speed);
     }
 
 
-    public ArrayList<TranslateTransition> getAnimations(){
-        return(transitionList);
-    }
+    /**
+     * Getter method to return the list of translate Transitions for the cart
+     * @return list of translate transitions.
+     *
+     * @author Gordon Homewood
+     */
+    public ArrayList<TranslateTransition> getAnimations(){return(transitionList);}
 
 
+    /**
+     * Getter method to return the list of rotate Transitions for the cart
+     * @return list of rotate transitions.
+     *
+     * @author Gordon Homewood
+     */
     public ArrayList<RotateTransition> getRotations() {return(rotationList);}
 }
 

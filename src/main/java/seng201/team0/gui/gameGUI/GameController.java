@@ -182,6 +182,16 @@ public class GameController {
     private GoldMine goldMine;
 
     private AnimationTimer collisionTimer = new AnimationTimer() {
+        /**
+         * This method overwrites the animationTimer handle method. It calls a separate class,
+         * GameEventHandler to handle the logic. This method is internal to handling the interaction
+         * between the logic and the graphics, as it updates at around 60 times a second to ensure the game
+         * runs smoothly. Only updates in rounds - when game logic is needed.
+         *
+         * @param timestamp gives the time of each loop in the animation timer
+         *
+         * @author Gordon Homewood
+         */
         @Override
         public void handle(long timestamp) {
             GameEventHandler gameEventHandler = new GameEventHandler(cartList);
@@ -197,15 +207,18 @@ public class GameController {
                     playerLives.setText(String.valueOf(goldMine.getHealth()));
                     updatePlayerLives();
                     if (goldMine.getHealth() <= 0) {
+                        // End game if gold mine destroyed
                         stopRound(false);
                     }
                 }
-                if (updateType.equals("Fail")) {
+                if (updateType.equals("RoundWon")) {
+                    // End round if gold mine still standing and all cart destroyed
                     collisionTimer.stop();
                     stopRound(true);
                 }}
             }
             else{
+                //Fail-safe to stop round
                 stopRound(true);
             }
 

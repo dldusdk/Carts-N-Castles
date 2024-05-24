@@ -295,6 +295,14 @@ public class Tower {
     public boolean getDestroyed() {
         return (this.destroyed);
     }
+
+    /**
+     * This method should be called to change the destroyed state of the tower.
+     * Also updates the image to the destroyed version of the tower.
+     *
+     * @param destroyed boolean value for destroyed state.
+     * @author Gordon Homewood
+     */
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
         if (this.destroyed) {

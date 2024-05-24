@@ -99,7 +99,6 @@ public class Shop {
         switch (towerType) {
             case "Bronze":
                 if (bronzeTowerStock > 0) {
-                    System.out.println(bronzeTowerStock);
                     bronzeTowerStock--;
                 }
                 break;

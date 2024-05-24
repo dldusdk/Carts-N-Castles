@@ -114,6 +114,7 @@ public class GameEndingController {
         Scene scene = new Scene(root, 1472, 1024);
         stage.setResizable(false);
         stage.setScene(scene);
+        stage.setTitle("SENG201 Project");
         stage.show();
     }
 

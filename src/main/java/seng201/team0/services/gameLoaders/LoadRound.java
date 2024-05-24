@@ -57,7 +57,6 @@ public class LoadRound {
     public void loadCarts(String type, int cartNumber, String imageSource){
         Random random = new Random();
         double sizeDouble = 1;
-        System.out.println(cartNumber);
         for (int i=0;i < cartNumber; i++){
             int sizeFactor = random.ints(1,4).findFirst().getAsInt();
             if(sizeFactor == 1){

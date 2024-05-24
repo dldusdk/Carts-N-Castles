@@ -13,505 +13,456 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="gamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            onMouseClicked="#paneClick" prefHeight="1024.0" prefWidth="1472.0" xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.gameGUI.GameController">
-   <Rectangle arcHeight="5.0" arcWidth="5.0" height="208.0" layoutY="-16.0" stroke="BLACK" strokeType="INSIDE"
-              width="1472.0">
+<AnchorPane fx:id="gamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#paneClick" prefHeight="1024.0" prefWidth="1472.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.gameGUI.GameController">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" height="208.0" layoutY="-16.0" stroke="BLACK" strokeType="INSIDE" width="1472.0">
       <fill>
          <LinearGradient>
             <stops>
                <Stop>
                   <color>
-                     <Color red="1.0" green="0.9692381024360657" blue="0.8100000023841858"/>
+                     <Color red="1.0" green="0.9692381024360657" blue="0.8100000023841858" />
                   </color>
                </Stop>
                <Stop offset="0.4117899819937797">
                   <color>
-                     <Color red="1.0" green="0.9340277910232544" blue="0.7361111044883728"/>
+                     <Color red="1.0" green="0.9340277910232544" blue="0.7361111044883728" />
                   </color>
                </Stop>
                <Stop offset="0.9932885906040269">
                   <color>
-                     <Color red="0.8684210777282715" green="0.8684210777282715" blue="0.8684210777282715"/>
+                     <Color red="0.8684210777282715" green="0.8684210777282715" blue="0.8684210777282715" />
                   </color>
                </Stop>
                <Stop offset="1.0">
                   <color>
-                     <Color red="0.8684210777282715" green="0.8684210777282715" blue="0.8684210777282715"/>
+                     <Color red="0.8684210777282715" green="0.8684210777282715" blue="0.8684210777282715" />
                   </color>
                </Stop>
             </stops>
          </LinearGradient>
       </fill>
    </Rectangle>
-   <Rectangle arcHeight="5.0" arcWidth="5.0" height="208.0" layoutX="1152.0" layoutY="-6.0" stroke="BLACK"
-              strokeType="INSIDE" width="330.0">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" height="208.0" layoutX="1152.0" layoutY="-6.0" stroke="BLACK" strokeType="INSIDE" width="330.0">
       <fill>
          <LinearGradient>
             <stops>
                <Stop>
                   <color>
-                     <Color red="1.0" green="0.9692381024360657" blue="0.8100000023841858"/>
+                     <Color red="1.0" green="0.9692381024360657" blue="0.8100000023841858" />
                   </color>
                </Stop>
                <Stop offset="0.4117899819937797">
                   <color>
-                     <Color red="1.0" green="0.9340277910232544" blue="0.7361111044883728"/>
+                     <Color red="1.0" green="0.9340277910232544" blue="0.7361111044883728" />
                   </color>
                </Stop>
                <Stop offset="0.9932885906040269">
                   <color>
-                     <Color red="0.8684210777282715" green="0.8684210777282715" blue="0.8684210777282715"/>
+                     <Color red="0.8684210777282715" green="0.8684210777282715" blue="0.8684210777282715" />
                   </color>
                </Stop>
                <Stop offset="1.0">
                   <color>
-                     <Color red="0.8684210777282715" green="0.8684210777282715" blue="0.8684210777282715"/>
+                     <Color red="0.8684210777282715" green="0.8684210777282715" blue="0.8684210777282715" />
                   </color>
                </Stop>
             </stops>
          </LinearGradient>
       </fill>
    </Rectangle>
-   <ScrollPane fx:id="generalShop" fitToHeight="true" fitToWidth="true" layoutX="1152.0" layoutY="198.0"
-               minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity"
-               pannable="true" prefHeight="826.0" prefViewportHeight="826.0" prefViewportWidth="320.0"
-               prefWidth="320.0">
+   <ScrollPane fx:id="generalShop" fitToHeight="true" fitToWidth="true" layoutX="1152.0" layoutY="198.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="826.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0">
       <VBox prefHeight="830.0" prefWidth="349.0">
          <padding>
-            <Insets bottom="50.0" left="5.0" right="5.0"/>
+            <Insets bottom="50.0" left="5.0" right="5.0" />
          </padding>
          <AnchorPane layoutX="15.0" layoutY="113.0" prefHeight="131.0" prefWidth="270.0">
-            <Button fx:id="bronzeTower" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0"
-                    prefWidth="160.0">
+            <Button fx:id="bronzeTower" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="160.0">
                <graphic>
                   <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
-                     <Image url="@../Art/Factions/Knights/Buildings/Tower/bronzeTower.png"/>
+                     <Image url="@../Art/Factions/Knights/Buildings/Tower/bronzeTower.png" />
                   </ImageView>
                </graphic>
                <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Button>
             <Label layoutX="276.0" layoutY="86.0" prefHeight="44.0" prefWidth="40.0" text="50">
                <font>
-                  <Font name="Minecraft" size="18.0"/>
+                  <Font name="Minecraft" size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="33.0" fitWidth="40.0" layoutX="237.0" layoutY="90.0" pickOnBounds="true"
-                       preserveRatio="true">
-               <Image url="@../Art/Shop/coin.png"/>
+            <ImageView fitHeight="33.0" fitWidth="40.0" layoutX="237.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../Art/Shop/coin.png" />
             </ImageView>
             <Label layoutX="167.0" layoutY="4.0" text="Bronze Tower">
                <font>
-                  <Font name="Minecraft" size="17.0"/>
+                  <Font name="Minecraft" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="bronzeStockLabel" layoutX="167.0" layoutY="97.0" prefHeight="17.0" prefWidth="65.0"
-                   text="Stock ">
+            <Label fx:id="bronzeStockLabel" layoutX="167.0" layoutY="97.0" prefHeight="17.0" prefWidth="65.0" text="Stock ">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="166.0" layoutY="29.0" text="Reload Speed: 2.0">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="166.0" layoutY="47.0" text="Load Amount: 0.25">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="167.0" layoutY="65.0" text="Range: 10">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
          </AnchorPane>
          <AnchorPane prefHeight="112.0" prefWidth="308.0">
-            <Button fx:id="silverTower" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0"
-                    prefWidth="160.0">
+            <Button fx:id="silverTower" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="160.0">
                <graphic>
-                  <ImageView fx:id="towerImageView" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true"
-                             preserveRatio="true">
-                     <Image url="@../Art/Factions/Knights/Buildings/Tower/silverTower.png"/>
+                  <ImageView fx:id="towerImageView" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../Art/Factions/Knights/Buildings/Tower/silverTower.png" />
                   </ImageView>
                </graphic>
             </Button>
             <Label layoutX="276.0" layoutY="83.0" prefHeight="44.0" prefWidth="33.0" text="100">
                <font>
-                  <Font name="Minecraft" size="18.0"/>
+                  <Font name="Minecraft" size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="silvertowerImage" fitHeight="129.0" fitWidth="77.0" layoutX="7.0"
-                       layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true"
-                       visible="false">
-               <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png"/>
+            <ImageView fx:id="silvertowerImage" fitHeight="129.0" fitWidth="77.0" layoutX="7.0" layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true" visible="false">
+               <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
             </ImageView>
-            <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="238.0" layoutY="89.0" pickOnBounds="true"
-                       preserveRatio="true">
-               <Image url="@../Art/Shop/coin.png"/>
+            <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="238.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../Art/Shop/coin.png" />
             </ImageView>
             <Label layoutX="166.0" text="Silver Tower">
                <font>
-                  <Font name="Minecraft" size="17.0"/>
+                  <Font name="Minecraft" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="silverStockLabel" layoutX="167.0" layoutY="96.0" prefHeight="17.0" prefWidth="65.0"
-                   text="Stock ">
+            <Label fx:id="silverStockLabel" layoutX="167.0" layoutY="96.0" prefHeight="17.0" prefWidth="65.0" text="Stock ">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="165.0" layoutY="26.0" text="Reload Speed: 1.5">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="166.0" layoutY="44.0" text="Load Amount: 0.75">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="166.0" layoutY="63.0" text="Range: 20">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
          </AnchorPane>
          <AnchorPane layoutX="15.0" layoutY="244.0" prefHeight="131.0" prefWidth="270.0">
-            <Button fx:id="goldTower" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0"
-                    prefWidth="160.0">
+            <Button fx:id="goldTower" mnemonicParsing="false" onMouseClicked="#buyTower" prefHeight="130.0" prefWidth="160.0">
                <graphic>
                   <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
-                     <Image url="@../Art/Factions/Knights/Buildings/Tower/goldTower.png"/>
+                     <Image url="@../Art/Factions/Knights/Buildings/Tower/goldTower.png" />
                   </ImageView>
                </graphic>
             </Button>
             <Label layoutX="278.0" layoutY="81.0" prefHeight="44.0" prefWidth="47.0" text="200">
                <font>
-                  <Font name="Minecraft" size="18.0"/>
+                  <Font name="Minecraft" size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="34.0" fitWidth="40.0" layoutX="238.0" layoutY="86.0" pickOnBounds="true"
-                       preserveRatio="true">
-               <Image url="@../Art/Shop/coin.png"/>
+            <ImageView fitHeight="34.0" fitWidth="40.0" layoutX="238.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../Art/Shop/coin.png" />
             </ImageView>
             <Label layoutX="172.0" layoutY="4.0" text="Gold Tower">
                <font>
-                  <Font name="Minecraft" size="17.0"/>
+                  <Font name="Minecraft" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="goldStockLabel" layoutX="169.0" layoutY="106.0" prefHeight="17.0" prefWidth="65.0"
-                   text="Stock ">
+            <Label fx:id="goldStockLabel" layoutX="169.0" layoutY="106.0" prefHeight="17.0" prefWidth="65.0" text="Stock ">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="164.0" layoutY="27.0" text="Reload Speed: 1.0">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="165.0" layoutY="45.0" text="Load Amount: 1.5">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="167.0" layoutY="65.0" text="Range: 45">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
          </AnchorPane>
       </VBox>
    </ScrollPane>
-   <ScrollPane fx:id="upgradeShop" fitToHeight="true" fitToWidth="true" layoutX="1155.0" layoutY="203.0"
-               minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity"
-               pannable="true" prefHeight="831.0" prefViewportHeight="826.0" prefViewportWidth="320.0"
-               prefWidth="320.0" visible="false">
+   <ScrollPane fx:id="upgradeShop" fitToHeight="true" fitToWidth="true" layoutX="1155.0" layoutY="203.0" minHeight="-Infinity" minViewportHeight="826.0" minViewportWidth="320.0" minWidth="-Infinity" pannable="true" prefHeight="831.0" prefViewportHeight="826.0" prefViewportWidth="320.0" prefWidth="320.0" visible="false">
       <VBox prefHeight="830.0" prefWidth="320.0">
          <padding>
-            <Insets bottom="50.0" left="5.0" right="5.0"/>
+            <Insets bottom="50.0" left="5.0" right="5.0" />
          </padding>
          <AnchorPane prefHeight="126.0" prefWidth="308.0">
-            <Button fx:id="upgradeSpeed" mnemonicParsing="false" onMouseClicked="#buyUpgrade"
-                    prefHeight="130.0" prefWidth="156.0">
+            <Button fx:id="upgradeSpeed" mnemonicParsing="false" onMouseClicked="#buyUpgrade" prefHeight="130.0" prefWidth="156.0">
                <graphic>
                   <ImageView fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
-                     <Image url="@../Art/Shop/speedPotion.png"/>
+                     <Image url="@../Art/Shop/speedPotion.png" />
                   </ImageView>
                </graphic>
             </Button>
             <Label layoutX="255.0" layoutY="73.0" prefHeight="44.0" prefWidth="54.0" text="200">
                <font>
-                  <Font name="Minecraft" size="18.0"/>
+                  <Font name="Minecraft" size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="silvertowerImage1" fitHeight="129.0" fitWidth="77.0" layoutX="7.0"
-                       layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true"
-                       visible="false">
-               <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png"/>
+            <ImageView fx:id="silvertowerImage1" fitHeight="129.0" fitWidth="77.0" layoutX="7.0" layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true" visible="false">
+               <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
             </ImageView>
             <Label layoutX="163.0" layoutY="8.0" text="Potion of Speed">
                <font>
-                  <Font name="Minecraft" size="17.0"/>
+                  <Font name="Minecraft" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="161.0" layoutY="33.0" prefHeight="25.0" prefWidth="176.0"
-                   text="Increases the rate of fire">
+            <Label layoutX="161.0" layoutY="33.0" prefHeight="25.0" prefWidth="176.0" text="Increases the rate of fire">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
-            <ImageView fitHeight="33.0" fitWidth="28.0" layoutX="215.0" layoutY="80.0" pickOnBounds="true"
-                       preserveRatio="true">
-               <Image url="@../Art/Shop/coin.png"/>
+            <ImageView fitHeight="33.0" fitWidth="28.0" layoutX="215.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../Art/Shop/coin.png" />
             </ImageView>
-            <Label fx:id="speedLevel" layoutX="169.0" layoutY="100.0" text="Label"/>
+            <Label fx:id="speedLevel" layoutX="169.0" layoutY="100.0" text="Label" />
          </AnchorPane>
          <AnchorPane layoutX="15.0" layoutY="10.0" prefHeight="126.0" prefWidth="308.0">
-            <Button fx:id="upgradeRange" mnemonicParsing="false" onMouseClicked="#buyUpgrade"
-                    prefHeight="130.0" prefWidth="156.0">
+            <Button fx:id="upgradeRange" mnemonicParsing="false" onMouseClicked="#buyUpgrade" prefHeight="130.0" prefWidth="156.0">
                <graphic>
-                  <ImageView fx:id="towerImageView11" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true"
-                             preserveRatio="true">
-                     <Image url="@../Art/Shop/rangePotion.png"/>
+                  <ImageView fx:id="towerImageView11" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../Art/Shop/rangePotion.png" />
                   </ImageView>
                </graphic>
             </Button>
             <Label layoutX="259.0" layoutY="79.0" prefHeight="44.0" prefWidth="47.0" text="250">
                <font>
-                  <Font name="Minecraft" size="18.0"/>
+                  <Font name="Minecraft" size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="silvertowerImage11" fitHeight="129.0" fitWidth="77.0" layoutX="7.0"
-                       layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true"
-                       visible="false">
-               <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png"/>
+            <ImageView fx:id="silvertowerImage11" fitHeight="129.0" fitWidth="77.0" layoutX="7.0" layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true" visible="false">
+               <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
             </ImageView>
             <Label layoutX="161.0" layoutY="14.0" text="Potion of Range" textAlignment="JUSTIFY">
                <font>
-                  <Font name="Minecraft" size="17.0"/>
+                  <Font name="Minecraft" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="159.0" layoutY="37.0" prefHeight="25.0" prefWidth="176.0"
-                   text="Increases the shoot range">
+            <Label layoutX="159.0" layoutY="37.0" prefHeight="25.0" prefWidth="176.0" text="Increases the shoot range">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
-            <ImageView fitHeight="33.0" fitWidth="28.0" layoutX="216.0" layoutY="87.0" pickOnBounds="true"
-                       preserveRatio="true">
-               <Image url="@../Art/Shop/coin.png"/>
+            <ImageView fitHeight="33.0" fitWidth="28.0" layoutX="216.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../Art/Shop/coin.png" />
             </ImageView>
-            <Label layoutX="165.0" layoutY="108.0" text="Label"/>
+            <Label layoutX="165.0" layoutY="108.0" text="Label" />
          </AnchorPane>
          <AnchorPane fx:id="r" layoutX="15.0" layoutY="270.0" prefHeight="126.0" prefWidth="308.0">
-            <Button fx:id="upgradeFill" mnemonicParsing="false" onMouseClicked="#buyUpgrade" prefHeight="130.0"
-                    prefWidth="156.0">
+            <Button fx:id="upgradeFill" mnemonicParsing="false" onMouseClicked="#buyUpgrade" prefHeight="130.0" prefWidth="156.0">
                <graphic>
-                  <ImageView fx:id="towerImageView1111" fitHeight="119.0" fitWidth="128.0"
-                             pickOnBounds="true" preserveRatio="true">
-                     <Image url="@../Art/Shop/fillPotion.png"/>
+                  <ImageView fx:id="towerImageView1111" fitHeight="119.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../Art/Shop/fillPotion.png" />
                   </ImageView>
                </graphic>
             </Button>
-            <ImageView fx:id="silvertowerImage1111" fitHeight="129.0" fitWidth="77.0" layoutX="7.0"
-                       layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true"
-                       visible="false">
-               <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png"/>
+            <ImageView fx:id="silvertowerImage1111" fitHeight="129.0" fitWidth="77.0" layoutX="7.0" layoutY="1.0" onMouseClicked="#buyTower" pickOnBounds="true" preserveRatio="true" visible="false">
+               <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
             </ImageView>
             <Label layoutX="160.0" layoutY="2.0" text="Potion of Filling">
                <font>
-                  <Font name="Minecraft" size="17.0"/>
+                  <Font name="Minecraft" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="158.0" layoutY="25.0" prefHeight="25.0" prefWidth="176.0"
-                   text="Increases the load amount">
+            <Label layoutX="158.0" layoutY="25.0" prefHeight="25.0" prefWidth="176.0" text="Increases the load amount">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
             <Label layoutX="159.0" layoutY="43.0" prefHeight="25.0" prefWidth="176.0" text="per cart.">
                <font>
-                  <Font name="Minecraft" size="12.0"/>
+                  <Font name="Minecraft" size="12.0" />
                </font>
             </Label>
-            <ImageView fitHeight="33.0" fitWidth="28.0" layoutX="217.0" layoutY="91.0" pickOnBounds="true"
-                       preserveRatio="true">
-               <Image url="@../Art/Shop/coin.png"/>
+            <ImageView fitHeight="33.0" fitWidth="28.0" layoutX="217.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../Art/Shop/coin.png" />
             </ImageView>
             <Label layoutX="262.0" layoutY="83.0" prefHeight="44.0" prefWidth="47.0" text="300">
                <font>
-                  <Font name="Minecraft" size="18.0"/>
+                  <Font name="Minecraft" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="172.0" layoutY="96.0" text="Label"/>
+            <Label layoutX="172.0" layoutY="96.0" text="Label" />
          </AnchorPane>
       </VBox>
    </ScrollPane>
-   <ImageView fx:id="trackDefault" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
-   <ImageView fx:id="cartDefault" fitHeight="150.0" fitWidth="200.0" layoutX="22.0" layoutY="14.0" pickOnBounds="true"
-              preserveRatio="true"/>
+   <ImageView fx:id="trackDefault" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fx:id="cartDefault" fitHeight="150.0" fitWidth="200.0" layoutX="22.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
    <Label fx:id="playerCoins" layoutX="1225.0" layoutY="21.0" prefHeight="17.0" prefWidth="65.0" text="0">
       <font>
-         <Font name="Minecraft" size="26.0"/>
+         <Font name="Minecraft" size="26.0" />
       </font>
    </Label>
-   <Label fx:id="instructionLabel" alignment="CENTER" layoutX="2.0" layoutY="158.0" prefHeight="29.0" prefWidth="1150.0"
-          text="Place towers down, fill up the carts, earn money, buy upgrades, win the game!" textOverrun="CLIP">
+   <Label fx:id="instructionLabel" alignment="CENTER" layoutX="2.0" layoutY="158.0" prefHeight="29.0" prefWidth="1150.0" text="Place towers down, fill up the carts, earn money, buy upgrades, win the game!" textOverrun="CLIP">
       <font>
-         <Font name="Minecraft" size="25.0"/>
+         <Font name="Minecraft" size="25.0" />
       </font>
    </Label>
-   <AnchorPane fx:id="towerStats" prefHeight="162.0" prefWidth="1152.0" style="-fx-background-color: #C4C1B8;"
-               visible="false">
-      <ImageView fx:id="selectedTowerImage" fitHeight="156.0" fitWidth="87.0" layoutX="15.0" layoutY="5.0"
-                 pickOnBounds="true" preserveRatio="true">
-         <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png"/>
+   <AnchorPane fx:id="towerStats" prefHeight="162.0" prefWidth="1152.0" style="-fx-background-color: #C4C1B8;" visible="false">
+      <ImageView fx:id="selectedTowerImage" fitHeight="156.0" fitWidth="87.0" layoutX="15.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../Art/Factions/Knights/Buildings/Tower/Tower_Blue.png" />
       </ImageView>
       <Label layoutX="116.0" layoutY="17.0" text="Tower Name:">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label fx:id="towerNameLabel" layoutX="233.0" layoutY="17.0" text="Amazing Tower 1">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label layoutX="121.0" layoutY="47.0" text="Resource Type:">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label layoutX="120.0" layoutY="92.0" text="Resource Load Amount:">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label layoutX="438.0" layoutY="46.0" text="Current Level:">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label layoutX="121.0" layoutY="70.0" text="Reload Speed:">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label layoutX="438.0" layoutY="71.0" text="Active:">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
-      <Button layoutX="953.0" layoutY="14.0" mnemonicParsing="false" onAction="#sell" prefHeight="36.0"
-              prefWidth="176.0" text="Sell" textAlignment="CENTER">
+      <Button layoutX="953.0" layoutY="14.0" mnemonicParsing="false" onAction="#sell" prefHeight="36.0" prefWidth="176.0" text="Sell" textAlignment="CENTER">
          <font>
-            <Font name="Minecraft" size="14.0"/>
+            <Font name="Minecraft" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="upgrades" layoutX="952.0" layoutY="56.0" mnemonicParsing="false" onAction="#towerUpgrades"
-              prefHeight="39.0" prefWidth="176.0" text="Tower Upgrades" textAlignment="CENTER">
+      <Button fx:id="upgrades" layoutX="952.0" layoutY="56.0" mnemonicParsing="false" onAction="#towerUpgrades" prefHeight="39.0" prefWidth="176.0" text="Tower Upgrades" textAlignment="CENTER">
          <font>
-            <Font name="Minecraft" size="14.0"/>
+            <Font name="Minecraft" size="14.0" />
          </font>
       </Button>
       <Label fx:id="resourceTypeLabel" layoutX="260.0" layoutY="48.0" text="Silver">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label fx:id="reloadSpeedLabel" layoutX="244.0" layoutY="70.0" text="Silver">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label fx:id="loadAmountLabel" layoutX="324.0" layoutY="92.0" text="Silver">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label fx:id="levelLabel" layoutX="564.0" layoutY="46.0" text="Silver">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
       <Label layoutX="436.0" layoutY="93.0" text="Inventory Location:">
          <font>
-            <Font name="Minecraft" size="17.0"/>
+            <Font name="Minecraft" size="17.0" />
          </font>
       </Label>
-      <Button fx:id="repairButton" layoutX="764.0" layoutY="103.0" mnemonicParsing="false" onAction="#repairTower"
-              prefHeight="39.0" prefWidth="176.0" text="200 Repair" textAlignment="CENTER">
+      <Button fx:id="repairButton" layoutX="764.0" layoutY="103.0" mnemonicParsing="false" onAction="#repairTower" prefHeight="39.0" prefWidth="176.0" text="200 Repair" textAlignment="CENTER">
          <font>
-            <Font name="Minecraft" size="14.0"/>
+            <Font name="Minecraft" size="14.0" />
          </font>
          <graphic>
             <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-               <Image url="@../Art/Shop/coin.png"/>
+               <Image url="@../Art/Shop/coin.png" />
             </ImageView>
          </graphic>
       </Button>
-      <Label fx:id="activeLabel" layoutX="506.0" layoutY="75.0" prefHeight="17.0" prefWidth="65.0" text="Active!"/>
-      <Label fx:id="inventoryLocationLabel" layoutX="609.0" layoutY="97.0" prefHeight="17.0" prefWidth="65.0"
-             text="Main"/>
-      <ImageView fitHeight="36.0" fitWidth="27.0" layoutX="879.0" layoutY="18.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../Art/Shop/coin.png"/>
+      <Label fx:id="activeLabel" layoutX="506.0" layoutY="75.0" prefHeight="17.0" prefWidth="65.0" text="Active!" />
+      <Label fx:id="inventoryLocationLabel" layoutX="609.0" layoutY="97.0" prefHeight="17.0" prefWidth="65.0" text="Main" />
+      <ImageView fitHeight="36.0" fitWidth="27.0" layoutX="879.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../Art/Shop/coin.png" />
       </ImageView>
-      <Label fx:id="sellLabel" layoutX="919.0" layoutY="23.0" text="0"/>
-      <Button fx:id="switchInventory" layoutX="952.0" layoutY="103.0" mnemonicParsing="false"
-              onAction="#switchInventory" prefHeight="39.0" prefWidth="176.0" text="Switch Inventory"
-              textAlignment="CENTER">
+      <Label fx:id="sellLabel" layoutX="919.0" layoutY="23.0" text="0" />
+      <Button fx:id="switchInventory" layoutX="952.0" layoutY="103.0" mnemonicParsing="false" onAction="#switchInventory" prefHeight="39.0" prefWidth="176.0" text="Switch Inventory" textAlignment="CENTER">
          <font>
-            <Font name="Minecraft" size="14.0"/>
+            <Font name="Minecraft" size="14.0" />
          </font>
       </Button>
    </AnchorPane>
-   <ImageView fitHeight="47.0" fitWidth="40.0" layoutX="1165.0" layoutY="15.0" pickOnBounds="true"
-              preserveRatio="true">
-      <Image url="@../Art/Shop/coin.png"/>
+   <ImageView fitHeight="47.0" fitWidth="40.0" layoutX="1165.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../Art/Shop/coin.png" />
    </ImageView>
-   <Button layoutX="1325.0" layoutY="137.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="53.0"
-           prefWidth="137.0" text="Quit" textAlignment="CENTER">
+   <Button layoutX="1325.0" layoutY="137.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="53.0" prefWidth="137.0" text="Quit" textAlignment="CENTER">
       <font>
-         <Font name="Minecraft" size="14.0"/>
+         <Font name="Minecraft" size="14.0" />
       </font>
    </Button>
-   <Button layoutX="1325.0" layoutY="72.0" mnemonicParsing="false" onAction="#generalShop" prefHeight="53.0"
-           prefWidth="137.0" text="Shop" textAlignment="CENTER">
+   <Button layoutX="1325.0" layoutY="72.0" mnemonicParsing="false" onAction="#generalShop" prefHeight="53.0" prefWidth="137.0" text="Shop" textAlignment="CENTER">
       <font>
-         <Font name="Minecraft" size="14.0"/>
+         <Font name="Minecraft" size="14.0" />
       </font>
    </Button>
-   <Button fx:id="roundButton" layoutX="1324.0" layoutY="8.0" mnemonicParsing="false" onAction="#roundButtonClicked"
-           prefHeight="53.0" prefWidth="139.0" text="START">
+   <Button fx:id="roundButton" layoutX="1324.0" layoutY="8.0" mnemonicParsing="false" onAction="#roundButtonClicked" prefHeight="53.0" prefWidth="139.0" text="START">
       <font>
-         <Font name="Minecraft" size="14.0"/>
+         <Font name="Minecraft" size="14.0" />
       </font>
    </Button>
-   <ImageView fitHeight="79.0" fitWidth="78.0" layoutX="1149.0" layoutY="50.0" pickOnBounds="true"
-              preserveRatio="true">
-      <Image url="@../Art/Shop/lives.png"/>
+   <ImageView fitHeight="79.0" fitWidth="78.0" layoutX="1149.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../Art/Shop/lives.png" />
    </ImageView>
    <Label fx:id="playerLives" layoutX="1227.0" layoutY="68.0" prefHeight="17.0" prefWidth="65.0" text="0">
       <font>
-         <Font name="Minecraft" size="26.0"/>
+         <Font name="Minecraft" size="26.0" />
       </font>
    </Label>
    <Label layoutX="1185.0" layoutY="125.0" text="Points:">
       <font>
-         <Font name="Minecraft" size="24.0"/>
+         <Font name="Minecraft" size="24.0" />
       </font>
    </Label>
    <Label fx:id="pointsLabel" layoutX="1181.0" layoutY="162.0" prefHeight="17.0" prefWidth="93.0">
       <font>
-         <Font name="Minecraft" size="20.0"/>
+         <Font name="Minecraft" size="20.0" />
       </font>
    </Label>
+   <Text layoutX="322.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carts and Castles" textAlignment="CENTER" wrappingWidth="510.27685546875">
+      <font>
+         <Font name="Baekmuk Dotum" size="45.0" />
+      </font>
+   </Text>
 </AnchorPane>

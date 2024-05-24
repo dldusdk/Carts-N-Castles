@@ -297,35 +297,47 @@ public class GameController {
      * @author Michelle Lee
      */
     public int getRound() {
-
         int roundNumberChosen = 0;
-        boolean validroundEntered = false;
+        boolean validRoundEntered = false;
 
-        while (!validroundEntered) {
+        while (!validRoundEntered) {
             TextInputDialog roundDialog = new TextInputDialog();
             roundDialog.setTitle("Start new game");
             roundDialog.setHeaderText("Please enter the number of rounds you would like to play!");
-            roundDialog.setContentText("Note:It must be a number between 5-15 Rounds");
+            roundDialog.setContentText("Note: It must be a number between 5-15 Rounds");
 
-            // Store user's response in userName
             Optional<String> result = roundDialog.showAndWait();
-            if(result.isPresent()){
-                roundNumberChosen = Integer.parseInt(result.get());
-            }
 
-            if (roundNumberChosen >= 5 && roundNumberChosen <= 15) {
-                System.out.print(roundNumberChosen);
-                validroundEntered = true;
-            }
-            // If the number is invalid, show error dialog box
-            else {
+            if (result.isPresent()) {
+                try {
+                    roundNumberChosen = Integer.parseInt(result.get());
+
+                    if (roundNumberChosen >= 5 && roundNumberChosen <= 15) {
+                        validRoundEntered = true;
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Invalid Input");
+                        alert.setHeaderText("Please enter a number BETWEEN 5-15 Rounds");
+                        alert.setContentText(null);
+                        alert.showAndWait();
+                    }
+                } catch (NumberFormatException e) {
+                    // if no value entered
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Invalid Input");
+                    alert.setHeaderText("Please enter a valid number BETWEEN 5-15 Rounds");
+                    alert.setContentText(null);
+                    alert.showAndWait();
+                }
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Invalid Input");
-                alert.setHeaderText("Please enter a number BETWEEN 5-15 Rounds\"");
+                alert.setHeaderText("Please enter a valid number BETWEEN 5-15 Rounds");
                 alert.setContentText(null);
                 alert.showAndWait();
             }
         }
+
         return roundNumberChosen;
     }
 
@@ -561,7 +573,6 @@ public class GameController {
                         upgradeCost = shop.getFillingUpgradeCost();
                         break;
                     default:
-                        System.out.println("Unknown upgrade type.");
                         break;
                 }
                 // If the player has enough money, take away the coins and then upgrade the tower
@@ -1133,7 +1144,6 @@ public class GameController {
             for (Tower tower : mainTowers) {
                 if (tower.getBuffState()) {
                     //Resets buff state after round
-                    System.out.println("OK");
                     tower.getImage().setEffect(null);
                     tower.setBuff(false);
                 }
@@ -1199,6 +1209,7 @@ public class GameController {
      * @param songPath String of the path of the song
      * @author Michelle Lee
      */
+    @SuppressWarnings("checkstyle:LineLength")
     @FXML
     private void launchEndScreen(boolean won, String songPath) {
         if (gameOverInitiated) {

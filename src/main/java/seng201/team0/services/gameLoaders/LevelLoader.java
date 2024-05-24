@@ -9,19 +9,17 @@ import seng201.team0.services.fileReaders.FileReader;
 import java.util.ArrayList;
 
 public class LevelLoader {
-    private ArrayList<ArrayList<Integer>>tileList;
-    private ArrayList<ArrayList<Integer>>decorationList;
+    private final ArrayList<ArrayList<Integer>>tileList;
+    private final ArrayList<ArrayList<Integer>>decorationList;
     // List to store the coordinates (x, y) of the tiles with value -1
-    private ArrayList<Integer> invalidCoordsListX = new ArrayList<>();
-    private ArrayList<Integer> invalidCoordsListY  = new ArrayList<>();
+    private final ArrayList<Integer> invalidCoordsListX = new ArrayList<>();
+    private final ArrayList<Integer> invalidCoordsListY  = new ArrayList<>();
     private static final double gamePaneWidth = 1152;
     private static final double gamePaneHeight = 768;
 
-    private int levelTilesWidth;
-    private int levelTilesHeight;
-    private int tileSize;
-    private int initialX;
-    private ImageView base1Image;
+    private final int tileSize;
+    private final int initialX;
+    private final ImageView base1Image;
 
 
     public LevelLoader(ImageView image, String level, String decor){
@@ -32,12 +30,12 @@ public class LevelLoader {
         tileSize = settings.getTilePixelSize();
 
         //Builds a 2D array for locations of tiles from files
-        levelTilesWidth = settings.getTileWidth();
-        levelTilesHeight = settings.getTileHeight();
+        int levelTilesWidth = settings.getTileWidth();
+        int levelTilesHeight = settings.getTileHeight();
 
-        FileReader loadCSV = new FileReader(level,levelTilesWidth,levelTilesHeight);
+        FileReader loadCSV = new FileReader(level, levelTilesWidth, levelTilesHeight);
         tileList = loadCSV.getList();
-        FileReader loadDecoration = new FileReader(decor,levelTilesWidth,levelTilesHeight);
+        FileReader loadDecoration = new FileReader(decor, levelTilesWidth, levelTilesHeight);
         decorationList = loadDecoration.getList();
         loadLevel();
         loadDecorations();

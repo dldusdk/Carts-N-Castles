@@ -2,7 +2,6 @@ package seng201.team0.services.gameLoaders;
 
 import javafx.scene.image.ImageView;
 import seng201.team0.models.carts.Cart;
-import seng201.team0.models.towers.Projectile;
 
 
 import java.util.ArrayList;
@@ -13,15 +12,10 @@ import java.util.Random;
 
 public class LoadRound {
 
-    private String difficulty;
     private final ArrayList<ArrayList<Integer>>cartPath;
     private final ArrayList<ArrayList<Integer>>rotatePath;
     private final ImageView cartImage;
     private final ArrayList<Cart> cartList;
-    private final int lowerSpawnBound = -1000;
-    private final int upperSpawnBound = -100;
-    private final int lowSpeedBound = 50;
-    private final int upperSpeedBound = 150;
 
 
     public LoadRound(int round, String difficultySetting, ImageView cartDefault, LevelLoader gridData,PathLoader gridPath,
@@ -35,7 +29,6 @@ public class LoadRound {
         cartPath = gridPath.getPath();
         rotatePath = gridPath.getRotatePath();
 
-        difficulty = difficultySetting;
         cartList = new ArrayList<>();
 
         loadCarts("Bronze", bronzeCartNum, "Art/Carts/bronzeCarts/bronzeEmpty.png");
@@ -59,8 +52,12 @@ public class LoadRound {
             if(sizeFactor == 1){
                 sizeDouble = 1.25;
             }
-            int cartSpawnX = random.ints(lowerSpawnBound,upperSpawnBound).findFirst().getAsInt();
-            int cartSpeed = random.ints(lowSpeedBound,upperSpeedBound).findFirst().getAsInt();
+            int upperSpawnBound = -100;
+            int lowerSpawnBound = -1000;
+            int cartSpawnX = random.ints(lowerSpawnBound, upperSpawnBound).findFirst().getAsInt();
+            int upperSpeedBound = 150;
+            int lowSpeedBound = 50;
+            int cartSpeed = random.ints(lowSpeedBound, upperSpeedBound).findFirst().getAsInt();
             Cart cart = new Cart(cartImage,sizeDouble,type,cartSpeed,cartPath,rotatePath,cartSpawnX,imageSource);
             cartList.add(cart);
 

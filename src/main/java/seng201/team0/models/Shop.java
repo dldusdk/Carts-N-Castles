@@ -2,21 +2,16 @@ package seng201.team0.models;
 
 import java.util.Random;
 
-import static java.lang.Math.max;
-
 public class Shop {
     // Towers
     private int bronzeTowerStock = 5;
     private int silverTowerStock = 3;
     private int goldTowerStock = 2;
     // Define the cost of each shop item
-    private int bronzeTowerCost = 50;
-    private int silverTowerCost = 100;
-    private int goldTowerCost = 200;
-    private int speedUpgradeCost = 200;
-    private int rangeUpgradeCost = 250;
-    private int fillingUpgradeCost = 300;
-    private Random random;
+    private final int bronzeTowerCost = 50;
+    private final int silverTowerCost = 100;
+    private final int goldTowerCost = 200;
+    private final Random random;
 
     /**
      * Initialize the random variable to use for randomizing stock levels
@@ -68,17 +63,20 @@ public class Shop {
      * @return Speed Upgrade Cost
      * @author Michelle Lee
      */
-    public int getSpeedUpgradeCost() { return speedUpgradeCost; }
+    public int getSpeedUpgradeCost() {
+        return 200; }
     /**
      * @return Range Upgrade Cost
      * @author Michelle Lee
      */
-    public int getRangeUpgradeCost() { return rangeUpgradeCost; }
+    public int getRangeUpgradeCost() {
+        return 250; }
     /**
      * @return Fill Cart Amount Upgrade Cost
      * @author Michelle Lee
      */
-    public int getFillingUpgradeCost() { return fillingUpgradeCost; }
+    public int getFillingUpgradeCost() {
+        return 300; }
 
     /**
      * This method allows the user to sell the tower at a depreciated cost by calculating the depreciation based on the number
@@ -155,14 +153,11 @@ public class Shop {
 
     /**
      * Randomizes the stock with the bronze tower stock always between 0 - 5
-     * @author Michelle Lee
+     * After the first round the stock is randomized
+     * The bronze tower will always be between 0 - 5
+     * @uthor Michelle Lee
      */
     public void randomizeStock() {
-        /**
-         * After the first round the stock is randomized
-         * The bronze tower will always be between 0 - 5
-         * @uthor Michelle Lee
-         */
         int totalStock = 10;
         int bronzeMaxStock = 5;
 

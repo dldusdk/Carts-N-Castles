@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class FileReader {
 
-    private ArrayList<ArrayList<Integer>> tileGridList;
+    private final ArrayList<ArrayList<Integer>> tileGridList;
 
     /**
      * Establishes a new file reader that reads through CSV file and creates 2D array. This constructor takes in a

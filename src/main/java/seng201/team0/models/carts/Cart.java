@@ -12,14 +12,12 @@ import seng201.team0.services.animation.AnimationKeyframes;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static java.lang.Math.abs;
-
 
 /**
  * This class defines the Cart enemy type, integral to the game.
  *
  * <p>It takes in parameters of scale, type, speed and coordinates to create a Cart object, which
- * is then animated (handled by a seperate class). Here, the cart's charaistics like capacity, speed and
+ * is then animated (handled by a serperate class). Here, the cart's characteristics like capacity, speed and
  * type provided the foundation for vital gameplay iteraction between the towers and carts</p>
  *
  * @author Gordon Homewood
@@ -330,7 +328,7 @@ public class Cart {
      * @return cartObject (imageView of the cart), useful for getting
      * screen coordinates and applying effects if needed.
      *
-     * @Author Gordon Homewood
+     * @author Gordon Homewood
      */
     public ImageView getCartObject() {return (cartObject);}
 

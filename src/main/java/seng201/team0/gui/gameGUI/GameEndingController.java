@@ -11,7 +11,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import seng201.team0.gui.mainGUI.MainController;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +45,6 @@ public class GameEndingController {
     public Stage primaryStage;
     Stage stage;
     String musicpath = "src/main/resources/Music/bg/bgmMain.mp3";
-    private static MediaPlayer mediaPlayer;
     private String songPath;
 
     public void init() {
@@ -54,7 +52,7 @@ public class GameEndingController {
     }
     public void playEndingSong(String songPath) {
         Media media = new Media(new File(songPath).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
     }
 

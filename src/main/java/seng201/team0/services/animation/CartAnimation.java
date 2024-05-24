@@ -10,15 +10,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * This class is responsible for outsoyrcing the animation from the cart class and gives a list of
- * transitions to be played in a sequence from the carts' parameters.
+ * This class is responsible for outsoyrcing the animation from the
+ * cart class and gives a list of transitions to be played in a
+ * sequence from the carts' parameters.
  *
  * @author Gordon Homewood
  */
 public class CartAnimation {
     private final ArrayList<TranslateTransition> transitionList;
-    private final ArrayList<ArrayList<Integer>>rotationDirectionList;
-    private final ArrayList<ArrayList<Integer>>cartPathList;
+    private final ArrayList<ArrayList<Integer>> rotationDirectionList;
+    private final ArrayList<ArrayList<Integer>> cartPathList;
     private final ArrayList<RotateTransition> rotationList;
     private final double speed;
     private final ImageView cartSource;

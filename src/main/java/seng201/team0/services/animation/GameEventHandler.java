@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author Gordon Homewood
  */
 public class GameEventHandler {
-    private ArrayList<Cart> cartList;
+    private final ArrayList<Cart> cartList;
 
     /**
      * Constructor that takes in an updated cart list when called in Game Controller
@@ -74,19 +74,35 @@ public class GameEventHandler {
 
             if (fireTime >= fireRate && cartPosition > 0 && tower.getRadius() > targetDistance) {
                 //If target in radius, tower can fire and cart is on screen
-                double damage = tower.getLoadAmount();
-                if (Objects.equals(towerTarget.getResourceType(), tower.getResourceType())) {
-                    damage = damage * tower.getBonusPercent();
-                }
-                String type = tower.getResourceType();
-                int spawnX = (int) (tower.getX() - 30);
-                int spawnY = (int) (tower.getY() - 30);
-
-                Projectile projectile = new Projectile(spawnX, spawnY, type, trackDefault, towerTarget, damage);
+                Projectile projectile = getProjectile(trackDefault, tower, towerTarget);
                 projectile.spawn();
                 tower.setProjectileTime(timestamp);
             }
         }
+    }
+
+    /**
+     * This method handles the projectile spawn logic,
+     * spawning a projectile for each tower depending on tower stats.
+     * all destroyed.
+     *
+     * @param trackDefault passes through the goldmine so the player's lives can be checked.
+     * @param tower tower that projectile is shot from
+     * @param towerTarget cart that tower is targeting
+     *
+     * @author Gordon Homewood
+     */
+    private static Projectile getProjectile(ImageView trackDefault,
+                                            Tower tower, Cart towerTarget) {
+        double damage = tower.getLoadAmount();
+        if (Objects.equals(towerTarget.getResourceType(), tower.getResourceType())) {
+            damage = damage * tower.getBonusPercent();
+        }
+        String type = tower.getResourceType();
+        int spawnX = (int) (tower.getX() - 30);
+        int spawnY = (int) (tower.getY() - 30);
+
+        return new Projectile(spawnX, spawnY, type, trackDefault, towerTarget, damage);
     }
 
     /**
@@ -115,13 +131,13 @@ public class GameEventHandler {
                 //Cart damage gold mine if it reaches the end of track
                 iterator.remove();
                 cart.explode(965, 380, true);
-                return("Damaged");
+                return ("Damaged");
             }
-            if ((cartList.size() <= 0) && !(goldMine.getHealth() <= 0)) {
-                // Game should coninute if all carts are destroyed and gold min still good
-                return("RoundWon");
+            if ((cartList.isEmpty()) && !(goldMine.getHealth() <= 0)) {
+                // Game should continue if all carts are destroyed and gold min still good
+                return ("RoundWon");
             }
         }
-        return(null);
+        return (null);
     }
-};
+}

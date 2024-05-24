@@ -16,8 +16,8 @@ import javafx.scene.layout.Pane;
  * */
 
 public class GoldMine {
-    int x;
-    int y;
+    final int x;
+    final int y;
     int health;
     ImageView goldMineObject; //Stores the imageView in a variable so it's easily accessible
 

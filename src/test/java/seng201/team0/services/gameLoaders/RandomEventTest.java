@@ -13,7 +13,6 @@ class RandomEventTest {
     private RandomEvent randomEvent;
     private RandomEvent randomEventEmptyTowers;
     private ArrayList<Tower> towerList;
-    private ArrayList<Tower> towerListEmpty;
 
     @BeforeEach
     void setUp() {
@@ -36,7 +35,7 @@ class RandomEventTest {
         tower2.incrementRound(2);
         tower3.incrementRound(1);
 
-        towerListEmpty = new ArrayList<>();
+        ArrayList<Tower> towerListEmpty = new ArrayList<>();
 
         randomEvent = new RandomEvent(towerList,"Hard",2);
         randomEventEmptyTowers = new RandomEvent(towerListEmpty,"Hard,",2);

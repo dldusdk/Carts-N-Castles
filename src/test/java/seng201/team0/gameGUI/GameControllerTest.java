@@ -1,11 +1,10 @@
-package test.java.seng201.team0.gameGUI;
+package seng201.team0.gameGUI;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng201.team0.gui.gameGUI.GameController;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
@@ -42,32 +41,4 @@ class GameControllerTest {
         assertNotNull(gameController);
     }
 
-    @Test
-    void towerUpgrades() {
-
-    }
-
-    @Test
-    void generalShop() {
-    }
-
-    @Test
-    void switchInventory() {
-    }
-
-    @Test
-    void buyTower() {
-    }
-
-    @Test
-    void buyUpgrade() {
-    }
-
-    @Test
-    void sell() {
-    }
-
-    @Test
-    void roundButtonClicked() {
-    }
 }

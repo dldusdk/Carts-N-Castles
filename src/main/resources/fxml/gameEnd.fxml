@@ -7,81 +7,85 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="endPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1472.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.gameGUI.GameEndingController">
-   <children>
-      <ImageView fitHeight="1046.0" fitWidth="1477.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Art/Backgrounds/gameEnd.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="endingMessage" alignment="CENTER" layoutX="465.0" layoutY="58.0" prefHeight="65.0" prefWidth="528.0" text="You won!">
-         <font>
-            <Font name="Minecraft" size="36.0" />
-         </font></Label>
-      <Label fx:id="summary" layoutX="623.0" layoutY="287.0" text="Game Summary">
-         <font>
-            <Font name="Minecraft" size="30.0" />
-         </font>
-      </Label>
-      <Label layoutX="528.0" layoutY="378.0" text="Initial Selected Number of Rounds">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="531.0" layoutY="454.0" text="Total Rounds Completed">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="535.0" layoutY="533.0" text="Total Amount of Money Earned">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="selectedRoundsLabel" layoutX="635.0" layoutY="417.0" prefHeight="17.0" prefWidth="39.0" text="15">
-         <font>
-            <Font name="Minecraft" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="roundsCompletedLabel" layoutX="638.0" layoutY="497.0" prefHeight="17.0" prefWidth="39.0" text="15">
-         <font>
-            <Font name="Minecraft" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="totalMoneyLabel" layoutX="637.0" layoutY="580.0" prefHeight="17.0" prefWidth="39.0" text="15">
-         <font>
-            <Font name="Minecraft" size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="534.0" layoutY="619.0" text="Total Amount of Points Awarded">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="totalPointsLabel" layoutX="639.0" layoutY="659.0" prefHeight="17.0" prefWidth="39.0" text="15">
-         <font>
-            <Font name="Minecraft" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="feedbackLabel" alignment="CENTER" layoutX="526.0" layoutY="767.0" prefHeight="117.0" prefWidth="456.0" text="Great Job!">
-         <font>
-            <Font name="Minecraft" size="30.0" />
-         </font>
-      </Label>
-      <Button fx:id="retryButton" layoutX="137.0" layoutY="349.0" mnemonicParsing="false" onAction="#retry" prefHeight="57.0" prefWidth="179.0" style="-fx-background-color: transparent;" text="Retry ">
-         <font>
-            <Font name="Minecraft" size="20.0" />
-         </font>
-      </Button>
-      <Button fx:id="quitGameButton" layoutX="139.0" layoutY="541.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="57.0" prefWidth="179.0" style="-fx-background-color: transparent;" text="Quit Game">
-         <font>
-            <Font name="Minecraft" size="21.0" />
-         </font>
-      </Button>
-      <Button fx:id="toMainMenuButton" layoutX="137.0" layoutY="446.0" mnemonicParsing="false" onAction="#toMainMenu" prefHeight="57.0" prefWidth="179.0" style="-fx-background-color: transparent;" text="Quit to Main Menu">
-         <font>
-            <Font name="Minecraft" size="18.0" />
-         </font>
-      </Button>
-   </children>
+<AnchorPane fx:id="endPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="1024.0" prefWidth="1472.0" xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.gameGUI.GameEndingController">
+   <ImageView fitHeight="1046.0" fitWidth="1477.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../Art/Backgrounds/gameEnd.png"/>
+   </ImageView>
+   <Label fx:id="endingMessage" alignment="CENTER" layoutX="465.0" layoutY="58.0" prefHeight="65.0" prefWidth="528.0"
+          text="You won!">
+      <font>
+         <Font name="Minecraft" size="36.0"/>
+      </font>
+   </Label>
+   <Label fx:id="summary" layoutX="623.0" layoutY="287.0" text="Game Summary">
+      <font>
+         <Font name="Minecraft" size="30.0"/>
+      </font>
+   </Label>
+   <Label layoutX="528.0" layoutY="378.0" text="Initial Selected Number of Rounds">
+      <font>
+         <Font size="18.0"/>
+      </font>
+   </Label>
+   <Label layoutX="531.0" layoutY="454.0" text="Total Rounds Completed">
+      <font>
+         <Font size="18.0"/>
+      </font>
+   </Label>
+   <Label layoutX="535.0" layoutY="533.0" text="Total Amount of Money Earned">
+      <font>
+         <Font size="18.0"/>
+      </font>
+   </Label>
+   <Label fx:id="selectedRoundsLabel" layoutX="635.0" layoutY="417.0" prefHeight="17.0" prefWidth="39.0" text="15">
+      <font>
+         <Font name="Minecraft" size="20.0"/>
+      </font>
+   </Label>
+   <Label fx:id="roundsCompletedLabel" layoutX="638.0" layoutY="497.0" prefHeight="17.0" prefWidth="39.0" text="15">
+      <font>
+         <Font name="Minecraft" size="20.0"/>
+      </font>
+   </Label>
+   <Label fx:id="totalMoneyLabel" layoutX="637.0" layoutY="580.0" prefHeight="17.0" prefWidth="39.0" text="15">
+      <font>
+         <Font name="Minecraft" size="20.0"/>
+      </font>
+   </Label>
+   <Label layoutX="534.0" layoutY="619.0" text="Total Amount of Points Awarded">
+      <font>
+         <Font size="18.0"/>
+      </font>
+   </Label>
+   <Label fx:id="totalPointsLabel" layoutX="639.0" layoutY="659.0" prefHeight="17.0" prefWidth="39.0" text="15">
+      <font>
+         <Font name="Minecraft" size="20.0"/>
+      </font>
+   </Label>
+   <Label fx:id="feedbackLabel" alignment="CENTER" layoutX="526.0" layoutY="767.0" prefHeight="117.0" prefWidth="456.0"
+          text="Great Job!">
+      <font>
+         <Font name="Minecraft" size="30.0"/>
+      </font>
+   </Label>
+   <Button fx:id="retryButton" layoutX="137.0" layoutY="349.0" mnemonicParsing="false" onAction="#retry"
+           prefHeight="57.0" prefWidth="179.0" style="-fx-background-color: transparent;" text="Retry ">
+      <font>
+         <Font name="Minecraft" size="20.0"/>
+      </font>
+   </Button>
+   <Button fx:id="quitGameButton" layoutX="139.0" layoutY="541.0" mnemonicParsing="false" onAction="#quitGame"
+           prefHeight="57.0" prefWidth="179.0" style="-fx-background-color: transparent;" text="Quit Game">
+      <font>
+         <Font name="Minecraft" size="21.0"/>
+      </font>
+   </Button>
+   <Button fx:id="toMainMenuButton" layoutX="137.0" layoutY="446.0" mnemonicParsing="false" onAction="#toMainMenu"
+           prefHeight="57.0" prefWidth="179.0" style="-fx-background-color: transparent;" text="Quit to Main Menu">
+      <font>
+         <Font name="Minecraft" size="18.0"/>
+      </font>
+   </Button>
 </AnchorPane>

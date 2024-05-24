@@ -9,10 +9,6 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,12 +23,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 //Package imports
-import seng201.team0.gui.mainGUI.MainController;
 import seng201.team0.models.Shop;
 import seng201.team0.models.towers.Tower;
 import seng201.team0.models.carts.Cart;
 import seng201.team0.models.towers.GoldMine;
-import seng201.team0.models.towers.Projectile;
 import seng201.team0.services.animation.GameEventHandler;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
@@ -46,14 +40,17 @@ import java.util.*;
 
 
 /**
- * This class contains the logic of the game's Graphical User Interface interaction,
- * and is the initializer for the majority
+ * This class contains the logic of the game's Graphical User Interface
+ * interaction,and is the initializer for the majority
  * of the game's animations, level loading, and round logic.
  *
- * <p>As Carts and Castles uses javaFX to animate and display its game logic with a heavy emphasis on the visuals,
- * this controller is much more complex than others in the program. Outsourcing logic is used where possible and
- * practical, but because of the nature of merging animations, collisions, game logic and player interactions, a more
- * modular design can sometimes seem impractical. It also is the Controller for the FXML gameScreen file, which
+ * <p>As Carts and Castles uses javaFX to animate and
+ * display its game logic with a heavy emphasis on the visuals,
+ * this controller is much more complex than others in the program.
+ * Outsourcing logic is used where possible and practical, but because of
+ * the nature of merging animations, collisions, game logic and player
+ * interactions, a more modular design can sometimes seem impractical. It
+ * also is the Controller for the FXML gameScreen file, which
  * provides key compatibility between the on screen GUI and the game logic.</p>
  *
  *
@@ -136,22 +133,19 @@ public class GameController {
     // GUI variables
     private Stage stage;
     private Stage primaryStage;
-    String musicpath = "src/main/resources/Music/bg/gameBGM.mp3";
+    private final String musicpath = "src/main/resources/Music/bg/gameBGM.mp3";
     private static MediaPlayer mediaPlayer;
     private int totalCoins;
-    private int totalPoints=0;
 
     // Tower variables
-    private ArrayList<Tower> mainTowers = new ArrayList<>();
-    private ArrayList<Tower> reserveTowers = new ArrayList<>();
-    private Map<ImageView, Tower> towersMap = new HashMap<>();
-    private double paneX;
-    private double paneY;
+    private final ArrayList<Tower> mainTowers = new ArrayList<>();
+    private final ArrayList<Tower> reserveTowers = new ArrayList<>();
+    private final Map<ImageView, Tower> towersMap = new HashMap<>();
     private boolean isPurchaseMode = false;
     private String selectedTowerType;
     private String userInputTowerName;
     private Circle radiusCircle;
-    boolean gameOverInitiated = false;
+    private boolean gameOverInitiated = false;
 
     // Shop Variables
     private Shop shop;
@@ -161,9 +155,8 @@ public class GameController {
 
 
     // Round and Animation Variables
-    private int totalRounds = 15; //need to scale this on player choice
+    private int totalRounds; //need to scale this on player choice
     private int roundNumber = 0;
-    private LoadRound newRound = null;
     private boolean roundState = false;
     private String difficulty;
 
@@ -175,12 +168,15 @@ public class GameController {
 
     private GoldMine goldMine;
 
+
     private AnimationTimer collisionTimer = new AnimationTimer() {
         /**
-         * This method overwrites the animationTimer handle method. It calls a separate class,
-         * GameEventHandler to handle the logic. This method is internal to handling the interaction
-         * between the logic and the graphics, as it updates at around 60 times a second to ensure the game
-         * runs smoothly. Only updates in rounds - when game logic is needed.
+         * This method overwrites the animationTimer handle method.
+         * It calls a separate class, GameEventHandler to handle the logic.
+         * This method is internal to handling the interaction between the
+         * logic and the graphics, as it updates at around 60 times a second to
+         * ensure the game runs smoothly. Only runs in rounds -
+         * when game logic is needed.
          *
          * @param timestamp gives the time of each loop in the animation timer
          *
@@ -192,10 +188,11 @@ public class GameController {
             updatePlayerLives();
             if (!cartList.isEmpty()) {
                 cartList = gameEventHandler.getCartList();
-                gameEventHandler.handleTowerLogic(mainTowers, cartList, timestamp, trackDefault);
+                gameEventHandler.handleTowerLogic(mainTowers, cartList,
+                        timestamp, trackDefault);
                 String updateType = gameEventHandler.handleCartLogic(goldMine);
-                if(updateType != null){
-                if (updateType.equals("Damaged")) {
+                if (updateType != null) {
+                    if (updateType.equals("Damaged")) {
                     cartNumber--;
                     goldMine.decreaseHealth();
                     playerLives.setText(String.valueOf(goldMine.getHealth()));
@@ -206,12 +203,13 @@ public class GameController {
                     }
                 }
                 if (updateType.equals("RoundWon")) {
-                    // End round if gold mine still standing and all cart destroyed
+                    /* End round if gold mine still standing and all cart
+                    destroyed */
                     collisionTimer.stop();
                     stopRound(true);
-                }}
-            }
-            else{
+                }
+                }
+            }   else {
                 //Fail-safe to stop round
                 stopRound(true);
             }
@@ -219,25 +217,29 @@ public class GameController {
     };
 
     /**
-     * Initialize the controller for the Game Window FXML
+     * Initialize the controller for the Game Window FXML.
      * Shop and player currency are initialized here
-     * The methods updateStockDisplay, updatePlayercoins, playMusic, showInstructions will run.
-     * updateStock display will refresh the shop tower's label to show the correct stock
+     * The methods updateStockDisplay, updatePlayercoins, playMusic,
+     * showInstructions will run.updateStock display will refresh the
+     * shop tower's label to show the correct stock
      * updatePlayerCoins will update the amount of coins the player has
      * playMusic will initialize and play the background music
-     * showInstructions will display a pop-up information box dialogue to give instructions to the user before the game runs
+     * showInstructions will display a pop-up information box dialogue to
+     * give instructions to the user before the game runs
      * @param primaryStage The main stage which the game screen will run on
      * @author Michelle Lee
      */
     public void init(Stage primaryStage) {
         // Load the stage and game track
         this.primaryStage = primaryStage;
-        String levelPath = "src/main/resources/levelCSV/Level1/Level1Concept_Track.csv";
-        String levelDecor = "src/main/resources/levelCSV/Level1/Level1Concept_Decorations.csv";
+        String levelPath = "src/main/resources/levelCSV/Level1/"
+                + "Level1Concept_Track.csv";
+        String levelDecor = "src/main/resources/levelCSV/Level1/"
+                + "Level1Concept_Decorations.csv";
 
         //Initialize shop and player currency
         shop = new Shop();
-        coinBalance = 1000;
+        coinBalance = 200;
         updateStockDisplay();
         updatePlayerCoins();
         difficulty = "Normal";
@@ -245,11 +247,14 @@ public class GameController {
 
         // Game initialization
         playerLives.setText("");
-        Font font = Font.font("Minecraft",12);
+        Font font = Font.font("Minecraft", 12);
         pointsLabel.setFont(font);
-        roundButton.setText(String.valueOf("Start First Round!"));
+        roundButton.setText("Start First Round!");
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
-        path = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath", "src/main/resources/levelCSV/Level1/Level1RotatePath");
+        path = new PathLoader("src/main/resources/levelCSV/"
+                + "Level1/Level1CartPath",
+                "src/main/resources/levelCSV/"
+                        + "Level1/Level1RotatePath");
         playMusic(musicpath);
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
@@ -259,8 +264,10 @@ public class GameController {
     }
 
     /**
-     * Before the main Game Screen is launched, an information dialogue will pop up and show the dialogue box to the user
-     * giving instructions on how the game is played. It will wait for them to click 'OK' and then the gameScreen will start pu
+     * Before the main Game Screen is launched, an information
+     * dialogue will pop up and show the dialogue box to the user
+     * giving instructions on how the game is played. It will
+     * wait for them to click 'OK' and then the gameScreen will start
      * and allow the user to play the game.
      * player
      * @author Michelle Lee
@@ -286,6 +293,14 @@ public class GameController {
         alert.showAndWait();
     }
 
+    /**
+     * Creates a dialog box and gets the user's choice of
+     * total rounds plaued.
+     *
+     * @return total round number
+     *
+     * @author Michelle Lee
+     */
     public int getRound() {
 
         int roundNumberChosen = 0;
@@ -324,7 +339,7 @@ public class GameController {
      * The mediaPlayer import is initialized here and requires the path in order to play the music appropriately
      * As the musicPath variable is set when initializing this Controller, it will always pass in "src/main/resources/Music/bg/gameBGM.mp3";
      * This method will automatically play the music 1000 times before it stops.
-     * @param musicPath
+     * @param musicPath path to the music file
      * @author Michelle Lee
      */
     public void playMusic(String musicPath) {
@@ -474,7 +489,7 @@ public class GameController {
      * If the name is entered and the user clicks 'OK' then deduct the appropriate amount.
      * If the user clicks 'Cancel' from the dialog box, then does not deduct money from the user's balance.
      *
-     * @param event
+     * @param event gets mouse click
      * @author Michelle Lee
      */
     public void buyTower(MouseEvent event) {
@@ -678,12 +693,10 @@ public class GameController {
      * @param button The button clicked source
      * @param shop Instance of the Shop Class
      * @param towerType The towerType retrieved from the button clicked
+     *
+     * @author Michelle Lee
      */
     private void soldOut(Button button, Shop shop, String towerType) {
-        /**
-         * If item is sold out, update the button image to indicate it has been sold out.
-         * @author Michelle Lee
-         */
         if (shop.getStock(towerType) <= 0) {
             button.setGraphic(new ImageView("Art/Shop/sold.png"));
         }
@@ -700,8 +713,8 @@ public class GameController {
     public void paneClick(MouseEvent event) {
         // If the tower button is clicked once get the coordinates
         if ((isPurchaseMode) && selectedTowerType != null) {
-            paneX = event.getX();
-            paneY = event.getY();
+            double paneX = event.getX();
+            double paneY = event.getY();
             // if the coordinate is a valid point then we can place the tower
             if (canPlaceTower(paneX, paneY)) {
                 placeTower(paneX, paneY, selectedTowerType);
@@ -924,15 +937,13 @@ public class GameController {
         selectedTowerImage.setImage(new Image(imagePath));
     }
 
-
+    /**
+     * Prompts user to select desired difficulty when the round starts. Launches round based on
+     * difficulty.
+     * @author Gordon Homewood
+     */
     @FXML
     public void roundButtonClicked(ActionEvent event) {
-        /**
-         * Prompts user to select desired difficulty when the round starts. Launches round based on
-         * difficulty.
-         * @author Gordon Homewood
-         */
-
         Dialog<ButtonType> userNameDialog = new Dialog<>();
         userNameDialog.setTitle("Choose Round Difficulty");
         int nextRound = roundNumber + 1;
@@ -994,15 +1005,15 @@ public class GameController {
         switchInventory.setDisable(false); // Disable switching towers between inventories until the end of the round
     }
 
-    private void launchRound() {
-        /**
-         *When difficulty is selected, this method is called and the round in launched. This method is mainly
-         * responsible for initializing the round, calling methods and other classes to increment rounds, update lives,
-         * run random events and establishing general logic.
-         *
-         * @author Gordon Homewood
-         */
+    /**
+     *When difficulty is selected, this method is called and the round in launched. This method is mainly
+     * responsible for initializing the round, calling methods and other classes to increment rounds, update lives,
+     * run random events and establishing general logic.
+     *
+     * @author Gordon Homewood
+     */
 
+    private void launchRound() {
         // Initializing variables for new round
         instructionLabel.setText("Don't let the carts destroy your goldmine!");
         roundButton.setDisable(true);
@@ -1015,7 +1026,7 @@ public class GameController {
         runRandomEvents();
 
         ArrayList<Integer> cartTypeList = getCartNumber();
-        newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
+        LoadRound newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
         for (Tower tower : mainTowers) {
             // Draws the towers on correct layer and increments list of full rounds tower is used in
             ((Pane) trackDefault.getParent()).getChildren().remove(tower.getImage());
@@ -1034,12 +1045,11 @@ public class GameController {
             switchInventory.setDisable(false); //Disables inventory swapping during rounds
         }
     }
-
+    /** Creates a new RandomEvent class and applies the results of the random event
+     * to the relevant impacted towers
+     * @author Gordon Homewood
+     */
     private void runRandomEvents() {
-        /** Creates a new RandomEvent class and applies the results of the random event
-         * to the relevant impacted towers
-         * @author Gordon Homewood
-         */
         RandomEvent towerBreaks = new RandomEvent(mainTowers, difficulty,roundNumber);
         Tower brokenTower = towerBreaks.getAffectedTowerBreak();
         if (brokenTower != null) {
@@ -1055,17 +1065,15 @@ public class GameController {
             }
         }
     }
-
+    /**
+     * Generates how many carts of each type should be spawned in a round, based on round number. Also
+     * sets goldMine to the correct health for the round.
+     *
+     * @return A list of cart numbers, where index 1 = bronze, index 2 = silver and index 3 = gold carts to
+     * be spawned in the round level.
+     * @author Gordon Homewood
+     */
     private ArrayList<Integer> getCartNumber() {
-        /**
-         * Generates how many carts of each type should be spawned in a round, based on round number. Also
-         * sets goldMine to the correct health for the round.
-         *
-         * @return A list of cart numbers, where index 1 = bronze, index 2 = silver and index 3 = gold carts to
-         * be spawned in the round level.
-         * @author Gordon Homewood
-         */
-
         //Set health based on difficulty
         if (difficulty.equals("Easy")) {
             goldMine.setHealth(5);
@@ -1106,17 +1114,16 @@ public class GameController {
         return (cartTypeNumbers);
 
     }
-
+    /**
+     * Stops the round when called in the collisionTimer. This allows the game to handle
+     * updates as the round finishes, such as awarding money, resetting tower buff, stopping
+     * collisionTimer and renabling inventory.
+     *
+     * @param state which decides if the game should continue or not.
+     *
+     * @author Gordon Homewood
+     */
     private void stopRound(boolean state) {
-        /**
-         * Stops the round when called in the collisionTimer. This allows the game to handle
-         * updates as the round finishes, such as awarding money, resetting tower buff, stopping
-         * collisionTimer and renabling inventory.
-         *
-         * @param state which decides if the game should continue or not.
-         *
-         * @author Gordon Homewood
-         */
         if (roundNumber > totalRounds - 1 && state) {
             // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);
@@ -1148,11 +1155,13 @@ public class GameController {
             switchInventory.setDisable(false);  // allows player to switch inventory
         }
     }
-
+    /**
+     * Decides how much money should be awarded based on the
+     * difficulty of the round.
+     * @author Gordon Homewood
+     */
     private void calculateIncome() {
-        /**
-         * Decides how much money should be awarded based on the difficulty of the round
-         */
+
 
         if (difficulty.equals("Easy")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.5);
@@ -1188,13 +1197,10 @@ public class GameController {
      * variables to display.
      * @param won A boolean value advising on whether the user has won (true) or lots (false)
      * @param songPath String of the path of the song
+     * @author Michelle Lee
      */
     @FXML
     private void launchEndScreen(boolean won, String songPath) {
-        /**
-         Launches the ending screen once won or losing
-         @author Michelle Lee
-         */
         if (gameOverInitiated) {
             // If already in game over loop, don't let function cause
             // infinite loop of opening game over screen
@@ -1231,6 +1237,7 @@ public class GameController {
         endingScreen.setTitle("Game Over!");
         // Pass the appropriate variable sthrough to gameendingController
         GameEndingController gameEndingController = loader.getController();
+        int totalPoints = 0;
         gameEndingController.gameStats(won ? "Congratulations!" : "You lose..", totalRounds, roundNumber, totalCoins, totalPoints, won ? "Great job! We are proud of you!" : "Try again next time!");
         // Play winning or losing song
         gameEndingController.playEndingSong(songPath);

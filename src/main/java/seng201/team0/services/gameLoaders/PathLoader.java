@@ -16,8 +16,8 @@ import java.util.ArrayList;
 */
 public class PathLoader {
 
-    private ArrayList<ArrayList<Integer>> loadWaypoints;
-    private ArrayList<ArrayList<Integer>> loadRotatesDirections;
+    private final ArrayList<ArrayList<Integer>> loadWaypoints;
+    private final ArrayList<ArrayList<Integer>> loadRotatesDirections;
 
     public PathLoader(String wayPath,String rotatePath){
         int numWaypoints = 6; //Move this to settings

@@ -14,17 +14,17 @@ public class Tower {
     double x;
     double y;
     // Tower
-    String towerName;
-    String resourceType;
+    final String towerName;
+    final String resourceType;
     double reloadSpeed;
     double loadAmount;
     int towerHealth;
-    int towerLevel;
-    int range;
+    final int towerLevel;
+    final int range;
     boolean towerState;
     private ImageView towerImage;
     private boolean destroyed;
-    private ArrayList<Integer> roundsPlayed;
+    private final ArrayList<Integer> roundsPlayed;
     // Tower Upgrades
     private static final double SPEED_UPGRADE_FACTOR = 1.05;  // Increase firerate by 5%
     private static final double RANGE_UPGRADE_FACTOR = 1.1;  // Increase range by 10%
@@ -32,7 +32,7 @@ public class Tower {
     // Other
     String inventoryLocation;
     private double radius;
-    private double bonusPercent;
+    private final double bonusPercent;
     boolean buffState;
     // Constructor
 
@@ -124,11 +124,19 @@ public class Tower {
         return resourceType;
     }
 
+    /**
+     * @return Returns the reload speed, rounds it to avoid error.
+     * @author Gordon Homewood
+     */
     public double getReloadSpeed()
     {
         return Math.ceil(reloadSpeed * 100) / 100;
     }
 
+    /**
+     * @return Returns the load amount, rounds it to avoid error.
+     * @author Gordon Homewood
+     */
     public double getLoadAmount() {
         return Math.ceil(loadAmount * 100) / 100;
     }
@@ -207,13 +215,12 @@ public class Tower {
      */
     public void upgradeFill() { loadAmount *= LOAD_AMOUNT_FACTOR; }
 
-    // Projectiles
+    /**
+     * Creates image of tower based on parameters
+     * Held in class, so it can be accessed if needed
+     * @Author Gordon Homewood
+     */
     public void draw(double x, double y, String path) {
-        /**
-         * Creates image of tower based on parameters
-         * Held in class, so it can be accessed if needed
-         * @Author Gordon Homewood
-         */
         towerImage = new ImageView(new Image(path));
         towerImage.setFitWidth(128);
         towerImage.setFitHeight(256);
@@ -221,36 +228,44 @@ public class Tower {
         towerImage.setY(y - 192);
     }
 
-    public ImageView getImage()
-        /**
-         * Returns image view of tower, making it easily accessible for applying effects,
-         * getting coordinates, etc.
-         *
-        * @return ImageView of tower
-        * @Author Gordon Homewood
-        */
-    {return(towerImage);}
+    /**
+     * Returns image view of tower, making it easily accessible for applying effects,
+     * getting coordinates, etc.
+     *
+     * @return ImageView of tower
+     * @Author Gordon Homewood
+     */
+    public ImageView getImage() {return(towerImage);}
 
+    /**
+     * @return Tower fire rate
+     * @author Gordon Homewood
+     */
     public long getFireRate() {
         return ((long) reloadSpeed);
     }
+
+    /**
+     * @return bonus load percent. Should be applied
+     * if tower type matches target damage.
+     * @author Gordon Homewood
+     */
     public double getBonusPercent(){
         return(this.bonusPercent);
     }
 
-
+    /**
+     * This method sorts the carts that are in the tower's radius based on how far they are through the track
+     * and if they are in the radius or not. This is useful for the player, as it allows the towers to
+     * dynamically switch targets and always target the most immediate threat
+     *
+     * @param cartList takes the current list of carts on the track to be judged for target selection
+     *
+     * @return target that is best
+     *
+     * @author Gordon Homewood
+     */
     public Cart targetAcquisition(ArrayList<Cart> cartList) {
-        /**
-         * This method sorts the carts that are in the tower's radius based on how far they are through the track
-         * and if they are in the radius or not. This is useful for the player, as it allows the towers to
-         * dynamically switch targets and always target the most immediate threat
-         *
-         * @param cartList takes the current list of carts on the track to be judged for target selection
-         *
-         * @return target that is best
-         *
-         * @author Gordon Homewood
-         */
         ArrayList<Cart> targetsInRange = new ArrayList<>();
 
         for (Cart cart : cartList) {
@@ -277,18 +292,18 @@ public class Tower {
         return targetsInRange.getFirst(); // Return the best target in range
     }
 
+    /**
+     * This method changes the buff status of the tower, and it's given effects. If it is buffed, then the
+     * load amount and radius are scaled up accordingly, making the buffed tower a formidable force no
+     * matter the difficulty or stats.
+     * If the round is over, this method should be called with buff=false, so the tower can be reset to its
+     * original state. setBuff(false) should not be called to weaken a tower, only to remove a buff.
+     *
+     * @param buff gives if tower should be buffed or have buff removed
+     *
+     * @author Gordon Homewood
+     */
     public void setBuff(boolean buff){
-        /**
-         * This method changes the buff status of the tower, and it's given effects. If it is buffed, then the
-         * load amount and radius are scaled up accordingly, making the buffed tower a formidable force no
-         * matter the difficulty or stats.
-         * If the round is over, this method should be called with buff=false, so the tower can be reset to its
-         * original state. setBuff(false) should not be called to weaken a tower, only to remove a buff.
-         *
-         * @param buff gives if tower should be buffed or have buff removed
-         *
-         * @author Gordon Homewood
-         */
         if(buff){
             this.buffState = true;
             this.loadAmount = this.loadAmount * 2;
@@ -303,6 +318,11 @@ public class Tower {
         }
 
     }
+
+    /**
+     * @return buff state boolean - depends on random event buff
+     * @author Gordon Homewood
+     */
 
     public boolean getBuffState(){
         return(this.buffState);

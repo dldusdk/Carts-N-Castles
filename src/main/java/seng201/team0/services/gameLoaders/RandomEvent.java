@@ -15,9 +15,9 @@ import java.util.Random;
 public class RandomEvent {
     private boolean breakChance;
     private boolean buffChance;
-    private ArrayList<Tower> mainTowers;
-    private int roundNumber;
-    private String difficulty;
+    private final ArrayList<Tower> mainTowers;
+    private final int roundNumber;
+    private final String difficulty;
 
     /**
      * Constructor for random event to occur.

@@ -25,7 +25,6 @@ public class Projectile {
     private ImageView projectileDefault;
     private ImageView projectileObject;
     private Timeline timeline;
-    private int framesPerSecond = 60;
     private Cart target;
     private boolean lock = false;
     private double damage;
@@ -58,8 +57,9 @@ public class Projectile {
         yCoord = yCoordStart;
 
         //Create timeline to update projectile based on framerate of 60 (standard animation timer refresh rate)
+        int framesPerSecond = 60;
         timeline = new Timeline(
-                new KeyFrame(Duration.seconds((double) 1 /framesPerSecond), event -> {
+                new KeyFrame(Duration.seconds((double) 1 / framesPerSecond), event -> {
                     if (!lock && !cart.getDestroyed()){
                         updateProjectile();
                         spawn();

@@ -11,7 +11,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import seng201.team0.gui.gameGUI.GameController;
 
@@ -35,7 +34,7 @@ public class MainController {
     private AnchorPane mainscreenPane;
     Stage stage;
 //    String musicPath = "src/main/resources/Music/bg/mainscreenbgm.mp3";
-    String musicPath = "/Music/bg/mainscreenbgm.mp3";
+final String musicPath = "/Music/bg/mainscreenbgm.mp3";
     private boolean nameRecieved = false;
 
     /**
@@ -109,8 +108,7 @@ public class MainController {
         // Store user's response in userName
         Optional<String> userName = userNameDialog.showAndWait();
         validNameTest(String.valueOf(userName));
-        String name = userName.get().trim();
-        return name;
+        return userName.get().trim();
     }
 
     /**

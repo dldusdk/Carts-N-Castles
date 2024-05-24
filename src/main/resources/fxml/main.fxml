@@ -7,31 +7,35 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainscreenPane" maxHeight="1024.0" maxWidth="1024.0" minHeight="30.0" minWidth="1472.0" prefHeight="1000.0" prefWidth="1472.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.mainGUI.MainController">
-   <children>
-      <ImageView fitHeight="1024.0" fitWidth="1472.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-0.20000000000004547" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@../Art/Backgrounds/mainscreen.png" />
-         </image>
-      </ImageView>
-      <Text fx:id="headerText" layoutX="475.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CARTS AND CASTLES" wrappingWidth="544.0">
-         <font>
-            <Font name="Minecraft" size="50.0" />
-         </font>
-      </Text>
-      <Button fx:id="quitButton" layoutX="82.0" layoutY="446.0" mnemonicParsing="false" onAction="#quit" prefHeight="53.0" prefWidth="306.0" style="-fx-background-color: transparent;" text="QUIT" textAlignment="CENTER">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
-      <Text fx:id="creditsLabel" layoutX="107.0" layoutY="608.0" strokeType="OUTSIDE" strokeWidth="0.0" text="By Gordon &amp; Michelle" wrappingWidth="312.4032745361328">
-         <font>
-            <Font name="Minecraft" size="23.0" />
-         </font></Text>
-      <Button fx:id="playButton" layoutX="86.0" layoutY="317.0" mnemonicParsing="false" onAction="#play" prefHeight="53.0" prefWidth="303.0" style="-fx-background-color: transparent;" text="PLAY" textAlignment="CENTER">
-         <font>
-            <Font name="Minecraft" size="28.0" />
-         </font>
-      </Button>
-   </children>
+<AnchorPane fx:id="mainscreenPane" maxHeight="1024.0" maxWidth="1024.0" minHeight="30.0" minWidth="1472.0"
+            prefHeight="1000.0" prefWidth="1472.0" xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng201.team0.gui.mainGUI.MainController">
+    <ImageView fitHeight="1024.0" fitWidth="1472.0" pickOnBounds="true" preserveRatio="true"
+               AnchorPane.bottomAnchor="-0.20000000000004547" AnchorPane.topAnchor="0.0">
+        <Image url="@../Art/Backgrounds/mainscreen.png"/>
+    </ImageView>
+    <Text fx:id="headerText" layoutX="475.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="CARTS AND CASTLES" wrappingWidth="544.0">
+        <font>
+          <Font name="Minecraft" size="50.0"/>
+        </font>
+    </Text>
+    <Button fx:id="quitButton" layoutX="82.0" layoutY="446.0" mnemonicParsing="false" onAction="#quit" prefHeight="53.0"
+            prefWidth="306.0" style="-fx-background-color: transparent;" text="QUIT" textAlignment="CENTER">
+        <font>
+          <Font name="Minecraft" size="28.0"/>
+        </font>
+    </Button>
+    <Text fx:id="creditsLabel" layoutX="107.0" layoutY="608.0" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="By Gordon &amp; Michelle" wrappingWidth="312.4032745361328">
+        <font>
+          <Font name="Minecraft" size="23.0"/>
+        </font>
+    </Text>
+    <Button fx:id="playButton" layoutX="86.0" layoutY="317.0" mnemonicParsing="false" onAction="#play" prefHeight="53.0"
+            prefWidth="303.0" style="-fx-background-color: transparent;" text="PLAY" textAlignment="CENTER">
+        <font>
+          <Font name="Minecraft" size="28.0"/>
+        </font>
+    </Button>
 </AnchorPane>

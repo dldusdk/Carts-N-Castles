@@ -29,21 +29,13 @@ public class GameWindow extends Application {
     public void start(Stage primaryStage) throws IOException {
         //Loads font before fxml file
         Font minecraftFont = Font.loadFont(getClass().getResourceAsStream("/fonts/Minecraft.ttf"), 12);
-
-
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
         Parent root = baseLoader.load();
-
 
         GameController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
         Scene scene = new Scene(root,1472,1024);
-
-
-
-
-
 
         //Code so it can run on Gordon's mac
         String systemType = System.getProperty("os.name");

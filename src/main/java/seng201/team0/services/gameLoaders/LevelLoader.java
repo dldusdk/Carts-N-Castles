@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import seng201.team0.services.settings.Settings;
 import seng201.team0.services.fileReaders.FileReader;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class LevelLoader {
@@ -22,7 +23,7 @@ public class LevelLoader {
     private final ImageView base1Image;
 
 
-    public LevelLoader(ImageView image, String level, String decor){
+    public LevelLoader(ImageView image, InputStream level, InputStream decor){
         base1Image = image;
         //Gets settings of spawn, dependent on which level is chosen
         Settings settings = new Settings();

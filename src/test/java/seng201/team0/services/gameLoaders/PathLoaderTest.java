@@ -3,6 +3,7 @@ package seng201.team0.services.gameLoaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +15,10 @@ class PathLoaderTest {
 
     @BeforeEach
     void setUp() {
-        pathLoader = new PathLoader("src/main/resources/levelCSV/Level1/Level1CartPath", "src/main/resources/levelCSV/Level1/Level1RotatePath");
+        InputStream levelPath = getClass().getResourceAsStream("/levelCSV/Level1CartPath");
+        InputStream rotatePath = getClass().getResourceAsStream("/levelCSV/Level1RotatePath");
+
+        pathLoader = new PathLoader(levelPath, rotatePath);
         expectedPath = new ArrayList<>();
 
         ArrayList<Integer> point1 = new ArrayList<>();
@@ -73,16 +77,15 @@ class PathLoaderTest {
         point5A.add(90);
         point5A.add(0);
         expectedRotates.add(point5A);
-
     }
 
     @Test
     void getPath() {
-        assertEquals(pathLoader.getPath(),expectedPath);
+        assertEquals(expectedPath,pathLoader.getPath());
     }
 
     @Test
     void getRotatePath() {
-        assertEquals(pathLoader.getRotatePath(),expectedRotates);
+        assertEquals(expectedRotates,pathLoader.getRotatePath());
     }
 }

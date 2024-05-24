@@ -2,6 +2,7 @@ package seng201.team0.services.gameLoaders;
 
 import seng201.team0.services.fileReaders.FileReader;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +20,7 @@ public class PathLoader {
     private final ArrayList<ArrayList<Integer>> loadWaypoints;
     private final ArrayList<ArrayList<Integer>> loadRotatesDirections;
 
-    public PathLoader(String wayPath,String rotatePath){
+    public PathLoader(InputStream wayPath, InputStream rotatePath){
         int numWaypoints = 6; //Move this to settings
         int numRotates = 5;
 

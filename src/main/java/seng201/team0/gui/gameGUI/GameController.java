@@ -34,8 +34,8 @@ import seng201.team0.services.gameLoaders.PathLoader;
 import seng201.team0.services.gameLoaders.RandomEvent;
 
 //Imports for file reading
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 
@@ -133,7 +133,7 @@ public class GameController {
     // GUI variables
     private Stage stage;
     private Stage primaryStage;
-    private final String musicpath = "src/main/resources/Music/bg/gameBGM.mp3";
+    private final String musicPath = "/Music/bg/gameBGM.mp3";
     private static MediaPlayer mediaPlayer;
     private int totalCoins;
 
@@ -231,8 +231,7 @@ public class GameController {
      */  public void init(Stage primaryStage) {
         // Load the stage and game track
         this.primaryStage = primaryStage;
-        String levelPath = "/levelCSV/Level1Concept_Track.csv";
-        String levelDecor = "/levelCSV/Level1Concept_Decorations.csv";
+
 
         //Initialize shop and player currency
         shop = new Shop();
@@ -247,10 +246,16 @@ public class GameController {
         Font font = Font.font("Minecraft", 12);
         pointsLabel.setFont(font);
         roundButton.setText("Start First Round!");
+
+        InputStream levelPath = getClass().getResourceAsStream("/levelCSV/Level1Concept_Track.csv") ;
+        InputStream levelDecor = getClass().getResourceAsStream("/levelCSV/Level1Concept_Decorations.csv") ;
+
+        InputStream cartPath = getClass().getResourceAsStream("/levelCSV/Level1CartPath") ;
+        InputStream rotatePath = getClass().getResourceAsStream("/levelCSV/Level1RotatePath") ;
+
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
-        path = new PathLoader("/levelCSV/Level1CartPath",
-                "/levelCSV/Level1CartPath");
-        playMusic(musicpath);
+        path = new PathLoader(cartPath, rotatePath);
+        playMusic(musicPath);
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
         // Show instructions:
@@ -339,8 +344,8 @@ public class GameController {
      * @author Michelle Lee
      */
     public void playMusic(String musicPath) {
-        Media media = new Media(new File(musicpath).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
+        Media media = new Media(Objects.requireNonNull(getClass().getResource(musicPath)).toExternalForm());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         mediaPlayer.setCycleCount(1000);
     }

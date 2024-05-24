@@ -7,10 +7,10 @@ package seng201.team0.services.settings;
  * @author Gordon Homewood
  */
 public class Settings {
-    private int levelTilesWidth;
-    private int levelTilesHeight;
-    private int tilePixelSize;
-    private int initalX;
+    private final int levelTilesWidth;
+    private final int levelTilesHeight;
+    private final int tilePixelSize;
+    private final int initalX;
 
 
     /**

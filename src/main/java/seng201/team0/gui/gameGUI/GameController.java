@@ -1123,7 +1123,7 @@ public class GameController {
      */
     private void stopRound(boolean state) {
         shop.randomizeStock(); // Resets stock and randomizes it
-        updateStockDisplay();
+        updateStockDisplay(); //update stock
         if (roundNumber > totalRounds - 1 && state) {
             // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);

@@ -16,9 +16,16 @@ import java.util.ArrayList;
 */
 public class PathLoader {
 
+    //2D Arrays
     private ArrayList<ArrayList<Integer>> loadWaypoints;
     private ArrayList<ArrayList<Integer>> loadRotatesDirections;
 
+    /**
+     * Constructor to load cart's coordinate and rotate paths
+     * @param wayPath path to level's cart waypoints
+     * @param rotatePath path to level's cart rotate points
+     * @author Gordon Homewood
+     */
     public PathLoader(String wayPath,String rotatePath){
         int numWaypoints = 6; //Move this to settings
         int numRotates = 5;
@@ -30,10 +37,18 @@ public class PathLoader {
         loadRotatesDirections = cartRotateLoader.getList();
     }
 
+    /**
+     * @return list of coordinate waypoints in 2D array
+     * @author Gordon Homewood
+     */
     public ArrayList<ArrayList<Integer>> getPath()
     {return (loadWaypoints);}
 
 
+    /**
+     * @return list of rotate points in 2D array
+     * @author Gordon Homewood
+     */
     public ArrayList<ArrayList<Integer>> getRotatePath() {
         return(loadRotatesDirections);
     }

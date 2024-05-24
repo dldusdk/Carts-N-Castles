@@ -27,12 +27,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 //Package imports
-import seng201.team0.gui.mainGUI.MainController;
 import seng201.team0.models.Shop;
 import seng201.team0.models.towers.Tower;
 import seng201.team0.models.carts.Cart;
 import seng201.team0.models.towers.GoldMine;
-import seng201.team0.models.towers.Projectile;
 import seng201.team0.services.animation.GameEventHandler;
 import seng201.team0.services.gameLoaders.LevelLoader;
 import seng201.team0.services.gameLoaders.LoadRound;
@@ -162,7 +160,7 @@ public class GameController {
 
 
     // Round and Animation Variables
-    private int totalRounds = 15; //need to scale this on player choice
+    private int totalRounds = 1; //need to scale this on player choice
     private int roundNumber = 0;
     private LoadRound newRound = null;
     private boolean roundState = false;
@@ -861,14 +859,13 @@ public class GameController {
     }
 
 
+    /**
+     * Prompts user to select desired difficulty when the round starts. Launches round based on
+     * difficulty.
+     * @author Gordon Homewood
+     */
     @FXML
     public void roundButtonClicked(ActionEvent event) {
-        /**
-         * Prompts user to select desired difficulty when the round starts. Launches round based on
-         * difficulty.
-         * @author Gordon Homewood
-         */
-
         Dialog<ButtonType> userNameDialog = new Dialog<>();
         userNameDialog.setTitle("Choose Round Difficulty");
         int nextRound = roundNumber + 1;
@@ -930,15 +927,14 @@ public class GameController {
         switchInventory.setDisable(false); // Disable switching towers between inventories until the end of the round
     }
 
+    /**
+     *When difficulty is selected, this method is called and the round in launched. This method is mainly
+     * responsible for initializing the round, calling methods and other classes to increment rounds, update lives,
+     * run random events and establishing general logic.
+     *
+     * @author Gordon Homewood
+     */
     private void launchRound() {
-        /**
-         *When difficulty is selected, this method is called and the round in launched. This method is mainly
-         * responsible for initializing the round, calling methods and other classes to increment rounds, update lives,
-         * run random events and establishing general logic.
-         *
-         * @author Gordon Homewood
-         */
-
         // Initializing variables for new round
         instructionLabel.setText("Don't let the carts destroy your goldmine!");
         roundButton.setDisable(true);
@@ -951,7 +947,7 @@ public class GameController {
         runRandomEvents();
 
         ArrayList<Integer> cartTypeList = getCartNumber();
-        newRound = new LoadRound(roundNumber, difficulty, cartDefault, levelGrid, path, cartTypeList);
+        newRound = new LoadRound(cartDefault, path, cartTypeList);
         for (Tower tower : mainTowers) {
             // Draws the towers on correct layer and increments list of full rounds tower is used in
             ((Pane) trackDefault.getParent()).getChildren().remove(tower.getImage());
@@ -971,11 +967,11 @@ public class GameController {
         }
     }
 
+    /** Creates a new RandomEvent class and applies the results of the random event
+     * to the relevant impacted towers
+     * @author Gordon Homewood
+     */
     private void runRandomEvents() {
-        /** Creates a new RandomEvent class and applies the results of the random event
-         * to the relevant impacted towers
-         * @author Gordon Homewood
-         */
         RandomEvent towerBreaks = new RandomEvent(mainTowers, difficulty,roundNumber);
         Tower brokenTower = towerBreaks.getAffectedTowerBreak();
         if (brokenTower != null) {
@@ -992,16 +988,15 @@ public class GameController {
         }
     }
 
+    /**
+     * Generates how many carts of each type should be spawned in a round, based on round number. Also
+     * sets goldMine to the correct health for the round.
+     *
+     * @return A list of cart numbers, where index 1 = bronze, index 2 = silver and index 3 = gold carts to
+     * be spawned in the round level.
+     * @author Gordon Homewood
+     */
     private ArrayList<Integer> getCartNumber() {
-        /**
-         * Generates how many carts of each type should be spawned in a round, based on round number. Also
-         * sets goldMine to the correct health for the round.
-         *
-         * @return A list of cart numbers, where index 1 = bronze, index 2 = silver and index 3 = gold carts to
-         * be spawned in the round level.
-         * @author Gordon Homewood
-         */
-
         //Set health based on difficulty
         if (difficulty.equals("Easy")) {
             goldMine.setHealth(5);
@@ -1043,16 +1038,16 @@ public class GameController {
 
     }
 
+    /**
+     * Stops the round when called in the collisionTimer. This allows the game to handle
+     * updates as the round finishes, such as awarding money, resetting tower buff, stopping
+     * collisionTimer and renabling inventory.
+     *
+     * @param state which decides if the game should continue or not.
+     *
+     * @author Gordon Homewood
+     */
     private void stopRound(boolean state) {
-        /**
-         * Stops the round when called in the collisionTimer. This allows the game to handle
-         * updates as the round finishes, such as awarding money, resetting tower buff, stopping
-         * collisionTimer and renabling inventory.
-         *
-         * @param state which decides if the game should continue or not.
-         *
-         * @author Gordon Homewood
-         */
         if (roundNumber > totalRounds - 1 && state) {
             // Switch view to win screen if they complete all rounds.
             roundButton.setDisable(true);
@@ -1085,11 +1080,14 @@ public class GameController {
         }
     }
 
+    /**
+     * Decides how much money should be awarded based on the difficulty of the round.
+     * Makes sure money is rounded up to nearest mod 5 - for consistency. Also
+     * updates the points with the total money awarded.
+     *
+     * @author Gordon Homewood
+     */
     private void calculateIncome() {
-        /**
-         * Decides how much money should be awarded based on the difficulty of the round
-         */
-
         if (difficulty.equals("Easy")) {
             int moneyAwarded = (int) ((roundNumber * 50) * 0.5);
             int roundedAward = (int) (Math.ceil((double) moneyAwarded / 5) * 5);

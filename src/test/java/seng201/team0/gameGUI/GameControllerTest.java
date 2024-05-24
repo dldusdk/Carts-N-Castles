@@ -8,8 +8,7 @@ import seng201.team0.gui.gameGUI.GameController;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@author
-@parametres
+
 class GameControllerTest {
 
     private GameController gameController;

@@ -8,6 +8,11 @@ import seng201.team0.services.fileReaders.FileReader;
 
 import java.util.ArrayList;
 
+/**
+ * This class the level graphics to be loaded based of CSV files.
+ *
+ * @author Gordon Homewood
+ */
 public class LevelLoader {
     private ArrayList<ArrayList<Integer>>tileList;
     private ArrayList<ArrayList<Integer>>decorationList;
@@ -23,7 +28,15 @@ public class LevelLoader {
     private int initialX;
     private ImageView base1Image;
 
-
+    /**
+     * This creates the level loader object and gets coordinate where this list should start. It uses the FileReader
+     * class to process the CSV files into 2D arrays.
+     * @param image default imageView so the level can be drawn on the screen
+     * @param level path to level CSV file
+     * @param decor path to level decoration CVS file
+     *
+     * @author Gordon Homewood
+     */
     public LevelLoader(ImageView image, String level, String decor){
         base1Image = image;
         //Gets settings of spawn, dependent on which level is chosen
@@ -43,6 +56,14 @@ public class LevelLoader {
         loadDecorations();
         }
 
+    /**
+     * This method converts the 2D array into a grid of images on the screen, which draws the
+     * level by calling the loadNewImage method for each image. It also adds the coordinates
+     * of the track blocks to a list, which can be accessed when determining a valid coordinates
+     * for tower placing.
+     *
+     * @author Gordon Homewood
+     */
     private void loadLevel() {
         //Set a bunch of image sources
         String grassPath = "Art/Terrain/Ground/splitTerrain/row-2-column-2.png";
@@ -102,7 +123,16 @@ public class LevelLoader {
 
     }
 
+
+    /**
+     * This method converts the 2D array into a grid of images on the screen, which draws the
+     * level's decorations. These decorations ar purely aesthetic and have no effect on the player or
+     * the game.
+     *
+     * @author Gordon Homewood
+     */
     private void loadDecorations(){
+
         String rockWallPath = "Art/Deco/09.png";
 
         int column = 0;
@@ -119,6 +149,17 @@ public class LevelLoader {
         }
     }
 
+
+    /**
+     * Loads a new image by setting coordinates and accessing the pane of the game screen and the
+     * image path.
+     * @param coordY draw Y coordinate on main screen
+     * @param coordX draw X coordinate on main screen
+     * @param image default imageView to access pane
+     * @param path path to image
+     *
+     * @author Gordon Homewood
+     */
     public void loadNewImage(int coordY, int coordX,ImageView image,String path){
         //Load and set new cart image's parameters
         Image source = new Image(path);
@@ -168,15 +209,7 @@ public class LevelLoader {
         return x < 0 || x > gamePaneWidth || y < 300 || y > 1024;
     }
 
-    public String getTileType(int id){
-        //Currently unused but could be useful
-        if (id == -1){
-            return("Art/Terrain/Ground/splitTerrain/row-0-column-4.png");
-        }
-        return null;
-    }
 
-    public ArrayList<ArrayList<Integer>> getTileList(){return (tileList);}
 
 
 }

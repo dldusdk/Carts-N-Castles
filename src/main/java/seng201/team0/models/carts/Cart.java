@@ -330,7 +330,7 @@ public class Cart {
      * @return cartObject (imageView of the cart), useful for getting
      * screen coordinates and applying effects if needed.
      *
-     * @Author Gordon Homewood
+     * @author Gordon Homewood
      */
     public ImageView getCartObject() {return (cartObject);}
 

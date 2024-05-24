@@ -9,18 +9,21 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import seng201.team0.gui.gameGUI.GameController;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Main Controller for the set-up of the Main Stat up Screen
+ * @author Michelle Lee
+ */
 public class MainController {
-    /**
-     * Main Controller for the initial start up screen of game.
-     */
-
     @FXML
     private Button quitButton;
     @FXML
@@ -29,62 +32,46 @@ public class MainController {
     private Text headerText;
     @FXML
     private AnchorPane mainscreenPane;
-
     Stage stage;
-    String musicpath = "src/main/resources/Music/bg/bgmMain.mp3";
-    private static MediaPlayer mediaPlayer;
+    String musicPath = "src/main/resources/Music/bg/mainscreenbgm.mp3";
+    private boolean nameRecieved = false;
 
+    /**
+     * Initializes the Main Start-Up Screen
+     * Calls the playMusic(musicPath) method to play the music when the stage starts
+     * @param primaryStage primary stage of the Main Screen
+     */
     public void init(Stage primaryStage) {
-        playMusic(musicpath);
-
+        playMusic(musicPath);
     }
 
+    /**
+     * Play the BGM for the Main Screen
+     * @param musicPath String path of the song to play
+     * @author Michelle Lee
+     */
     public void playMusic(String musicPath) {
-        /**
-         * Play the BGM for the Main Screen
-         * @author Michelle Lee
-         */
-
-        Media media = new Media(new File(musicpath).toURI().toString());
+        Media media = new Media(new File(musicPath).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
     }
 
+    /**
+     * Method for when the Play button is clicked.
+     * Asks for the Username (must meet certain criteria
+     * Asks to choose map leve
+     * @author Michelle Lee
+     */
     public void play(ActionEvent actionEvent) {
-        /**
-         * Method for when the Play button is clicked.
-         * Asks for the Username (must meet certain criteria
-         * Asks to choose map leve
-         * @author Michelle Lee
-         */
-
         // Initialize bool to ensure we loop the pop-up for name until a valid name is given
         boolean validNameEntered = false;
 
         while (!validNameEntered) {
             // Opens Text Input Dialog to get userName
-            TextInputDialog userNameDialog = new TextInputDialog();
-            userNameDialog.setTitle("Start new game");
-            userNameDialog.setHeaderText("To start the game please enter your name:");
-            userNameDialog.setContentText("Note:Your name must be between 3-15 characters and contain no special characters:");
-
-            // Store user's response in userName
-            Optional<String> userName = userNameDialog.showAndWait();
-            validNameTest(String.valueOf(userName));
-            String name = userName.get().trim();
-
-            // If the userName is not empty space
-            if (userName.isPresent() && validNameTest(name)) {
-                // Capitalize the first letter of given input
-                name = name.substring(0, 1).toUpperCase() + name.substring(1);
-
-                // Change header text to welcome the user with their inputted name
-                headerText.setText("Welcome " + name + "!\nChoose your difficulty!");
-                headerText.setTextAlignment(TextAlignment.CENTER);
-
-                // Correct output, so stop showing the input dialog for name
-                validNameEntered = true;
-                mapSelect();
+            String name = getName();
+            // If the input name is valid
+            if (validNameTest(name)) {
+                startGame();
             } else {
                 // Shows a POP-UP error message for all invalid inputs
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -96,49 +83,68 @@ public class MainController {
             }
     }
 
+    private String getName() {
+        if (nameRecieved) {
+            // If already in game over loop, don't let function cause
+            // infinite loop of opening game over screen
+            return(null);
+        }
+        nameRecieved = true;
+        TextInputDialog userNameDialog = new TextInputDialog();
+        userNameDialog.setTitle("Start new game");
+        userNameDialog.setHeaderText("To start the game please enter your name:");
+        userNameDialog.setContentText("Note:Your name must be between 3-15 characters and contain no special characters:");
+
+        // Store user's response in userName
+        Optional<String> userName = userNameDialog.showAndWait();
+        validNameTest(String.valueOf(userName));
+        String name = userName.get().trim();
+        return name;
+    }
+
+    /**
+     * Tests if name is valid or not
+     * @param name String passed from play method to check if the User's input is valid or not
+     * @author Michelle Lee
+     */
     public boolean validNameTest(String name) {
-        /**
-         * Tests if name is valid or not
-         * @author Michelle Lee
-         */
         return name.matches("^[a-zA-Z0-9 ]{3,15}$");
     }
 
-    private void mapSelect() {
-        /**
-         * Allow the user to select the level they want to play on
-         * @author Michelle Lee
-         * */
+    /**
+     * Open the mapSelection Window to proceed to next part of the game
+     * @author Michelle Lee
+     * */
+    private void startGame() {
+        stage = (Stage) mainscreenPane.getScene().getWindow();
+        stage.close();
 
-         // Create new stage for the mapSelection Window
-         Stage mapSelectionStage = new Stage();
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mapSelector.fxml"));
-         Parent mapSelectionRoot;
+        Font minecraftFont = Font.loadFont(getClass().getResourceAsStream("/fonts/Minecraft.ttf"), 12);
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
+        Parent root = null;
+        try {
+            root = baseLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        GameController baseController = baseLoader.getController();
+        baseController.init(stage);
 
-         try {
-             mapSelectionRoot = loader.load();
-         } catch (IOException e) {
-             e.printStackTrace();
-             return;
-         }
-
-         // Set up the scene for the mapSelection Window
-         Scene mapSelectionScene = new Scene(mapSelectionRoot);
-         mapSelectionStage.setScene(mapSelectionScene);
-         mapSelectionStage.setTitle("Map Selection");
-
-         // Show mapSelection window
-         mapSelectionStage.show();
+        Scene scene = new Scene(root, 1472, 1024);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
     }
 
+
+    /**
+     * A Method that allows the user to quit the application upon clicking a button
+     * Confirms whether the user would like to quit or not.
+     * @param actionEvent When the 'Quit' Button is clicked
+     * @author Michelle Lee
+     */
     @FXML
     public void quit(ActionEvent actionEvent) {
-        /**
-         * A Method that allows the user to quit the application upon clicking a button
-         * Confirms whether the user would like to quit or not.
-         * @author Michelle Lee
-         */
-
         // Have a pop-up appear if the user clicks 'Quit' Button
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Quit");
@@ -148,11 +154,8 @@ public class MainController {
         // If User clicks 'Confirm', Quit game
         if (alert.showAndWait().get() == ButtonType.OK) {
             stage = (Stage) mainscreenPane.getScene().getWindow();
-
             stage.close();
         }
     }
-
-
 }
 

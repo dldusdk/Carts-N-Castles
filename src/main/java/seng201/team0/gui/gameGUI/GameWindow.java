@@ -28,7 +28,6 @@ public class GameWindow extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         //Loads font before fxml file
-        Font minecraftFont = Font.loadFont(getClass().getResourceAsStream("/fonts/Minecraft.ttf"), 12);
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
         Parent root = baseLoader.load();
 
@@ -60,8 +59,8 @@ public class GameWindow extends Application {
      * errors out and does not run
      * @param args command line arguments
      */
-    public static void launchWrapper(String [] args) {
-        launch(args);
+    public static void launchWrapper() {
+        launch();
     }
 
 }

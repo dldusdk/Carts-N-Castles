@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import seng201.team0.gui.mainGUI.MainController;
 
@@ -71,6 +72,8 @@ public class GameEndingController {
     private void retry(ActionEvent event) {
         stage = (Stage) endPane.getScene().getWindow();
         stage.close();
+        Font minecraftFont = Font.loadFont(getClass().getResourceAsStream("/fonts/Minecraft.ttf"), 12);
+
 
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/gameScreen.fxml"));
         Parent root = null;
@@ -92,6 +95,8 @@ public class GameEndingController {
     private void toMainMenu(ActionEvent event) {
         stage = (Stage) endPane.getScene().getWindow();
         stage.close();
+        Font minecraftFont = Font.loadFont(getClass().getResourceAsStream("/fonts/Minecraft.ttf"), 12);
+
 
         Stage mainMenu = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));

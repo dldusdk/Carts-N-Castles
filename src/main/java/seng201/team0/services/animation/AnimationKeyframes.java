@@ -20,32 +20,30 @@ import javafx.util.Duration;
  *
  * */
 public class AnimationKeyframes {
-
-    /**
-     * Swaps images with a given delay, allowing them to be played sequentially.
-     *
-     * @param imageView container for image
-     * @param newImage next image in frame sequence
-     * @param delay usually provided in seconds, so animation can be alterted to play
-     *              at different rates
-     *
-     * @author Gordon Homewood
-     */
         public static void swapImagesWithDelay(ImageView imageView, Image newImage, Duration delay) {
-
+            /**
+             * Swaps images with a given delay, allowing them to be played sequentially.
+             *
+             * @param imageView container for image
+             * @param newImage next image in frame sequence
+             * @param delay usually provided in seconds, so animation can be alterted to play
+             *              at different rates
+             *
+             * @author Gordon Homewood
+             */
                 imageView.setImage(newImage);
                 Timeline timeline = new Timeline(new KeyFrame(delay, event -> imageView.setImage(newImage)));
                 timeline.play();
         }
-    /**
-     * Hides the animation or final frame on when called, usefyl when moving things off-screen
-     *
-     * @param imageView image to be hidden
-     * @param delay Duration before hide
-     * @author Gordon Homewood
-     */
-        public static void addHideAnimation(ImageView imageView, Duration delay) {
 
+        public static void addHideAnimation(ImageView imageView, Duration delay) {
+            /**
+             * Hides the animation or final frame on when called, usefyl when moving things off-screen
+             *
+             * @param imageView image to be hidden
+             * @param delay Duration before hide
+             * @author Gordon Homewood
+             */
             Timeline timeline = new Timeline(new KeyFrame(delay, event -> imageView.setVisible(false)));
             timeline.play();
         }

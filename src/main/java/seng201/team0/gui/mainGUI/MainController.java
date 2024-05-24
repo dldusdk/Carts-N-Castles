@@ -33,7 +33,7 @@ public class MainController {
     @FXML
     private AnchorPane mainscreenPane;
     Stage stage;
-//    String musicPath = "src/main/resources/Music/bg/mainscreenbgm.mp3";
+    //String musicPath = "src/main/resources/Music/bg/mainscreenbgm.mp3";
     String musicPath = "/Music/bg/mainscreenbgm.mp3";
     private boolean nameRecieved = false;
 
@@ -56,7 +56,8 @@ public class MainController {
 //        Media media = new Media(new File(musicPath).toURI().toString());
         Media media = new Media(getClass().getResource(musicPath).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.play();
+        mediaPlayer.setCycleCount(1000);
     }
 
     /**

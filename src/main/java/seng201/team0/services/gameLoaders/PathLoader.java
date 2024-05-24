@@ -2,10 +2,6 @@ package seng201.team0.services.gameLoaders;
 
 import seng201.team0.services.fileReaders.FileReader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -20,21 +16,18 @@ import java.util.ArrayList;
 */
 public class PathLoader {
 
-    private final ArrayList<ArrayList<Integer>> loadWaypoints = null;
-    private final ArrayList<ArrayList<Integer>> loadRotatesDirections = null;
+    private final ArrayList<ArrayList<Integer>> loadWaypoints;
+    private final ArrayList<ArrayList<Integer>> loadRotatesDirections;
 
-    public PathLoader(String wayPath,String rotatePath){
+    public PathLoader(InputStream wayPath, InputStream rotatePath){
         int numWaypoints = 6; //Move this to settings
         int numRotates = 5;
 
-        InputStream cartPathStream = getClass().getResourceAsStream(wayPath);
-        InputStream rotatePathStream = getClass().getResourceAsStream(rotatePath);
+        FileReader cartLoader = new FileReader(wayPath, numWaypoints);
+        loadWaypoints = cartLoader.getList();
 
-        try (BufferedReader cartPathReader = new BufferedReader(new InputStreamReader(cartPathStream));
-            BufferedReader rotatePathReader = new BufferedReader(new InputStreamReader(rotatePathStream))) {
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileReader cartRotateLoader = new FileReader(rotatePath, numRotates);
+        loadRotatesDirections = cartRotateLoader.getList();
     }
 
     public ArrayList<ArrayList<Integer>> getPath()

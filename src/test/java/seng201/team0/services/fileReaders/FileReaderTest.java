@@ -3,6 +3,7 @@ package seng201.team0.services.fileReaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,17 +44,16 @@ class FileReaderTest {
         point6.add(450);
         expectedPath.add(point6);
 
+        InputStream levelPath = getClass().getResourceAsStream("/levelCSV/Level1CartPath");
 
-        String load = "src/main/resources/levelCSV/Level1/Level1CartPath";
         int numWaypoints = 6;
-        loadCSV = new FileReader(load, numWaypoints);
-
+        loadCSV = new FileReader(levelPath, numWaypoints);
 
     }
 
     @Test
     void getList() {
         ArrayList<ArrayList<Integer>> list = loadCSV.getList();
-        assertEquals(list,expectedPath);
+        assertEquals(expectedPath,list);
     }
 }

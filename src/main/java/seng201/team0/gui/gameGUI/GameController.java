@@ -34,7 +34,6 @@ import seng201.team0.services.gameLoaders.PathLoader;
 import seng201.team0.services.gameLoaders.RandomEvent;
 
 //Imports for file reading
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -233,16 +232,6 @@ public class GameController {
     public void init(Stage primaryStage) {
         // Load the stage and game track
         this.primaryStage = primaryStage;
-        String levelPath = "/levelCSV/Level1/Level1Concept_Track.csv";
-        String levelDecor = "/levelCSV/Level1/Level1Concept_Decorations.csv";
-
-        // Testing
-        InputStream levelPathStream = getClass().getResourceAsStream(levelPath);
-        InputStream levelDecorStream = getClass().getResourceAsStream(levelDecor);
-
-        levelGrid = new LevelLoader(trackDefault, levelPathStream, levelDecorStream);
-        path = new PathLoader("/levelCSV/Level1/Level1CartPath", "/levelCSV/Level1/Level1RotatePath");
-
         //Initialize shop and player currency
         shop = new Shop();
         coinBalance = 200;
@@ -250,12 +239,19 @@ public class GameController {
         updatePlayerCoins();
         difficulty = "Normal";
         switchInventory.setDisable(false);
-
         // Game initialization
         playerLives.setText("");
         Font font = Font.font("Minecraft", 12);
         pointsLabel.setFont(font);
         roundButton.setText("Start First Round!");
+
+        InputStream levelPath = getClass().getResourceAsStream("/levelCSV/Level1Concept_Track.csv") ;
+        InputStream levelDecor = getClass().getResourceAsStream("/levelCSV/Level1Concept_Decorations.csv") ;
+        InputStream cartPath = getClass().getResourceAsStream("/levelCSV/Level1CartPath") ;
+        InputStream rotatePath = getClass().getResourceAsStream("/levelCSV/Level1RotatePath") ;
+
+        levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
+        path = new PathLoader(cartPath, rotatePath);
         playMusic(musicPath);
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
@@ -345,7 +341,8 @@ public class GameController {
         Media media = new Media(Objects.requireNonNull(getClass().getResource(musicPath)).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-        }
+        mediaPlayer.setCycleCount(1000);
+    }
 
     /**
      * When this method is called, it will update the GUI (playerCoins Label) on the Game Screen to display

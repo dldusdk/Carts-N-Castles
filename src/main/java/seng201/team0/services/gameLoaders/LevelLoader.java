@@ -6,29 +6,24 @@ import javafx.scene.layout.Pane;
 import seng201.team0.services.settings.Settings;
 import seng201.team0.services.fileReaders.FileReader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class LevelLoader {
-    private ArrayList<ArrayList<Integer>> tileList;
-    private ArrayList<ArrayList<Integer>> decorationList;
+    private final ArrayList<ArrayList<Integer>>tileList;
+    private final ArrayList<ArrayList<Integer>>decorationList;
     // List to store the coordinates (x, y) of the tiles with value -1
     private final ArrayList<Integer> invalidCoordsListX = new ArrayList<>();
-    private final ArrayList<Integer> invalidCoordsListY = new ArrayList<>();
+    private final ArrayList<Integer> invalidCoordsListY  = new ArrayList<>();
     private static final double gamePaneWidth = 1152;
     private static final double gamePaneHeight = 768;
 
-    private int tileSize = 0;
-    private int initialX = 0;
-    private ImageView base1Image = null;
+    private final int tileSize;
+    private final int initialX;
+    private final ImageView base1Image;
 
 
-    public LevelLoader(ImageView image, InputStream levelPathStream, InputStream levelDecorStream) {
-
-
+    public LevelLoader(ImageView image, InputStream level, InputStream decor){
         base1Image = image;
         //Gets settings of spawn, dependent on which level is chosen
         Settings settings = new Settings();
@@ -38,22 +33,14 @@ public class LevelLoader {
         //Builds a 2D array for locations of tiles from files
         int levelTilesWidth = settings.getTileWidth();
         int levelTilesHeight = settings.getTileHeight();
-        /**
-         FileReader loadCSV = new FileReader(level, levelTilesWidth, levelTilesHeight);
-         tileList = loadCSV.getList();
-         FileReader loadDecoration = new FileReader(decor, levelTilesWidth, levelTilesHeight);
-         decorationList = loadDecoration.getList();
-         loadLevel();
-         loadDecorations();
-         **/
 
-        try (BufferedReader levePathReader = new BufferedReader(new InputStreamReader(levelPathStream));
-             BufferedReader levelDecorReader = new BufferedReader(new InputStreamReader(levelDecorStream))) {
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        FileReader loadCSV = new FileReader(level, levelTilesWidth, levelTilesHeight);
+        tileList = loadCSV.getList();
+        FileReader loadDecoration = new FileReader(decor, levelTilesWidth, levelTilesHeight);
+        decorationList = loadDecoration.getList();
+        loadLevel();
+        loadDecorations();
         }
-    }
 
     private void loadLevel() {
         //Set a bunch of image sources

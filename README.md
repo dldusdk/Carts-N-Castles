@@ -16,7 +16,11 @@ To run this project, you will need the following on your local machine:
 - IntelliJ DEA (https://www.jetbrains.com/idea/download/)
 
 ## To run the Game!
-Open the Terminal and run the jar file by inputting:
+Open the Terminal on your PC and ensure you are in the same directory as the jar file. 
+use 'ls' to check the files in your current directory 
+use 'cd fileName' to change directory to the fileName (replace fileName with folder name)
+
+Run the jar file by inputting:
 'java -jar gho72_myl24_seng_201.jar'
 
 Make sure you are in the same directory as the jar file in your terminal!
@@ -66,6 +70,9 @@ All music sourced from: https://pixabay.com/
 Cart / Tower Art Sourced from: Ellen Homewood
 
 Coin / Potion / Lives Art from: Michelle Lee
+
+All background images were made using the Resource pack and tiled (https://www.mapeditor.org)
+
 
 
 

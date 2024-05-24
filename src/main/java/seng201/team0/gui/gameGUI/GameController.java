@@ -228,14 +228,11 @@ public class GameController {
      * give instructions to the user before the game runs
      * @param primaryStage The main stage which the game screen will run on
      * @author Michelle Lee
-     */
-    public void init(Stage primaryStage) {
+     */  public void init(Stage primaryStage) {
         // Load the stage and game track
         this.primaryStage = primaryStage;
-        String levelPath = "src/main/resources/levelCSV/Level1/"
-                + "Level1Concept_Track.csv";
-        String levelDecor = "src/main/resources/levelCSV/Level1/"
-                + "Level1Concept_Decorations.csv";
+        String levelPath = "src/main/resources/levelCSV/Level1Concept_Track.csv";
+        String levelDecor = "src/main/resources/levelCSV/Level1Concept_Decorations.csv";
 
         //Initialize shop and player currency
         shop = new Shop();
@@ -251,10 +248,8 @@ public class GameController {
         pointsLabel.setFont(font);
         roundButton.setText("Start First Round!");
         levelGrid = new LevelLoader(trackDefault, levelPath, levelDecor);
-        path = new PathLoader("src/main/resources/levelCSV/"
-                + "Level1/Level1CartPath",
-                "src/main/resources/levelCSV/"
-                        + "Level1/Level1RotatePath");
+        path = new PathLoader("src/main/resources/levelCSV/Level1CartPath",
+                "src/main/resources/levelCSV/Level1CartPath");
         playMusic(musicpath);
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
@@ -262,6 +257,7 @@ public class GameController {
         showInstructionDialog();
         totalRounds = getRound();
     }
+
 
     /**
      * Before the main Game Screen is launched, an information

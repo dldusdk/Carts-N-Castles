@@ -133,7 +133,7 @@ public class GameController {
     // GUI variables
     private Stage stage;
     private Stage primaryStage;
-    private final String musicpath = "src/main/resources/Music/bg/gameBGM.mp3";
+    private final String musicPath = "src/main/resources/Music/bg/gameBGM.mp3";
     private static MediaPlayer mediaPlayer;
     private int totalCoins;
 
@@ -255,7 +255,7 @@ public class GameController {
                 + "Level1/Level1CartPath",
                 "src/main/resources/levelCSV/"
                         + "Level1/Level1RotatePath");
-        playMusic(musicpath);
+        playMusic(musicPath);
         // Creates gold mine for visual display of lives
         goldMine = new GoldMine(trackDefault, 2);
         // Show instructions:
@@ -343,10 +343,9 @@ public class GameController {
      * @author Michelle Lee
      */
     public void playMusic(String musicPath) {
-        Media media = new Media(new File(musicpath).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
+        Media media = new Media(Objects.requireNonNull(getClass().getResource(musicPath)).toExternalForm());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-        mediaPlayer.setCycleCount(1000);
     }
 
     /**

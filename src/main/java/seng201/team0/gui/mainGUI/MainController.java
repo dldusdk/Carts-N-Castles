@@ -73,10 +73,19 @@ public class MainController {
 
         while (!validNameEntered) {
             // Opens Text Input Dialog to get userName
-            String name = getName();
-            // If the input name is valid
-            assert name != null;
+            TextInputDialog userNameDialog = new TextInputDialog();
+            userNameDialog.setTitle("Start new game");
+            userNameDialog.setHeaderText("To start the game please enter your name:");
+            userNameDialog.setContentText("Note:Your name must be between 3-15 characters and contain no special characters:");
+
+            // Store user's response in userName
+            Optional<String> userName = userNameDialog.showAndWait();
+            validNameTest(String.valueOf(userName));
+            String name = userName.get().trim();
+
+            // If the userName is not empty space
             if (validNameTest(name)) {
+                // Correct output, so stop showing the input dialog for name
                 validNameEntered = true;
                 startGame();
             } else {
@@ -90,35 +99,11 @@ public class MainController {
             }
     }
 
-    /**
-     * Gets the name of the user from input text dialog and passes it through validNameTest to check if valid
-     * @return the name input from the user
-     * @author Michelle Lee
-     */
-    private String getName() {
-        if (nameRecieved) {
-            // If already in game over loop, don't let function cause
-            // infinite loop of opening game over screen
-            return(null);
-        }
-        nameRecieved = true;
-        TextInputDialog userNameDialog = new TextInputDialog();
-        userNameDialog.setTitle("Start new game");
-        userNameDialog.setHeaderText("To start the game please enter your name:");
-        userNameDialog.setContentText("Note:Your name must be between 3-15 characters and contain no special characters:");
-
-        // Store user's response in userName
-        Optional<String> userName = userNameDialog.showAndWait();
-        validNameTest(String.valueOf(userName));
-        return userName.get().trim();
-    }
-
-    /**
-     * Tests if name is valid or not
-     * @param name String passed from play method to check if the User's input is valid or not
-     * @author Michelle Lee
-     */
     public boolean validNameTest(String name) {
+        /**
+         * Tests if name is valid or not
+         * @author Michelle Lee
+         */
         return name.matches("^[a-zA-Z0-9 ]{3,15}$");
     }
 

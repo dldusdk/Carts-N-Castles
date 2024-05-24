@@ -22,6 +22,7 @@ public class GameWindow extends Application {
 
     /**
      * Opens the gui with the fxml content specified in resources/fxml/main.fxml
+     *
      * @param primaryStage The current fxml stage, handled by javaFX Application class
      * @throws IOException if there is an issue loading fxml file
      */
@@ -34,17 +35,18 @@ public class GameWindow extends Application {
         GameController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
-        Scene scene = new Scene(root,1472,1024);
+        Scene scene = new Scene(root, 1472, 1024);
 
         //Code so it can run on Gordon's mac
         String systemType = System.getProperty("os.name");
-        if(Objects.equals(systemType, "Mac OS X")){
+        if (Objects.equals(systemType, "Mac OS X")) {
             System.out.println(systemType);
             double scaleFactor = 0.75;
             Scale scale = new Scale(scaleFactor, scaleFactor);
             scale.setPivotX(0);
             scale.setPivotY(0);
-            scene.getRoot().getTransforms().setAll(scale);}
+            scene.getRoot().getTransforms().setAll(scale);
+        }
 
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
@@ -57,10 +59,10 @@ public class GameWindow extends Application {
     /**
      * Launches the FXML application, this must be called from another class (in this cass App.java) otherwise JavaFX
      * errors out and does not run
+     *
      * @param args command line arguments
      */
-    public static void launchWrapper() {
-        launch();
+    public static void launchWrapper(String[] args) {
+        launch(args);
     }
-
 }

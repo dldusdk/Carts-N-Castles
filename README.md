@@ -20,9 +20,9 @@ Michelle Lee and Gordon Homewood
 
 
 ## Resources
-All music sourced from: https://pixabay.com/
-Cart / Tower Art Sourced from: Ellen Homewood
-Coin / Potion / Lives Art from: Michelle Lee
+All music sourced from: https://pixabay.com/\ 
+Cart / Tower Art Sourced from: Ellen Homewood\
+Coin / Potion / Lives Art from: Michelle Lee\
 
 
 ### To run the Game!

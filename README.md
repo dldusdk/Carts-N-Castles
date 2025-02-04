@@ -1,4 +1,4 @@
-# Carts' n Towers Game Michelle and Gordon
+# Carts' n Castles Game Michelle and Gordon
 This is our SENG201 Project, a take on the classic Tower Defence games!
 This readme will provide the information to run the game.
 
